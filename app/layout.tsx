@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "@/components/SessionWrapper"; // If session management is required
-
+import { Toaster } from "sonner"
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,6 +31,7 @@ export default function RootLayout({
         <>
           <SessionWrapper>
             {children}
+            <Toaster richColors/>
           </SessionWrapper>
         </>
       </body>

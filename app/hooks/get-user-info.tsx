@@ -1,38 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
+import type { User } from "../types/user-account";
 interface FetchUserProps {
   email: string;
 }
-
-// Define the shape of the formLinks
-interface UserLinks {
-  instagram: string;
-  facebook: string;
-  discord: string;
-  linkedIn: string;
-  medium: string;
-  x: string;
-  youtube: string;
-  snapchat: string;
-  pinterest: string;
-  github: string;
-  tiktok: string;
-}
-
-// Define the shape of fetchedUser based on the Mongoose schema
-interface User {
-  email: string;
-  username: string;
-  name: string;
-  Userlinks: UserLinks; // Updated to match the new structure
-  theme: number;
-  isPremiumUser: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 const useFetchUser = (props: FetchUserProps | null) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);

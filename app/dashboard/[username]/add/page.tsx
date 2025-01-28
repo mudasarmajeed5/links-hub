@@ -1,216 +1,172 @@
 "use client";
-
-import { ChangeEvent, useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaTwitter, FaSnapchat, FaPinterest, FaMedium, FaDiscord, FaYoutube, FaTiktok } from "react-icons/fa"; // Importing remaining icons
+import { FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaSnapchat, FaPinterest, FaMedium, FaDiscord, FaYoutube, FaTiktok, FaStackOverflow } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
+import useFetchUser from "@/app/hooks/get-user-info"
+interface userLinks {
+  icon: string;
+  label: string;
+  link: string;
+  _id: {
+    $oid: string;
+  };
+}
+type filteredDataType= {
+  icon: string;
+  label: string;
+  link: string;
+}[]
+interface Inputs {
+  instagram?: string;
+  facebook?: string;
+  discord?: string;
+  linkedIn?: string;
+  medium?: string;
+  x?: string;
+  youtube?: string;
+  snapchat?: string;
+  pinterest?: string;
+  github?: string;
+  tiktok?: string;
+}
 
 const AddLink = () => {
-  const [formLinks, setFormLinks] = useState({
-    instagram: 'https://',
-    facebook: 'https://',
-    discord: 'https://',
-    linkedIn: 'https://',
-    medium: 'https://',
-    x: 'https://',
-    youtube: 'https://',
-    snapchat: 'https://',
-    pinterest: 'https://',
-    github: 'https://',
-    tiktok: 'https://',
+  const { data: session } = useSession();
+  const [loader, setLoader] = useState(false);
+  const [userData, setUserData] = useState<userLinks[] | undefined>();
+  const [email, setEmail] = useState<string>("");
+  const { error, data, loading } = useFetchUser(email ? { email } : { email: '' });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<Inputs>({
+    defaultValues: {},
   });
+  useEffect(() => {
+    if (session?.user?.email) {
+      setEmail(session.user.email);
+    }
+    if (data) {
+      setUserData(data.userLinks)
+    }
+  }, [session, data])
+  useEffect(() => {
+    if (userData) {
+      userLinks.forEach(({ name, label }) => {
+        const linkEntry = userData.find((user: userLinks) => user.label.toLowerCase() === label.toLowerCase());
+        if (linkEntry) {
+          setValue(name as keyof Inputs, linkEntry.link);
+        } else {
+          console.log(`No data found for ${label}`);
+        }
+      });
+    }
+  }, [userData, setValue]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormLinks(prevForm => ({
-      ...prevForm,
-      [e.target.name]: e.target.value,
-    }));
+  const userLinks = [
+    { name: "instagram", label: "Instagram", icon: FaInstagram },
+    { name: "facebook", label: "Facebook", icon: FaFacebook },
+    { name: "x", label: "X (Twitter)", icon: FaXTwitter },
+    { name: "github", label: "Github", icon: FaGithub },
+    { name: "linkedIn", label: "LinkedIn", icon: FaLinkedin },
+    { name: "snapchat", label: "Snapchat", icon: FaSnapchat },
+    { name: "pinterest", label: "Pinterest", icon: FaPinterest },
+    { name: "youtube", label: "YouTube", icon: FaYoutube },
+    { name: "medium", label: "Medium", icon: FaMedium },
+    { name: "discord", label: "Discord", icon: FaDiscord },
+    { name: "tiktok", label: "TikTok", icon: FaTiktok },
+    { name: 'stackoverflow', label: 'Stack Overflow', icon: FaStackOverflow }
+  ]
+  const updateToDatabase = async (email: string, filteredData: filteredDataType) => {
+    setLoader(true);
+    try {
+      await fetch('/api/update-to-database',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'email': email,
+          },
+          body: JSON.stringify({ filteredData })
+        }
+      )
+      toast.success("Links saved successfully!");
+    } catch (error) {
+      toast.error('Unknown Error occured');
+      console.error('Failed to updated', error)
+    } finally {
+      setLoader(false);
+    }
+  }
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const filteredData = userLinks.map(({ name, label, icon }) => {
+      const link = data[name as keyof Inputs] || "";
+      return { icon: icon.name, label, link };
+    });
+
+    if (!session || !session.user || !session.user.email) {
+      toast.error("Make sure You're signed In");
+      return;
+    }
+
+    console.log(filteredData);
+    updateToDatabase(session?.user.email, filteredData);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(formLinks);
+  const validateUrl = (value: string | undefined) => {
+    if (!value) return true;
+    const urlRegex = /^(https?:\/\/)?([\w.-]+)\.([a-z.]{2,6})([\/\w.-]*)*\/?$/;
+    return urlRegex.test(value) || "Invalid URL format";
   };
-
+  if (error) {
+    return <div className="min-h-[80vh] flex justify-center items-center">{error}</div>
+  }
+  if (loading) {
+    return <div className="min-h-[80vh] flex justify-center items-center"><Loader2 className="w-8 h-8 animate-spin" /></div>
+  }
   return (
-    <div className="p-4 h-[80vh] flex flex-col gap-6 items-center justify-center rounded-lg max-w-3xl mx-auto">
-      <h1 className="text-center my-6 text-2xl font-medium underline underline-offset-2">Add your Favorite Links and Submit</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaInstagram className="w-6 h-6 text-blue-500" />
-              <Label htmlFor="instagram">Instagram</Label>
-            </div>
-            <Input
-              id="instagram"
-              name="instagram"
-              value={formLinks.instagram}
-              onChange={handleChange}
-              placeholder="Instagram URL"
-              className="mt-2"
-            />
-          </div>
+    <div className="p-4 flex flex-col gap-6 items-center justify-center rounded-lg max-w-3xl mx-auto">
+      <h1 className="text-center my-3 text-2xl font-medium underline underline-offset-2">Add Links</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {userLinks.map(({ name, label, icon: Icon }) => (
+            <div key={name} className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <Icon className="w-6 h-6" />
+                <Label htmlFor={name}>{label}</Label>
+              </div>
+              <Input
+                id={name}
+                {...register(name as keyof Inputs, {
+                  validate: validateUrl,
+                })}
 
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaFacebook className="w-6 h-6 text-blue-600" />
-              <Label htmlFor="facebook">Facebook</Label>
+                placeholder={`${label} URL`}
+                className="mt-2 text-muted-foreground"
+              />
+              {errors[name as keyof Inputs] && (
+                <span className="text-red-500 text-sm">{errors[name as keyof Inputs]?.message}</span>
+              )}
             </div>
-            <Input
-              id="facebook"
-              name="facebook"
-              value={formLinks.facebook}
-              onChange={handleChange}
-              placeholder="Facebook URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaTwitter className="w-6 h-6 text-blue-400" />
-              <Label htmlFor="x">X (Twitter)</Label>
-            </div>
-            <Input
-              id="x"
-              name="x"
-              value={formLinks.x}
-              onChange={handleChange}
-              placeholder="Twitter URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaGithub className="w-6 h-6 text-gray-800" />
-              <Label htmlFor="github">Github</Label>
-            </div>
-            <Input
-              id="github"
-              name="github"
-              value={formLinks.github}
-              onChange={handleChange}
-              placeholder="Github URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaLinkedin className="w-6 h-6 text-blue-700" />
-              <Label htmlFor="linkedIn">LinkedIn</Label>
-            </div>
-            <Input
-              id="linkedIn"
-              name="linkedIn"
-              value={formLinks.linkedIn}
-              onChange={handleChange}
-              placeholder="LinkedIn URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaSnapchat className="w-6 h-6 text-yellow-500" />
-              <Label htmlFor="snapchat">Snapchat</Label>
-            </div>
-            <Input
-              id="snapchat"
-              name="snapchat"
-              value={formLinks.snapchat}
-              onChange={handleChange}
-              placeholder="Snapchat URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaPinterest className="w-6 h-6 text-red-600" />
-              <Label htmlFor="pinterest">Pinterest</Label>
-            </div>
-            <Input
-              id="pinterest"
-              name="pinterest"
-              value={formLinks.pinterest}
-              onChange={handleChange}
-              placeholder="Pinterest URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaYoutube className="w-6 h-6 text-red-500" />
-              <Label htmlFor="youtube">YouTube</Label>
-            </div>
-            <Input
-              id="youtube"
-              name="youtube"
-              value={formLinks.youtube}
-              onChange={handleChange}
-              placeholder="YouTube URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaMedium className="w-6 h-6 text-black" />
-              <Label htmlFor="medium">Medium</Label>
-            </div>
-            <Input
-              id="medium"
-              name="medium"
-              value={formLinks.medium}
-              onChange={handleChange}
-              placeholder="Medium URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaDiscord className="w-6 h-6 text-indigo-600" />
-              <Label htmlFor="discord">Discord</Label>
-            </div>
-            <Input
-              id="discord"
-              name="discord"
-              value={formLinks.discord}
-              onChange={handleChange}
-              placeholder="Discord URL"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <FaTiktok className="w-6 h-6 text-black" />
-              <Label htmlFor="tiktok">TikTok</Label>
-            </div>
-            <Input
-              id="tiktok"
-              name="tiktok"
-              value={formLinks.tiktok}
-              onChange={handleChange}
-              placeholder="TikTok URL"
-              className="mt-2"
-            />
-          </div>
+          ))}
         </div>
 
         <div className="flex gap-2">
-        <Button type="submit" variant={"secondary"} className="mt-6 w-full">
-          Save
-        </Button>
-        <Button type="submit" variant={"outline"} className="mt-6 w-full">
-          Next
-        </Button>
+          <Button type="submit" variant={"secondary"} className="mt-6 w-full">
+            {loader ? <span className="flex items-center gap-1"><b>Saving.. </b><Loader2 className="animate-spin" /></span> : <span>Save</span>}
+          </Button>
+          <Button type="button" variant={"outline"} className="mt-6 w-full">
+            Next
+          </Button>
         </div>
       </form>
     </div>

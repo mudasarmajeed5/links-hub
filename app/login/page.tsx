@@ -13,7 +13,7 @@ const Login = () => {
     router.push('/dashboard/loading');
   }
   return (
-    <div className='flex min-h-screen justify-center items-center'>
+    <div className='flex justify-center items-center  min-h-screen'>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Log In</CardTitle>

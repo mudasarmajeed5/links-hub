@@ -18,7 +18,7 @@ const Register = () => {
     return <div className='flex min-h-[80vh] justify-center items-center'>Youre signed in Already!</div>
   }
   return (
-    <div className='flex min-h-screen justify-center items-center'>
+    <div className='flex justify-center items-center min-h-screen'>
       <Card>
         <CardHeader>
           <CardTitle className='text-3xl'>Sign up</CardTitle>

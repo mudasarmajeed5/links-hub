@@ -26,7 +26,7 @@ const DashboardNavigation = () => {
       icon: <Plus />
     },
     {
-      name:"Select Theme",
+      name:"Select Template",
       link:`/dashboard/${username}/theme`,
       icon:<Zap/>
     },
@@ -49,7 +49,7 @@ const DashboardNavigation = () => {
   ]
 
   return (
-    <div className="flex flex-col justify-between relative h-full p-4">
+    <div className="flex sticky top-0 flex-col justify-between min-h-[calc(100vh-70px)] p-4">
       <div>{Links.map((link, idx) => (
         <Link
           href={link.link}
@@ -57,19 +57,18 @@ const DashboardNavigation = () => {
           className="flex items-center gap-2 text-sm mb-2 w-4/5 mx-auto underline hover:underline-offset-4 transition-all hover:text-blue-600 hover:bg-blue-100 duration-200 ease-in-out p-2 rounded-md"
         >
           <span className="text-lg">{link.icon}</span>
-          <span>{link.name}</span>
+          <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
         </Link>
       ))}</div>
 
       <Button
         onClick={()=>signOut()}
         variant={"outline"}
-        className="flex w-4/5 mx-auto items-center gap-2 justify-start text-sm mb-2 underline hover:underline-offset-4 transition-all hover:text-blue-600 hover:bg-blue-100 duration-200 ease-in-out p-4 rounded-md"
+        className="flex w-4/5 mx-auto items-center gap-2 justify-start text-sm mb-2 underline hover:underline-offset-4 transition-all hover:text-blue-600 hover:bg-blue-100 duration-200 ease-in-out rounded-md"
       >
         <span className="text-lg"><LogOutIcon /></span>
-        <span>Logout</span>
-      </Button>
-
+        <span className='whitespace-nowrap text-ellipsis overflow-hidden'>Logout</span>
+      </Button> 
 
 
     </div>
