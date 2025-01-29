@@ -15,7 +15,9 @@ import { FaGithub, FaGoogle } from 'react-icons/fa';
 const Register = () => {
   const { status } = useSession();
   if (status == "authenticated") {
-    return <div className='flex min-h-[80vh] justify-center items-center'>Youre signed in Already!</div>
+    return <div className='flex flex-col min-h-[80vh] justify-center items-center'>
+      <span>Youre signed in Already!</span><Link className='bg-black text-white rounded-md px-2 py-1' href='/'>Home</Link>
+    </div>
   }
   return (
     <div className='flex justify-center items-center min-h-screen'>

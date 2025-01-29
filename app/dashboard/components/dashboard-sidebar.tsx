@@ -2,13 +2,14 @@
 import Link from 'next/link'
 import { useEffect } from 'react';
 import { useSession,signOut } from 'next-auth/react'
-import { useRouter } from 'next/navigation';
-import { ArrowLeft, Eye, LayoutDashboard, LogOutIcon, Plus, Settings, Zap } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ArrowLeft, LayoutDashboard, LogOutIcon, Plus, Eye,Settings, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 const DashboardNavigation = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const username = session?.user?.email?.split("@")[0];
+  const path = usePathname();
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push('/login')
@@ -26,35 +27,36 @@ const DashboardNavigation = () => {
       icon: <Plus />
     },
     {
-      name:"Select Template",
+      name:"Set Template",
       link:`/dashboard/${username}/theme`,
       icon:<Zap/>
     },
     {
-      name: 'Preview',
-      link: `https://followtree.vercel.app/${username}`,
-      icon: <Eye />
-    },
-    {
       name: 'Settings',
-      link: `https://followtree.vercel.app/${username}`,
+      link: `/dashboard/${username}/settings`,
       icon: <Settings />
     },
     {
       name:"Website",
       link:"/",
       icon:<ArrowLeft/>
+    },
+    {
+      name:"Visit Page",
+      link:`/${username}`,
+      icon:<Eye/>
     }
 
   ]
 
   return (
-    <div className="flex sticky top-0 flex-col justify-between min-h-[calc(100vh-70px)] p-4">
+    <div className="flex sticky top-0 flex-col justify-between h-full p-4">
       <div>{Links.map((link, idx) => (
         <Link
           href={link.link}
           key={idx}
-          className="flex items-center gap-2 text-sm mb-2 w-4/5 mx-auto underline hover:underline-offset-4 transition-all hover:text-blue-600 hover:bg-blue-100 duration-200 ease-in-out p-2 rounded-md"
+
+          className={`${path.endsWith(link.link.toLocaleLowerCase())? "bg-blue-200 text-blue-600":""} flex items-center gap-2 text-sm mb-2 w-4/5 mx-auto underline hover:underline-offset-4 transition-all hover:text-blue-600 hover:bg-blue-100 duration-200 ease-in-out p-2 rounded-md`}
         >
           <span className="text-lg">{link.icon}</span>
           <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>

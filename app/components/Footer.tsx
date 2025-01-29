@@ -31,11 +31,11 @@ export const Footer = () => {
                     </div>
                     <div className="flex gap-2">
                         <a href="https://github.com/mudasarmajeed5" target="_blank"><FaGithub className="text-xl" /></a>
-                        <a href="https://linkedin.com/mudasarmajeed5" target="_blank"><FaLinkedin className="text-xl" /></a>
+                        <a href="https://linkedin.com/in/mudasarmajeed5" target="_blank"><FaLinkedin className="text-xl" /></a>
                     </div>
                 </div>
             </div>
-            <div className="text-xs mt-5 text-center bg-gray-800 py-2 px-2 rounded-md text-gray-500">&copy; {year} All rights reserved</div>
+            <div className="text-xs mt-5 text-center bg-gray-800 py-2 px-2 rounded-md text-gray-500">&copy; {year} <Link target="_blank" href={"https://instagram.com/mudasarmajeed5"} className="text-muted-foreground">@mudasarmajeed5</Link> All rights reserved</div>
         </footer>
 
     )

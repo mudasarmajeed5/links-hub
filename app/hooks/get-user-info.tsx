@@ -29,7 +29,7 @@ const useFetchUser = (props: FetchUserProps | null) => {
         }
 
         const result = await response.json();
-        setData(result.fetchedUser); // Assuming fetchedUser matches the User interface
+        setData(result.fetchedUser); 
       } catch (error) {
         const err = error as Error;
         setError(`Error fetching data: ${err.message}`);

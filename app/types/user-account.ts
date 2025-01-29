@@ -18,11 +18,7 @@ export type User = {
   theme: number;
   isPremiumUser: boolean;
   userLinks: UserLink[];
-  createdAt: {
-    $date: string;
-  };
-  updatedAt: {
-    $date: string;
-  };
+  createdAt: string;
+  updatedAt: string; 
   __v: number;
 };

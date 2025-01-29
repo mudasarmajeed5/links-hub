@@ -9,17 +9,13 @@ import AnalyticsCard from "./analytics-card"
 type DashboardContentProps = {
   user: User | undefined
 }
-type CreatedAtType = {
-  $date?: string;
-};
-
 export function DashboardContent({ user }: DashboardContentProps) {
   const { setTheme } = useTheme();
-  const formatDate = (date?: CreatedAtType) => {
-    if (!date?.$date) {
+  const formatDate = (date?: string) => {
+    if (!date) {
       return "Date not available"; // Default fallback
     }
-    return new Date(date.$date).toLocaleString('en-US', {
+    return new Date(date).toLocaleString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -28,7 +24,8 @@ export function DashboardContent({ user }: DashboardContentProps) {
       minute: 'numeric',
       hour12: true,
     });
-  };  
+  };
+  
   const themes = [
     { name: "Light", icon: Sun, value: "light" },
     { name: "Dark", icon: Moon, value: "dark" },
@@ -49,7 +46,9 @@ export function DashboardContent({ user }: DashboardContentProps) {
         <CardContent>
           <div className="mb-4">
             <div className="flex text-center text-md gap-1 flex-col">
-              <div className="flex justify-center"><img className="rounded-full" src={user?.profilePic} width={160} alt="" /></div>
+              <div className="flex justify-center">
+                <img className="rounded-full" src={user?.profilePic} width={160} alt="" />
+              </div>
               <span>Name: {user?.name}</span>
               <span className="text-md">Username: {user?.username}</span>
             </div>

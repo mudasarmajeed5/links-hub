@@ -10,15 +10,16 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import useFetchUser from "@/app/hooks/get-user-info"
+import { useRouter } from "next/navigation";
 interface userLinks {
   icon: string;
   label: string;
   link: string;
   _id: {
     $oid: string;
-  };
+  };  
 }
-type filteredDataType= {
+type filteredDataType = {
   icon: string;
   label: string;
   link: string;
@@ -38,6 +39,7 @@ interface Inputs {
 }
 
 const AddLink = () => {
+  const router = useRouter();
   const { data: session } = useSession();
   const [loader, setLoader] = useState(false);
   const [userData, setUserData] = useState<userLinks[] | undefined>();
@@ -84,7 +86,7 @@ const AddLink = () => {
     { name: "medium", label: "Medium", icon: FaMedium },
     { name: "discord", label: "Discord", icon: FaDiscord },
     { name: "tiktok", label: "TikTok", icon: FaTiktok },
-    { name: 'stackoverflow', label: 'Stack Overflow', icon: FaStackOverflow }
+    { name: 'stackoverflow', label: 'Stack Overflow', icon: FaStackOverflow },
   ]
   const updateToDatabase = async (email: string, filteredData: filteredDataType) => {
     setLoader(true);
@@ -160,14 +162,30 @@ const AddLink = () => {
           ))}
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center w-full">
           <Button type="submit" variant={"secondary"} className="mt-6 w-full">
-            {loader ? <span className="flex items-center gap-1"><b>Saving.. </b><Loader2 className="animate-spin" /></span> : <span>Save</span>}
+            {loader ? (
+              <span className="flex items-center gap-1">
+                <b>Saving.. </b>
+                <Loader2 className="animate-spin" />
+              </span>
+            ) : (
+              <span>Save</span>
+            )}
           </Button>
-          <Button type="button" variant={"outline"} className="mt-6 w-full">
-            Next
+
+          <div className="flex justify-center items-center w-auto mt-6">
+            
+          </div>
+
+          <Button
+            onClick={()=>router.push(`/dashboard/${data?.username}/theme`)}
+            className="mt-6 border flex justify-center items-center border-green-900 w-full"
+          >
+            <span>Next</span>
           </Button>
         </div>
+
       </form>
     </div>
   );

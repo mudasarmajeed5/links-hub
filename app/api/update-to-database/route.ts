@@ -21,13 +21,11 @@ export async function POST(request:NextRequest){
         const err = error as Error;
         return NextResponse.json({error:err.message,status:500})
     }
-    return NextResponse.json({status:200,message:"Data Fetched"});
 }
 export async function PUT(request:NextRequest){
     await connectDB();
     const email = request.headers.get('email');
     const themeNo = await request.json();
-    console.log(email,themeNo);
     try {
         const updatedUser = await User.findOneAndUpdate(
             {email},
