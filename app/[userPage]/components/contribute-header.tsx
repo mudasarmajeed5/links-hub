@@ -8,7 +8,7 @@ interface ContributeHeaderProps{
 const ContributeHeader = ({ navStyle }: ContributeHeaderProps) => {
   return (
     <nav className={`absolute p-2 top-0 flex ${navStyle} justify-between left-0 w-full`}>
-        <Link href={"/signup"} target='_blank' className='underline underline-offset-2 flex items-center gap-1 hover:underline-offset-4'>
+        <Link href={"/  "} className='underline underline-offset-2 flex items-center gap-1 hover:underline-offset-4'>
           <LogIn/>
           <span>Create your Tree</span>
         </Link>

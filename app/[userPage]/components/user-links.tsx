@@ -23,7 +23,7 @@ const UserLinks = ({ data, linkClass, iconClass, textClass }: UserLinkProps) => 
 
     useEffect(() => {
         if (data) {
-            const filteredLinks = data.userLinks.filter((item) => item.link.length > 4);
+            const filteredLinks = data.userLinks.filter((item) => item.link?.length > 4);
             setLinks(filteredLinks);
         }
     }, [data]);
