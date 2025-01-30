@@ -3,8 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FaFacebook, FaGithub, FaInstagram, FaLinkedin, FaSnapchat, FaPinterest, FaMedium, FaDiscord, FaYoutube, FaTiktok, FaStackOverflow } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import * as Icons from "react-icons/fa"; // Import all Fa icons
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
@@ -17,7 +16,7 @@ interface userLinks {
   link: string;
   _id: {
     $oid: string;
-  };  
+  };
 }
 type filteredDataType = {
   icon: string;
@@ -75,19 +74,20 @@ const AddLink = () => {
   }, [userData, setValue]);
 
   const userLinks = [
-    { name: "instagram", label: "Instagram", icon: FaInstagram },
-    { name: "facebook", label: "Facebook", icon: FaFacebook },
-    { name: "x", label: "X (Twitter)", icon: FaXTwitter },
-    { name: "github", label: "Github", icon: FaGithub },
-    { name: "linkedIn", label: "LinkedIn", icon: FaLinkedin },
-    { name: "snapchat", label: "Snapchat", icon: FaSnapchat },
-    { name: "pinterest", label: "Pinterest", icon: FaPinterest },
-    { name: "youtube", label: "YouTube", icon: FaYoutube },
-    { name: "medium", label: "Medium", icon: FaMedium },
-    { name: "discord", label: "Discord", icon: FaDiscord },
-    { name: "tiktok", label: "TikTok", icon: FaTiktok },
-    { name: 'stackoverflow', label: 'Stack Overflow', icon: FaStackOverflow },
-  ]
+    { name: "instagram", label: "Instagram", icon: "FaInstagram" },
+    { name: "facebook", label: "Facebook", icon: "FaFacebook" },
+    { name: "x", label: "X (Twitter)", icon: "FaXTwitter" },
+    { name: "github", label: "Github", icon: "FaGithub" },
+    { name: "linkedIn", label: "LinkedIn", icon: "FaLinkedin" },
+    { name: "snapchat", label: "Snapchat", icon: "FaSnapchat" },
+    { name: "pinterest", label: "Pinterest", icon: "FaPinterest" },
+    { name: "youtube", label: "YouTube", icon: "FaYoutube" },
+    { name: "medium", label: "Medium", icon: "FaMedium" },
+    { name: "discord", label: "Discord", icon: "FaDiscord" },
+    { name: "tiktok", label: "TikTok", icon: "FaTiktok" },
+    { name: 'stackoverflow', label: 'Stack Overflow', icon: "FaStackOverflow" },
+  ];
+
   const updateToDatabase = async (email: string, filteredData: filteredDataType) => {
     setLoader(true);
     try {
@@ -112,9 +112,8 @@ const AddLink = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const filteredData = userLinks.map(({ name, label, icon }) => {
       const link = data[name as keyof Inputs] || "";
-      return { icon: icon.name, label, link };
+      return { icon, label, link };  // Store the icon as a string (e.g., "FaInstagram")
     });
-
     if (!session || !session.user || !session.user.email) {
       toast.error("Make sure You're signed In");
       return;
@@ -140,26 +139,29 @@ const AddLink = () => {
       <h1 className="text-center my-3 text-2xl font-medium underline underline-offset-2">Add Links</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {userLinks.map(({ name, label, icon: Icon }) => (
-            <div key={name} className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <Icon className="w-6 h-6" />
-                <Label htmlFor={name}>{label}</Label>
-              </div>
-              <Input
-                id={name}
-                {...register(name as keyof Inputs, {
-                  validate: validateUrl,
-                })}
+          {userLinks.map(({ name, label, icon }) => {
+            const IconComponent = Icons[icon as keyof typeof Icons]; 
 
-                placeholder={`${label} URL`}
-                className="mt-2 text-muted-foreground"
-              />
-              {errors[name as keyof Inputs] && (
-                <span className="text-red-500 text-sm">{errors[name as keyof Inputs]?.message}</span>
-              )}
-            </div>
-          ))}
+            return (
+              <div key={name} className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  {IconComponent && <IconComponent className="w-6 h-6" />}
+                  <Label htmlFor={name}>{label}</Label>
+                </div>
+                <Input
+                  id={name}
+                  {...register(name as keyof Inputs, {
+                    validate: validateUrl,
+                  })}
+                  placeholder={`${label} URL`}
+                  className="mt-2 text-muted-foreground"
+                />
+                {errors[name as keyof Inputs] && (
+                  <span className="text-red-500 text-sm">{errors[name as keyof Inputs]?.message}</span>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <div className="flex gap-2 items-center w-full">
@@ -175,11 +177,11 @@ const AddLink = () => {
           </Button>
 
           <div className="flex justify-center items-center w-auto mt-6">
-            
+
           </div>
 
           <Button
-            onClick={()=>router.push(`/dashboard/${data?.username}/theme`)}
+            onClick={() => router.push(`/dashboard/${data?.username}/theme`)}
             className="mt-6 border flex justify-center items-center border-green-900 w-full"
           >
             <span>Next</span>
