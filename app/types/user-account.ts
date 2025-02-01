@@ -11,6 +11,7 @@ export type User = {
   _id: {
     $oid: string;
   };
+  password?:''
   email: string;
   username: string;
   profilePic?: string;

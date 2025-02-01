@@ -3,7 +3,7 @@ import { Rss } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 const Navbar = () => {
     const { data: session } = useSession();
     const router = useRouter();
@@ -25,7 +25,7 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <div className="flex gap-2 items-center">
-                        <Button onClick={() => { router.push("/login") }}>Login</Button>
+                        <Button className='w-full' onClick={() => signIn()}>Log in</Button>
                         <Button onClick={() => { router.push("/register") }} variant={"secondary"}>Signup</Button>
                     </div>
                 )
