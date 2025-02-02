@@ -47,7 +47,7 @@ export function DashboardContent({ user }: DashboardContentProps) {
           <div className="mb-4">
             <div className="flex text-center text-md gap-1 flex-col">
               <div className="flex justify-center">
-                <img className="rounded-full" src={user?.profilePic} width={160} alt="" />
+                <img className="rounded-full object-cover object-center w-44 h-44" src={user?.profilePic} alt="" />
               </div>
               <span>Name: {user?.name}</span>
               <span className="text-md">Username: {user?.username}</span>

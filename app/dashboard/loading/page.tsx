@@ -14,7 +14,7 @@ const Loader = () => {
         router.replace('/login');
         return;
      }
-     const username = session.user?.email?.split('@')[0];
+     const username = session.user?.username;
      router.replace(`/dashboard/${username}`);
     }, [session,router,status])
 

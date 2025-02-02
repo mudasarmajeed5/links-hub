@@ -22,8 +22,8 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
       />
 
       <Card className='flex bg-white/30 flex-col items-center justify-center p-6 space-y-4 shadow-md'>
-        <Avatar className='w-44 h-44'>
-          <AvatarImage src={user?.profilePic} alt="User Profile" />
+        <Avatar className='w-44 border border bg-background/30 h-44'>
+          <AvatarImage className='object-contain' src={user?.profilePic} alt="User Profile" />
           <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
         </Avatar>
         <CardDescription className='text-lg text-black font-bold'>{user?.name}</CardDescription>

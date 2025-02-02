@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 const DashboardNavigation = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const username = session?.user?.email?.split("@")[0];
+  const username = session?.user.username
   const path = usePathname();
   useEffect(() => {
     if (status === "unauthenticated") {

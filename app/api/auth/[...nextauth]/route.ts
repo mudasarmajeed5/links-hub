@@ -25,9 +25,7 @@ const handler = NextAuth({
           if (!email || !password) {
             throw new Error("Email and password are required!");
           }
-          // Connect to the database
           await connectDB();
-          // Find user by email
           const user = await User.findOne({ email });
           if (!user) {
             throw new Error("User not found");
@@ -87,7 +85,22 @@ const handler = NextAuth({
         }
       }
       return true;
-    }
+    },
+    async session({ session, token }) {
+      if (token?.email) {
+        try {
+          await connectDB();
+          const user = await User.findOne({ email: token.email });
+          if (user && session.user) {
+            session.user.name = user.name;
+            session.user.username = user.username;
+          }
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      }
+      return session;
+    },
   }
 })
 export { handler as GET, handler as POST }

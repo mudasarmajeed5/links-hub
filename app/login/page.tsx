@@ -8,9 +8,9 @@ import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FormEventHandler, useState } from 'react';
-import { toast } from 'sonner';
 const Login = () => {
   const router = useRouter();
+  const [error,setError] = useState<string | null>()
   const [userInfo,setUserInfo] = useState({
     email:'',
     password:''
@@ -30,7 +30,7 @@ const Login = () => {
       redirect:false,
     })
     if(!res?.ok){
-      toast.error(res?.error)
+      setError(res?.error)
     }
     else{
       router.push('/dashboard/loading')
@@ -56,6 +56,7 @@ const Login = () => {
           <Input required onChange={handleChange} value={userInfo.email} name='email' type="email" placeholder='Enter your email'></Input>
           <div className="text-bold text-sm">Password</div>
           <Input required onChange={handleChange} value={userInfo.password} name='password' type='password' placeholder='Enter your Password'></Input>
+          {error && <span className='text-red-600'>{error}</span>}
           <Button className='w-full mt-6' variant={"outline"}>Log in</Button>
           <div className='text-center font-bold text-xl'>OR</div>
           <div className="flex gap-4">
