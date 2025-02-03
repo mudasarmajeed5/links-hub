@@ -16,12 +16,12 @@ const handler = NextAuth({
       authorize: async (credentials) => {
         try {
           await connectDB();
-    
+
           const { email, password } = credentials as {
             email: string;
             password: string;
           };
-      
+
           if (!email || !password) {
             throw new Error("Email and password are required!");
           }
@@ -31,11 +31,11 @@ const handler = NextAuth({
             throw new Error("User not found");
           }
           const isPasswordValid = await bcrypt.compare(password, user.password);
-      
+
           if (!isPasswordValid) {
             throw new Error("Invalid credentials");
           }
-      
+
           return {
             id: user._id.toString(),
             email: user.email,
@@ -66,19 +66,37 @@ const handler = NextAuth({
       if (account?.provider == "github" || account?.provider == "google") {
         try {
           await connectDB();
+
           const currentUser = await User.findOne({ email: user.email });
+
           if (!currentUser && user && user.email) {
+            const extractedUsername = user.email.split('@')[0];
+            let username = extractedUsername;
+            let count = 1;
+
+            // Check if the username exists and keep incrementing until it's unique
+            while (await User.findOne({ username })) {
+              username = `${extractedUsername}_${count}`;
+              count++;
+            }
+
+            // Create the new user with a unique username
             const newUser = await User.create({
               email: user.email,
               name: user.name,
-              username: user.email.split('@')[0],
+              username: username,
               profilePic: user.image,
             });
+
             if (!newUser) {
-              console.log('Failed to created user!');
+              console.log('Failed to create user!');
+            } else {
+              console.log('User created successfully!');
             }
+
             return true;
           }
+
         } catch (error) {
           console.error("Error connecting to database: ", error)
           return false;

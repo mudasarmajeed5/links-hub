@@ -10,11 +10,13 @@ import useFetchUser from "@/app/hooks/get-user-info"
 import { useSession } from "next-auth/react"
 import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
-import { RefreshCcw } from "lucide-react";
+import { Loader2 } from "lucide-react";
 export default function UpdateUserSettings() {
   const { data: session } = useSession();
   const [name, setName] = useState("");
-  const [error,setError] = useState('');
+  const [updateLoad, setUpdateLoad] = useState(false);
+  const [uploadWidgetState, setUploadWidgetState] = useState(false);
+  const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const { data, loading } = useFetchUser(email ? { email } : { email: '' });
   const [username, setUsername] = useState("")
@@ -23,8 +25,10 @@ export default function UpdateUserSettings() {
     if (results?.info && (results.info as CloudinaryUploadWidgetInfo).secure_url) {
       setProfilePictureUrl((results.info as CloudinaryUploadWidgetInfo).secure_url)
     }
+    setUploadWidgetState(false);
   }
   const handleSubmit = async (e: React.FormEvent) => {
+    setUpdateLoad(true);
     e.preventDefault()
     try {
       const response = await fetch('/api/update-settings',
@@ -43,11 +47,14 @@ export default function UpdateUserSettings() {
         setError(data.message);
       } else {
         toast.success("Profile updated");
+        setUpdateLoad(false);
+        window.location.reload();
       }
     }
     catch (error) {
       console.error(error)
     }
+    setUpdateLoad(false)
   }
 
   useEffect(() => {
@@ -73,7 +80,6 @@ export default function UpdateUserSettings() {
         <CardHeader>
           <CardTitle className="flex justify-between">
             <span>Update Settings</span>
-            <Button size={"icon"} variant={"outline"}><RefreshCcw /></Button>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -108,8 +114,8 @@ export default function UpdateUserSettings() {
 
             {profilePictureUrl && (
               <div className="mt-4 flex justify-center">
-                <Avatar className="w-24 h-24">
-                  <AvatarImage src={profilePictureUrl} alt="Profile preview" />
+                <Avatar className="w-32 h-32">
+                  <AvatarImage className="object-cover object-center" src={profilePictureUrl} alt="Profile preview" />
                   <AvatarFallback>Preview</AvatarFallback>
                 </Avatar>
               </div>
@@ -120,13 +126,17 @@ export default function UpdateUserSettings() {
               onSuccess={handleSuccess}
             >
               {({ open }) => (
-                <Button variant={"outline"} className="w-full" onClick={() => open()}>
-                  Upload an Image
+                <Button type="button" variant={"outline"} className="w-full" onClick={() => {
+                  open();
+                  setUploadWidgetState(true);
+                }
+                }>
+                  Upload an Image {uploadWidgetState && <Loader2 className="animate-spin" />}
                 </Button>
               )}
             </CldUploadWidget>
-            <Button type="submit" className="w-full">
-              Update Settings
+            <Button type="submit" disabled={updateLoad} className="w-full">
+              Update Settings {updateLoad && <Loader2 className="animate-spin" />}
             </Button>
           </form>
         </CardContent>
