@@ -15,6 +15,7 @@ export type User = {
   email: string;
   username: string;
   profilePic?: string;
+  bio?: string;
   name: string;
   theme: number;
   isPremiumUser: boolean;

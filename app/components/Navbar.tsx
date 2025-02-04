@@ -40,11 +40,21 @@ const Navbar = () => {
         hasScrolled && "py-2 bg-black-100 backdrop-blur-[8px]"
       )}
     >
-      <div className="container flex h-14 items-center max-lg:px-5">
-        <a className="lg:hidden flex-1 cursor-pointer z-2">
+      <div className="container justify-between flex h-14 items-center max-lg:px-5">
+        <Link href="/" className="flex items-center gap-2">
           <Rss className="text-3xl" />
-          <img src="/images/xora.svg" width={115} height={55} alt="logo" />
-        </a>
+          <span className="text-xl font-bold uppercase">Links Hub</span>
+        </Link>
+        <button
+          className="lg:hidden z-2 size-10 border-2 border-s4/25 rounded-full flex justify-center items-center"
+          onClick={() => setIsOpen((prevState) => !prevState)}
+        >
+          <img
+            src={`/images/${isOpen ? "close" : "magic"}.svg`}
+            alt="magic"
+            className="size-1/2 object-contain"
+          />
+        </button>
 
         <div
           className={clsx(
@@ -56,7 +66,7 @@ const Navbar = () => {
             <nav className="max-lg:relative max-lg:z-2 max-lg:my-auto">
               <ul className="flex max-lg:block max-lg:px-12">
                 <li className="nav-li">
-                  <Link onClick={()=>setIsOpen(false)} href="/dashboard/loading" className="base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5" >Dashboard</Link>
+                  <Link onClick={() => setIsOpen(false)} href="/dashboard/loading" className="base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5" >Dashboard</Link>
                   <div className="dot" />
                   <NavLink title="pricing" />
                 </li>

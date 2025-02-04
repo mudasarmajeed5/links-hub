@@ -118,8 +118,8 @@ export const plans = [
   {
     id: "1",
     title: "Pro",
-    priceMonthly: 10,
-    priceYearly: 8,
+    priceMonthly: 2,
+    priceYearly: 1,
     caption: "Most popular plan",
     features: [
       "All Free features",
@@ -133,8 +133,8 @@ export const plans = [
   {
     id: "2",
     title: "Business",
-    priceMonthly: 30,
-    priceYearly: 25,
+    priceMonthly: 4,
+    priceYearly: 2,
     caption: "For professionals and teams",
     features: [
       "All Pro features",

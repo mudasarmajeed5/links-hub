@@ -13,27 +13,27 @@ const VibrantTheme = ({ user }: VibrantThemeProps) => {
   return (
     <>
       {/* Background Image */}
-      <ContributeHeader navStyle='bg-green-600/60 text-white' />
+      <ContributeHeader navStyle='bg-green-600/60 z-1 text-white' />
       <Image
         src={backgroundImage}
-        className='absolute object-cover w-full h-full object-center -z-10'
+        className='absolute object-cover w-full h-full object-center z-0'
         width={1600}
         height={900}
         alt='Background Image'
       />
 
-      <Card className='flex bg-white/30 flex-col items-center justify-center p-6 space-y-4 shadow-md'>
+      <Card className='flex z-2 bg-white/30 flex-col items-center justify-center p-6 space-y-4 shadow-md'>
         <Avatar className='w-44 h-44'>
-          <AvatarImage src={user?.profilePic} alt="User Profile" />
+          <AvatarImage className='object-cover object-center' src={user?.profilePic} alt="User Profile" />
           <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
         </Avatar>
-        <CardDescription className='text-lg font-bold'>{user?.name}</CardDescription>
-        {/* Display bio of user */}
-        <CardDescription>{ }</CardDescription>
+        <CardDescription className='text-lg text-black font-bold'>{user?.name}</CardDescription>
+        <div className="text-lg text-black">About me</div>
+        <CardDescription className='text-black/80 font-poppins font-semibold'>{ user.bio}</CardDescription>
         <UserLinks
           data={user}
-          linkClass="text-xl bg-purple-600/90 hover:bg-purple-600 w-[300px]"
-          iconClass="text-white text-2xl"
+          linkClass="text-lg bg-purple-600/70 hover:bg-purple-600 w-[300px]"
+          iconClass="text-white text-xl"
           textClass="text-white font-medium"
         />
 

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { CldUploadWidget, CloudinaryUploadWidgetInfo, CloudinaryUploadWidgetResults } from "next-cloudinary"
@@ -17,6 +18,7 @@ export default function UpdateUserSettings() {
   const [updateLoad, setUpdateLoad] = useState(false);
   const [uploadWidgetState, setUploadWidgetState] = useState(false);
   const [error, setError] = useState('');
+  const [bio, setBio] = useState <string | undefined>('');
   const [email, setEmail] = useState('');
   const { data, loading } = useFetchUser(email ? { email } : { email: '' });
   const [username, setUsername] = useState("")
@@ -38,7 +40,7 @@ export default function UpdateUserSettings() {
             'Content-Type': 'application/json',
             'email': email
           },
-          body: JSON.stringify({ username, name, profilePictureUrl })
+          body: JSON.stringify({ username, name, profilePictureUrl, bio})
         }
       )
       if (!response.ok) {
@@ -66,6 +68,7 @@ export default function UpdateUserSettings() {
       setName(data.name)
       setUsername(data.username)
       setProfilePictureUrl(data.profilePic)
+      setBio(data?.bio)
     }
   }, [data, session])
   if (loading) {
@@ -109,6 +112,15 @@ export default function UpdateUserSettings() {
                 value={profilePictureUrl}
                 onChange={(e) => setProfilePictureUrl(e.target.value)}
                 placeholder="Enter profile picture URL"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="profilePictureUrl">Add Bio. </Label>
+              <Textarea
+                id="profilePictureUrl"
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder="Enter your Bio"
               />
             </div>
 
