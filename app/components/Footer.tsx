@@ -9,7 +9,7 @@ export const Footer = () => {
             <div className="flex justify-between px-5">
                 <div className="logo flex flex-col space-y-2 text-xl">
                     <span className="flex gap-2"><Rss /> Followtree</span>
-                    <a className="text-gray-400 text-sm">Source Code</a>
+                    <Link target="_blank" href={"https://github.com/mudasarmajeed5/links-hub"} className="text-gray-400 text-sm">Source Code</Link>
 
                 </div>
                 <div className="flex flex-col text-gray-400 text-sm flex-wrap space-y-2">
