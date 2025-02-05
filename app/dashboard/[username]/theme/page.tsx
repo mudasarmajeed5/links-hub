@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 const UserTemplate = () => {
     const { data: session } = useSession();
     const [selectedTemplate, setSelectedTemplate] = useState<string | null>('/template-placeholders/free/template-3.jpeg');
@@ -30,6 +31,11 @@ const UserTemplate = () => {
     return (
         <div className="m-5">
             <h2 className="text-center text-2xl underline underline-offset-4">Select a Template</h2>
+            <div className="text-center my-2">
+                <Link target="_blank" className="p-1 text-xs bg-red-800 border-b-red-300 border" href={`https://linkshub.space/${session?.user.username}`}>
+                Website Live at: {`https://linkshub.space/${session?.user.username}`}
+                </Link>
+            </div>
             <div className="flex lg:justify-around flex-col lg:flex-row items-center">
                 <div className="flex my-5 gap-6 flex-wrap items-center justify-center">
                     <div
@@ -57,7 +63,7 @@ const UserTemplate = () => {
                 <div className="mt-4">
                     {selectedTemplate ? (
                         <p className="flex flex-col gap-1">
-                            You selected:{" "}
+
                             <img
                                 src={selectedTemplate}
                                 alt="Selected Template"

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
@@ -32,18 +33,26 @@ export default function UpdateUserSettings() {
   }
   const handleSubmit = async (e: React.FormEvent) => {
     setUpdateLoad(true);
-    e.preventDefault()
+    e.preventDefault();
+  
+    const spotifyUrlRegex = /^(https?:\/\/)?(open\.)?(spotify\.com\/)(track|album|playlist|artist|show|episode)\/([a-zA-Z0-9]+)(\?([a-zA-Z0-9_&=-]+))?$/;
+  
+    if (spotifyUrl && !spotifyUrlRegex.test(spotifyUrl)) {
+      setError("Invalid Spotify URL.");
+      setUpdateLoad(false);
+      return;
+    }
+  
     try {
-      const response = await fetch('/api/update-settings',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'email': email
-          },
-          body: JSON.stringify({ username, name, profilePictureUrl, bio, spotifyUrl})
-        }
-      )
+      const response = await fetch('/api/update-settings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'email': email,
+        },
+        body: JSON.stringify({ username, name, profilePictureUrl, bio, spotifyUrl })
+      });
+  
       if (!response.ok) {
         console.log('failed to update user');
         const data = await response.json();
@@ -53,12 +62,12 @@ export default function UpdateUserSettings() {
         setUpdateLoad(false);
         window.location.reload();
       }
+    } catch (error) {
+      console.error(error);
+      setUpdateLoad(false);
     }
-    catch (error) {
-      console.error(error)
-    }
-    setUpdateLoad(false)
-  }
+  };
+  
 
   useEffect(() => {
     if (!session) return;
@@ -85,6 +94,7 @@ export default function UpdateUserSettings() {
         <CardHeader>
           <CardTitle className="flex justify-between">
             <span>Update Settings</span>
+            <Link target="_blank" className="bg-blue-700 px-4 py-2 rounded" href={`https://linkshub.space/${session?.user.username}`}>Open your Tree</Link>
           </CardTitle>
         </CardHeader>
         <CardContent>
