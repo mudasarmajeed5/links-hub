@@ -1,14 +1,8 @@
 "use client";
 import React from "react";
 import { FC } from "react";
-import { links, logos } from "../constants/index";
-import { Marker } from "../components/Marker";
-import { ReactNode } from "react";
-interface Link {
-  id: string;
-  url: string;
-  icon: ReactNode; // Allows JSX elements like <FaApple />
-}
+import { logos } from "../constants/index";
+
 interface Logo {
   id: string;
   url: string;
@@ -29,7 +23,7 @@ const Download: FC = () => {
             <div className="relative mr-6 flex-540 max-xl:flex-280 max-lg:flex256 max-md:flex-100">
               <div className="mb-10">
                 <img
-                  src="/images/xora.svg"
+                  src="/images/magic.svg"
                   width={160}
                   height={55}
                   alt="xora"
@@ -37,33 +31,11 @@ const Download: FC = () => {
               </div>
 
               <p className="body-1 mb-10 max-w-md">
-                Try it now for free on iOS, Android, PC, Web - whatever your
-                flavor, weve got you covered.
+                Try it now for free Web
               </p>
-
-              <ul className="flex flex-wrap items-center gap-6">
-                {links.map(({ id, url, icon }: Link) => (
-                  <li
-                    key={id}
-                    className="download_tech-link download_tech-link_last-before download_tech-link_last-after"
-                  >
-                    <a
-                      href={url}
-                      className="size-22 download_tech-icon_before relative flex items-center justify-center rounded-half border-2 border-s3 bg-s1 transition-borderColor duration-500"
-                    >
-                      <span className="absolute -top-2 rotate-90">
-                        <Marker />
-                      </span>
-                      <img
-                        src={"/images/lines.svg"}
-                        alt="lines"
-                        className="absolute size-13/20 object-contain"
-                      />
-                      <span className="download_tech-icon">{icon}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <div className="p-3 border rounded-xl bg-gray-950 border-blue-600">
+              <img src="/images/socials/links_dashboard.png" className="rounded-xl border-purple-600" alt="" />
+              </div>
             </div>
 
             <div className="mb-10 max-md:hidden">

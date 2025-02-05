@@ -21,7 +21,8 @@ export default function UpdateUserSettings() {
   const [bio, setBio] = useState <string | undefined>('');
   const [email, setEmail] = useState('');
   const { data, loading } = useFetchUser(email ? { email } : { email: '' });
-  const [username, setUsername] = useState("")
+  const [username, setUsername] = useState("");
+  const [spotifyUrl,setSpotifyUrl] = useState<string | undefined>('')
   const [profilePictureUrl, setProfilePictureUrl] = useState<string | undefined>("")
   const handleSuccess = (results: CloudinaryUploadWidgetResults) => {
     if (results?.info && (results.info as CloudinaryUploadWidgetInfo).secure_url) {
@@ -40,7 +41,7 @@ export default function UpdateUserSettings() {
             'Content-Type': 'application/json',
             'email': email
           },
-          body: JSON.stringify({ username, name, profilePictureUrl, bio})
+          body: JSON.stringify({ username, name, profilePictureUrl, bio, spotifyUrl})
         }
       )
       if (!response.ok) {
@@ -69,6 +70,7 @@ export default function UpdateUserSettings() {
       setUsername(data.username)
       setProfilePictureUrl(data.profilePic)
       setBio(data?.bio)
+      setSpotifyUrl(data?.spotifyUrl)
     }
   }, [data, session])
   if (loading) {
@@ -79,7 +81,7 @@ export default function UpdateUserSettings() {
 
   return (
     <section className="min-h-[80vh] flex justify-center items-center">
-      <Card className="w-full max-w-md mx-auto">
+      <Card className="w-full my-10 lg:max-w-xl mx-auto">
         <CardHeader>
           <CardTitle className="flex justify-between">
             <span>Update Settings</span>
@@ -115,6 +117,27 @@ export default function UpdateUserSettings() {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="profilePictureUrl">Add Spotify URL: </Label>
+              {data?.isPremiumUser? 
+              <Input
+              id="music"
+              value={spotifyUrl}
+              onChange={(e) => setSpotifyUrl(e.target.value)}
+              placeholder="Enter Spotify Url"
+            />:
+            <>
+            <Input
+                id="music"
+                value={spotifyUrl}
+                onChange={(e) => setSpotifyUrl(e.target.value)}
+                placeholder="Only for premium users."
+                disabled
+              />
+            </>  
+            }
+            </div>
+            
+            <div className="space-y-2">
               <Label htmlFor="profilePictureUrl">Add Bio. </Label>
               <Textarea
                 id="profilePictureUrl"
@@ -123,6 +146,7 @@ export default function UpdateUserSettings() {
                 placeholder="Enter your Bio"
               />
             </div>
+
 
             {profilePictureUrl && (
               <div className="mt-4 flex justify-center">

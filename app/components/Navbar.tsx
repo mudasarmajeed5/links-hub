@@ -41,7 +41,7 @@ const Navbar = () => {
       )}
     >
       <div className="container justify-between flex h-14 items-center max-lg:px-5">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="hidden max-lg:flex items-center gap-2">
           <Rss className="text-3xl" />
           <span className="text-xl font-bold uppercase">Links Hub</span>
         </Link>
@@ -52,7 +52,7 @@ const Navbar = () => {
           <img
             src={`/images/${isOpen ? "close" : "magic"}.svg`}
             alt="magic"
-            className="size-1/2 object-contain"
+            className="size-1/2 animate-pulse object-contain"
           />
         </button>
 
@@ -64,9 +64,10 @@ const Navbar = () => {
         >
           <div className="max-lg:relative max-lg:flex max-lg:flex-col max-lg:min-h-screen max-lg:p-6 max-lg:overflow-hidden sidebar-before max-md:px-4">
             <nav className="max-lg:relative max-lg:z-2 max-lg:my-auto">
-              <ul className="flex max-lg:block max-lg:px-12">
+              
+              <ul className="flex text-2xl max-lg:block max-lg:px-12">
                 <li className="nav-li">
-                  <Link onClick={() => setIsOpen(false)} href="/dashboard/loading" className="base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5" >Dashboard</Link>
+                  <Link onClick={() => setIsOpen(false)} href={session? '/dashboard/loading': '/login'} className="base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5" >Dashboard</Link>
                   <div className="dot" />
                   <NavLink title="pricing" />
                 </li>
@@ -86,7 +87,7 @@ const Navbar = () => {
                 <li className="nav-li">
                   <NavLink title="faq" />
                   <div className="dot" />
-                  <span className="flex text-white font-bold gap-2 items-center">
+                  <span className="flex text-lg text-white font-bold gap-2 items-center">
                     {session ? (
                       <button onClick={() => signOut()} className="btn uppercase">Logout</button>
                     ) : (

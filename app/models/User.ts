@@ -13,6 +13,7 @@ const UserSchema = new Schema(
         password: { type: String, required: false, default: '' },
         name: { type: String, required: true },
         profilePic: { type: String, required: true },
+        spotifyUrl: {type:String, required:true, default:''},
         userLinks: { type: [UserLinks], default: [] },
         theme: { type: Number, default: 1 },
         isPremiumUser: { type: Boolean, default: false },

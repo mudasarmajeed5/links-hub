@@ -33,11 +33,11 @@ const UserLinks = ({ data, linkClass, iconClass, textClass }: UserLinkProps) => 
             {links.map((link, index) => {
                 const IconComponent = Icon[link.icon as keyof typeof Icon];
                 return (
-                    <div key={index} className="flex justify-center items-center m-1">
+                    <div key={index} className="flex justify-center items-center m-0.5">
                         <Link 
                             target="_blank" 
                             href={link.link} 
-                            className={`flex justify-center items-center gap-4 transition-all rounded-full py-2 ${linkClass}`}
+                            className={`flex justify-center items-center gap-4 transition-all rounded-full py-1 ${linkClass}`}
                         >
                             {IconComponent && <IconComponent className={iconClass} />}
                             <span className={textClass}>{link.label}</span>

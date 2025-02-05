@@ -7,6 +7,7 @@ interface ResponseType {
     name: string;
     profilePictureUrl: string;
     bio:string;
+    spotifyUrl:string;
 }
 
 export async function POST(req: NextRequest) {
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
     try {
         await connectDB();
 
-        const { username, profilePictureUrl, name, bio }: ResponseType = await req.json();
+        const { username, profilePictureUrl, name, bio, spotifyUrl }: ResponseType = await req.json();
         const user = await User.findOne({ email });
         if (username !== user.username) {
             // Check if the new username is already taken
@@ -33,7 +34,8 @@ export async function POST(req: NextRequest) {
                 username,
                 name,
                 profilePic: profilePictureUrl,
-                bio:bio
+                bio:bio,
+                spotifyUrl
             },
             { new: true },
         )
