@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Links Hub
 
-## Getting Started
+A **Next.js** application for managing and sharing links. This project uses **MongoDB**, **NextAuth**, and **Cloudinary** for authentication, database, and media storage.
 
-First, run the development server:
+## 🚀 Getting Started
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### 1. Clone the Repository
+
+```sh
+git clone https://github.com/mudasarmajeed5/links-hub.git
+cd links-hub
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+If you haven't installed dependencies, run:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm install
+```
 
-## Learn More
+### 3. Create the `.env.local` File
 
-To learn more about Next.js, take a look at the following resources:
+In your project's root directory (where `package.json` is located), create a new file named **.env.local** and add the following content:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ini
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+NEXTAUTH_SECRET=your_random_secret
+MONGODB_URI=your_mongodb_atlas_connection_uri
+NEXTAUTH_URL=http://localhost:3000
+GITHUB_SECRET=your_github_client_secret
+GITHUB_ID=your_github_client_id
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### How to Get These Keys:
 
-## Deploy on Vercel
+- **Cloudinary:**
+  - Sign up at [Cloudinary](https://cloudinary.com/).
+  - Go to the **Dashboard** to find your **Cloud Name**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Google OAuth (Google Client ID & Secret):**
+  - Go to [Google Cloud Console](https://console.cloud.google.com/).
+  - Create a new project and navigate to **APIs & Services > Credentials**.
+  - Create **OAuth 2.0 credentials** and get your **GOOGLE_CLIENT_ID** and **GOOGLE_CLIENT_SECRET**.
+  - Set the **Authorized redirect URIs** to:
+    ```
+    http://localhost:3000/api/auth/callback/google
+    ```
+  - Set the **Homepage URL** to:
+    ```
+    http://localhost:3000
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **NextAuth Secret:**
+  - Use a strong, random string (e.g., from [RandomKeygen](https://randomkeygen.com)).
+
+- **MongoDB URI:**
+  - Sign up at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+  - Create a new **cluster** and get the **connection string**, replacing `<username>` and `<password>` as needed.
+
+- **GitHub OAuth (GitHub ID & Secret):**
+  - Go to [GitHub Developer Settings](https://github.com/settings/developers).
+  - Create a **new OAuth app** and set the **callback URL** to:
+    ```
+    http://localhost:3000/api/auth/callback/github
+    ```
+  - Set the **Homepage URL** to:
+    ```
+    http://localhost:3000
+    ```
+  - Copy the **Client ID** and **Client Secret**.
+
+### 4. Start the Development Server
+
+```sh
+npm run dev
+```
+
+Open [localhost:3000](http://localhost:3000) in your browser.
+
+## 🛠 Technologies Used
+- **Next.js** - React framework for server-side rendering
+- **MongoDB Atlas** - NoSQL database
+- **NextAuth.js** - Authentication with Google and GitHub
+- **Cloudinary** - Image hosting and management
+- **Tailwind CSS** - Styling framework
+
+## 📜 License
+This project is open-source and available under the **MIT License**.
+
+---
+
+Now you're all set to run the project! 🚀
+
