@@ -2,51 +2,59 @@ import User from "@/app/models/User";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-interface ResponseType {
-    username: string;
-    name: string;
-    profilePictureUrl: string;
-    bio:string;
-    spotifyUrl:string;
-}
-
 export async function POST(req: NextRequest) {
-    const email = req.headers.get('email');
+  const email = req.headers.get("email");
 
-    try {
-        await connectDB();
+  if (!email) {
+    return NextResponse.json({ message: "Email header is missing" }, { status: 400 });
+  }
 
-        const { username, profilePictureUrl, name, bio, spotifyUrl }: ResponseType = await req.json();
-        const user = await User.findOne({ email });
-        if (username !== user.username) {
-            // Check if the new username is already taken
-            const isUsedUsername = await User.findOne({ username });
-            if (isUsedUsername) {
-              return NextResponse.json(
-                { message: "Username not available" },
-                { status: 400 }
-              );
-            }
-          }
-        const updatedUser = await User.findOneAndUpdate(
-            { email },
-            {
-                username,
-                name,
-                profilePic: profilePictureUrl,
-                bio:bio,
-                spotifyUrl
-            },
-            { new: true },
-        )
-        if (!user) {
-            return NextResponse.json({ message: "user not found", status: 404 })
-        }
-        return NextResponse.json({ message: "User updated",updatedUser }, { status: 200 });
-
-    } catch (error) {
-        console.error("Error:", error);
-        const err = error as Error;
-        return NextResponse.json({ error: err.message || "Internal server error" }, { status: 500 });
+  try {
+    await connectDB();
+    const {
+      username,
+      name,
+      profilePictureUrl,
+      bio,
+      spotifyUrl,
+      theme,
+      accentColor,
+      cta,
+      emailMarketing,
+      seoRanking,
+    } = await req.json();
+    const user = await User.findOne({ email });
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
+
+    if (username !== user.username) {
+      const isUsedUsername = await User.findOne({ username });
+      if (isUsedUsername) {
+        return NextResponse.json({ message: "Username not available" }, { status: 400 });
+      }
+    }
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
+      {
+        username,
+        name,
+        profilePictureUrl,
+        bio,
+        spotifyUrl,
+        theme,
+        accentColor,
+        cta,
+        emailMarketing,
+        seoRanking,
+      },
+      { new: true }
+    );
+
+    return NextResponse.json({ message: "User updated", updatedUser }, { status: 200 });
+
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }

@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -11,77 +11,122 @@ import { CldUploadWidget, CloudinaryUploadWidgetInfo, CloudinaryUploadWidgetResu
 import useFetchUser from "@/app/hooks/get-user-info"
 import { useSession } from "next-auth/react"
 import { Skeleton } from "@/components/ui/skeleton"
-import { toast } from "sonner"
+import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import type { UserForm } from "@/app/types/settingsForm"
+import { Checkbox } from "@/components/ui/checkbox"
 export default function UpdateUserSettings() {
-  const { data: session } = useSession();
-  const [name, setName] = useState("");
-  const [updateLoad, setUpdateLoad] = useState(false);
-  const [uploadWidgetState, setUploadWidgetState] = useState(false);
-  const [error, setError] = useState('');
-  const [bio, setBio] = useState <string | undefined>('');
-  const [email, setEmail] = useState('');
-  const { data, loading } = useFetchUser(email ? { email } : { email: '' });
-  const [username, setUsername] = useState("");
-  const [spotifyUrl,setSpotifyUrl] = useState<string | undefined>('')
-  const [profilePictureUrl, setProfilePictureUrl] = useState<string | undefined>("")
-  const handleSuccess = (results: CloudinaryUploadWidgetResults) => {
-    if (results?.info && (results.info as CloudinaryUploadWidgetInfo).secure_url) {
-      setProfilePictureUrl((results.info as CloudinaryUploadWidgetInfo).secure_url)
-    }
-    setUploadWidgetState(false);
+const { data: session } = useSession();
+const [email, setEmail] = useState('');
+const [updateLoad, setUpdateLoad] = useState(false);
+const [uploadWidgetState, setUploadWidgetState] = useState(false);
+const [error, setError] = useState('');
+const { data, loading } = useFetchUser(email ? { email: email } : { email: '' });
+const [activetab, setActiveTab] = useState("Basic");
+const [form, setForm] = useState<UserForm>({
+  name: '',
+  bio: '',
+  email: '',
+  username: '',
+  spotifyUrl: '',
+  profilePictureUrl: '',
+  theme: 'light',
+  accentColor: '',
+  cta: '',
+  emailMarketing: {
+    emailList: [],
+    enableSignupForm: true,
+    welcomeEmail: '',
+  },
+  seoRanking: {
+    name: '',
+    description: '',
+    keywords: [],
+    metaTags: [],
   }
-  const handleSubmit = async (e: React.FormEvent) => {
-    setUpdateLoad(true);
-    e.preventDefault();
-  
-    const spotifyUrlRegex = /^(https?:\/\/)?(open\.)?(spotify\.com\/)(track|album|playlist|artist|show|episode)\/([a-zA-Z0-9]+)(\?([a-zA-Z0-9_&=-]+))?$/;
-  
-    if (spotifyUrl && !spotifyUrlRegex.test(spotifyUrl)) {
-      setError("Invalid Spotify URL.");
-      setUpdateLoad(false);
-      return;
-    }
-  
-    try {
-      const response = await fetch('/api/update-settings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'email': email,
-        },
-        body: JSON.stringify({ username, name, profilePictureUrl, bio, spotifyUrl })
-      });
-  
-      if (!response.ok) {
-        console.log('failed to update user');
-        const data = await response.json();
-        setError(data.message);
-      } else {
-        toast.success("Profile updated");
-        setUpdateLoad(false);
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error(error);
-      setUpdateLoad(false);
-    }
-  };
-  
+});
 
-  useEffect(() => {
-    if (!session) return;
-    if (session.user && session.user.email) {
-      setEmail(session.user?.email)
+const handleSuccess = (results: CloudinaryUploadWidgetResults) => {
+  if (results?.info && (results.info as CloudinaryUploadWidgetInfo).secure_url) {
+    setForm((prevForm) => ({
+      ...prevForm,
+      profilePictureUrl: (results.info as CloudinaryUploadWidgetInfo).secure_url,
+    }));
+  }
+  setUploadWidgetState(false);
+};
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setUpdateLoad(true);
+  const spotifyUrlRegex = /^(https?:\/\/)?(open\.)?(spotify\.com\/)(track|album|playlist|artist|show|episode)\/([a-zA-Z0-9]+)(\?([a-zA-Z0-9_&=-]+))?$/;
+
+  if (form.spotifyUrl && !spotifyUrlRegex.test(form.spotifyUrl)) {
+    setError("Invalid Spotify URL.");
+    setUpdateLoad(false);
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/update-settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'email': form.email,
+      },
+      body: JSON.stringify(form)
+    });
+
+    if (!response.ok) {
+      console.log('failed to update user');
+      const data = await response.json();
+      setError(data.message);
+    } else {
+      toast.success("Profile updated");
+      setUpdateLoad(false);
+      window.location.reload();
     }
-    if (data) {
-      setName(data.name)
-      setUsername(data.username)
-      setProfilePictureUrl(data.profilePic)
-      setBio(data?.bio)
-      setSpotifyUrl(data?.spotifyUrl)
-    }
-  }, [data, session])
+  } catch (error) {
+    console.error(error);
+    setUpdateLoad(false);
+  }
+};
+
+useEffect(() => {
+  if (!session) return;
+
+  if (session.user?.email) {
+    setForm((prevForm) => ({ ...prevForm, email: session.user.email ?? "" }));
+    setEmail(session.user.email);
+  }
+
+  if (data) {
+    setForm((prevForm) => ({
+      ...prevForm,
+      name: data.name || prevForm.name,
+      bio: data.bio || prevForm.bio,
+      username: data.username || prevForm.username,
+      spotifyUrl: data.spotifyUrl || prevForm.spotifyUrl,
+      profilePictureUrl: data.profilePic || prevForm.profilePictureUrl,
+      theme: data.theme === 1 ? "light" : "dark", // Convert number theme to string
+      accentColor: prevForm.accentColor, // No equivalent field in `User`, keeping previous state
+      cta: prevForm.cta, // No equivalent field in `User`, keeping previous state
+      emailMarketing: {
+        emailList: prevForm.emailMarketing.emailList, // No equivalent in `User`, keeping previous state
+        enableSignupForm: prevForm.emailMarketing.enableSignupForm,
+        welcomeEmail: prevForm.emailMarketing.welcomeEmail,
+      },
+      seoRanking: {
+        name: prevForm.seoRanking.name,
+        description: prevForm.seoRanking.description,
+        keywords: prevForm.seoRanking.keywords,
+        metaTags: prevForm.seoRanking.metaTags,
+      },
+    }));
+  }
+}, [data, session]);
+
+
   if (loading) {
     return <div className="min-h-[80vh] flex justify-center items-center">
       <Skeleton className="w-[300px] rounded-md h-[420px]" />
@@ -92,99 +137,232 @@ export default function UpdateUserSettings() {
     <section className="min-h-[80vh] flex justify-center items-center">
       <Card className="w-full my-10 lg:max-w-xl mx-auto">
         <CardHeader>
-          <CardTitle className="flex justify-between">
+          <CardTitle className="flex justify-between mb-4">
             <span>Update Settings</span>
-            <Link target="_blank" className="bg-blue-700 px-4 py-2 rounded" href={`https://linkshub.space/${session?.user.username}`}>Open your Tree</Link>
+            <Link target="_blank" className="font-thin underline underline-offset-2" href={`https://linkshub.space/${session?.user.username}`}>Open your Tree</Link>
           </CardTitle>
+          <CardDescription className="flex gap-2">
+            {["Basic", "SEO and Marketing", "Appearance", "Spotify & CTA"].map((tab) => (
+              <Button
+                key={tab}
+                variant={activetab === tab ? "default" : "outline"}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </Button>
+            ))}
+          </CardDescription>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter new Name"
+            {activetab === "Basic" && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Enter new Name"
+                  />
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    id="username"
+                    value={form.username}
+                    onChange={(e) => setForm({ ...form, username: e.target.value })}
+                    placeholder="Enter new username"
+                  />
+                  {error && <span className="text-red-600 text-sm">{error}</span>}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="profilePictureUrl">Profile Picture URL</Label>
+                  <Input
+                    id="profilePictureUrl"
+                    value={form.profilePictureUrl}
+                    onChange={(e) => setForm({ ...form, profilePictureUrl: e.target.value })}
+                    placeholder="Enter profile picture URL"
+                  />
+                  <CldUploadWidget uploadPreset="links-hub-pfp" onSuccess={handleSuccess}>
+                    {({ open }) => (
+                      <Button
+                        type="button"
+                        variant={"outline"}
+                        className="w-full"
+                        onClick={() => {
+                          open();
+                          setUploadWidgetState(true);
+                        }}
+                      >
+                        Upload an Image {uploadWidgetState && <Loader2 className="animate-spin" />}
+                      </Button>
+                    )}
+                  </CldUploadWidget>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="bio">Add Bio</Label>
+                  <Textarea
+                    id="bio"
+                    value={form.bio}
+                    onChange={(e) => setForm({ ...form, bio: e.target.value })}
+                    placeholder="Enter your Bio"
+                  />
+                </div>
+                {form.profilePictureUrl && (
+                  <div className="mt-4 flex justify-center">
+                    <Avatar className="w-32 h-32">
+                      <AvatarImage
+                        className="object-cover object-center"
+                        src={form.profilePictureUrl}
+                        alt="Profile preview"
+                      />
+                      <AvatarFallback>Preview</AvatarFallback>
+                    </Avatar>
+                  </div>
+                )}
+              </>
+            )}
+            {activetab === "SEO and Marketing" && (
+              <>
+              <div className="space-y-2">
+                <Label htmlFor="seoName">Add SEO Name</Label>
+                <Input
+                  id="seoName"
+                  value={form.seoRanking.name}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      seoRanking: { ...form.seoRanking, name: e.target.value },
+                    })
+                  }
+                  placeholder="Enter SEO Name"
+                />
+                <Label htmlFor="seoDescription">Add SEO Description</Label>
+                <Input
+                  id="seoDescription"
+                  value={form.seoRanking.description}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      seoRanking: { ...form.seoRanking, description: e.target.value },
+                    })
+                  }
+                  placeholder="Enter SEO Description"
+                />
+                <Label htmlFor="seoKeywords">Add SEO Keywords</Label>
+                <Input
+                  id="seoKeywords"
+                  value={form.seoRanking.keywords.join(",")}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      seoRanking: {
+                        ...form.seoRanking,
+                        keywords: e.target.value.split(","),
+                      },
+                    })
+                  }
+                  placeholder="Enter SEO Keywords"
+                />
+                <Label htmlFor="seoMetaTags">Add SEO Meta Tags</Label>
+                <Input
+                  id="seoMetaTags"
+                  value={form.seoRanking.metaTags.join(",")}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      seoRanking: {
+                        ...form.seoRanking,
+                        metaTags: e.target.value.split(","),
+                      },
+                    })
+                  }
+                  placeholder="Enter SEO Meta Tags"/>
+              </div>
+              <div className="flex items-center space-x-2">
+              <Checkbox
+                id="enableSignupForm"
+                checked={form.emailMarketing.enableSignupForm}
+                onCheckedChange={(checked) =>
+                  setForm({
+                    ...form,
+                    emailMarketing: {
+                      ...form.emailMarketing,
+                      enableSignupForm: !!checked,
+                    },
+                  })
+                }
               />
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter new username"
-              />
-              {error && <span className="text-red-600 text-sm">{error}</span>}
+              <Label htmlFor="enableSignupForm">Enable Email Marketing</Label>
             </div>
-
             <div className="space-y-2">
-              <Label htmlFor="profilePictureUrl">Profile Picture URL</Label>
-              <Input
-                id="profilePictureUrl"
-                value={profilePictureUrl}
-                onChange={(e) => setProfilePictureUrl(e.target.value)}
-                placeholder="Enter profile picture URL"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="profilePictureUrl">Add Spotify URL: </Label>
-              {data?.isPremiumUser? 
-              <Input
-              id="music"
-              value={spotifyUrl}
-              onChange={(e) => setSpotifyUrl(e.target.value)}
-              placeholder="Enter Spotify Url"
-            />:
-            <>
-            <Input
-                id="music"
-                value={spotifyUrl}
-                onChange={(e) => setSpotifyUrl(e.target.value)}
-                placeholder="Only for premium users."
-                disabled
-              />
-            </>  
-            }
-            </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="profilePictureUrl">Add Bio. </Label>
+              <Label htmlFor="welcomeEmail">Welcome Email</Label>
               <Textarea
-                id="profilePictureUrl"
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                placeholder="Enter your Bio"
+                id="welcomeEmail"
+                value={form.emailMarketing.welcomeEmail}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    emailMarketing: {
+                      ...form.emailMarketing,
+                      welcomeEmail: e.target.value,
+                    },
+                  })
+                }
+                placeholder="Enter welcome email content"
               />
             </div>
-
-
-            {profilePictureUrl && (
-              <div className="mt-4 flex justify-center">
-                <Avatar className="w-32 h-32">
-                  <AvatarImage className="object-cover object-center" src={profilePictureUrl} alt="Profile preview" />
-                  <AvatarFallback>Preview</AvatarFallback>
-                </Avatar>
+</>            
+            )}
+            {activetab === "Appearance" && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="theme">Add Theme</Label>
+                  <select
+                    id="theme"
+                    value={form.theme}
+                    onChange={(e) =>
+                      setForm({ ...form, theme: e.target.value as "light" | "dark" })
+                    }
+                    className="w-full p-1 rounded-md"
+                  >
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                  </select>
+                  <Label htmlFor="accentColor">Add Accent Color</Label>
+                  <Input
+                    id="accentColor"
+                    value={form.accentColor}
+                    type="color"
+                    onChange={(e) => setForm({ ...form, accentColor: e.target.value })}
+                    placeholder="Enter Accent Color"
+                  />
+                </div>
+              </>
+            )}
+            {activetab === "Spotify & CTA" && (
+              <div className="space-y-2">
+                <Label htmlFor="spotifyUrl">Add Spotify URL</Label>
+                <Input
+                  id="spotifyUrl"
+                  value={form.spotifyUrl}
+                  onChange={(e) => setForm({ ...form, spotifyUrl: e.target.value })}
+                  placeholder="Enter Spotify Url"
+                />
+                <Label htmlFor="ctaLink">Add Call to Action Link</Label>
+                <Input
+                  id="ctaLink"
+                  value={form.cta}
+                  onChange={(e) => setForm({ ...form, cta: e.target.value })}
+                  placeholder="Enter Call to Action Link"
+                />
               </div>
             )}
-
-            <CldUploadWidget
-              uploadPreset="links-hub-pfp"
-              onSuccess={handleSuccess}
-            >
-              {({ open }) => (
-                <Button type="button" variant={"outline"} className="w-full" onClick={() => {
-                  open();
-                  setUploadWidgetState(true);
-                }
-                }>
-                  Upload an Image {uploadWidgetState && <Loader2 className="animate-spin" />}
-                </Button>
-              )}
-            </CldUploadWidget>
             <Button type="submit" disabled={updateLoad} className="w-full">
               Update Settings {updateLoad && <Loader2 className="animate-spin" />}
             </Button>
           </form>
+
         </CardContent>
       </Card>
     </section>
