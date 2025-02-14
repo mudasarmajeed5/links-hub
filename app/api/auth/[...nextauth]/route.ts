@@ -41,7 +41,7 @@ const handler = NextAuth({
             email: user.email,
             name: user.name,
             username: user.username,
-            profilePic: user.profilePic,
+            profilePic: 'https://static.vecteezy.com/system/resources/thumbnails/020/911/740/small/user-profile-icon-profile-avatar-user-icon-male-icon-face-icon-profile-icon-free-png.png',
           };
         } catch (error) {
           console.error("Error in authorize function:", error);
@@ -73,14 +73,10 @@ const handler = NextAuth({
             const extractedUsername = user.email.split('@')[0];
             let username = extractedUsername;
             let count = 1;
-
-            // Check if the username exists and keep incrementing until it's unique
             while (await User.findOne({ username })) {
               username = `${extractedUsername}_${count}`;
               count++;
             }
-
-            // Create the new user with a unique username
             const newUser = await User.create({
               email: user.email,
               name: user.name,
