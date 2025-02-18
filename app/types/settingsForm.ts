@@ -4,7 +4,7 @@ export type UserForm = {
     email:string;
     username:string;
     spotifyUrl:string;
-    profilePictureUrl:string;
+    profilePic:string;
     theme: 'dark' | 'light';
     accentColor:string;
     cta:string;

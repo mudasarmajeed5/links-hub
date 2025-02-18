@@ -29,7 +29,7 @@ const [form, setForm] = useState<UserForm>({
   email: '',
   username: '',
   spotifyUrl: '',
-  profilePictureUrl: '',
+  profilePic: '',
   theme: 'light',
   accentColor: '',
   cta: '',
@@ -107,12 +107,12 @@ useEffect(() => {
       bio: data.bio || prevForm.bio,
       username: data.username || prevForm.username,
       spotifyUrl: data.spotifyUrl || prevForm.spotifyUrl,
-      profilePictureUrl: data.profilePic || prevForm.profilePictureUrl,
-      theme: data.theme === 1 ? "light" : "dark", // Convert number theme to string
-      accentColor: prevForm.accentColor, // No equivalent field in `User`, keeping previous state
-      cta: prevForm.cta, // No equivalent field in `User`, keeping previous state
+      profilePic: data.profilePic || prevForm.profilePic,
+      theme: data.theme === 1 ? "light" : "dark", 
+      accentColor: prevForm.accentColor, 
+      cta: prevForm.cta, 
       emailMarketing: {
-        emailList: prevForm.emailMarketing.emailList, // No equivalent in `User`, keeping previous state
+        emailList: prevForm.emailMarketing.emailList, 
         enableSignupForm: prevForm.emailMarketing.enableSignupForm,
         welcomeEmail: prevForm.emailMarketing.welcomeEmail,
       },
@@ -179,8 +179,8 @@ useEffect(() => {
                   <Label htmlFor="profilePictureUrl">Profile Picture URL</Label>
                   <Input
                     id="profilePictureUrl"
-                    value={form.profilePictureUrl}
-                    onChange={(e) => setForm({ ...form, profilePictureUrl: e.target.value })}
+                    value={form.profilePic}
+                    onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
                     placeholder="Enter profile picture URL"
                   />
                   <CldUploadWidget uploadPreset="links-hub-pfp" onSuccess={handleSuccess}>
@@ -208,12 +208,12 @@ useEffect(() => {
                     placeholder="Enter your Bio"
                   />
                 </div>
-                {form.profilePictureUrl && (
+                {form.profilePic && (
                   <div className="mt-4 flex justify-center">
                     <Avatar className="w-32 h-32">
                       <AvatarImage
                         className="object-cover object-center"
-                        src={form.profilePictureUrl}
+                        src={form.profilePic}
                         alt="Profile preview"
                       />
                       <AvatarFallback>Preview</AvatarFallback>

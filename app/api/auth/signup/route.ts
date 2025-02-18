@@ -36,10 +36,16 @@ export async function POST(req: Request) {
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    const extracted_username = email.split('@')[0];
+    let count = 1;
+    let username = extracted_username;
+    while (await User.findOne({username})){
+      count+=1;
+      username = `${extracted_username}_${count}`;
+    }
     // Create the new user
     const newUser = await User.create({
-      username:email.split('@')[0],
+      username:username,
       email,
       name:email.split('@')[0],
       profilePic:'https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg',

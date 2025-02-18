@@ -21,8 +21,7 @@ const poppins = Poppins({
   display: 'swap',
 });
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const {themes} = useTheme()
-  console.log(themes)
+  const {themes} = useTheme();
   const [mounted, setMounted] = useState(false);
   const { data: session } = useSession();
   const name = session?.user?.name;

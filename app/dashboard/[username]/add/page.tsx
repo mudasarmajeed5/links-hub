@@ -76,7 +76,7 @@ const AddLink = () => {
   const userLinks = [
     { name: "instagram", label: "Instagram", icon: "FaInstagram" },
     { name: "facebook", label: "Facebook", icon: "FaFacebook" },
-    { name: "x", label: "X (Twitter)", icon: "FaXTwitter" },
+    { name: "x", label: "X (Twitter)", icon: "FaTwitter" },
     { name: "github", label: "Github", icon: "FaGithub" },
     { name: "linkedIn", label: "LinkedIn", icon: "FaLinkedin" },
     { name: "snapchat", label: "Snapchat", icon: "FaSnapchat" },

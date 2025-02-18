@@ -27,7 +27,7 @@ const UserSchema = new Schema(
     bio: { type: String, default: "" },
     password: { type: String, default: "" },
     name: { type: String, required: true },
-    profilePictureUrl: { type: String, required: true }, // Renamed for consistency
+    profilePic: { type: String, required: true }, // Renamed for consistency
     spotifyUrl: { type: String, default: "" },
     userLinks: { type: [UserLinksSchema], default: [] },
     theme: { type: String, enum: ["light", "dark"], default: "light" },
