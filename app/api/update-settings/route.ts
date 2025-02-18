@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const {
       username,
       name,
-      profilePictureUrl,
+      profilePic,
       bio,
       spotifyUrl,
       theme,
@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
       emailMarketing,
       seoRanking,
     } = await req.json();
-    let profilePic = profilePictureUrl;
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });

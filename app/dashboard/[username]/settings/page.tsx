@@ -50,7 +50,7 @@ const handleSuccess = (results: CloudinaryUploadWidgetResults) => {
   if (results?.info && (results.info as CloudinaryUploadWidgetInfo).secure_url) {
     setForm((prevForm) => ({
       ...prevForm,
-      profilePictureUrl: (results.info as CloudinaryUploadWidgetInfo).secure_url,
+      profilePic: (results.info as CloudinaryUploadWidgetInfo).secure_url,
     }));
   }
   setUploadWidgetState(false);
@@ -176,9 +176,9 @@ useEffect(() => {
                   {error && <span className="text-red-600 text-sm">{error}</span>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="profilePictureUrl">Profile Picture URL</Label>
+                  <Label htmlFor="profilePic">Profile Picture URL</Label>
                   <Input
-                    id="profilePictureUrl"
+                    id="profilePic"
                     value={form.profilePic}
                     onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
                     placeholder="Enter profile picture URL"

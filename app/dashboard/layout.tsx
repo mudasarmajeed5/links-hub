@@ -13,7 +13,6 @@ interface DashboardLayoutProps {
   children: React.ReactNode
 }
 import { Poppins } from "next/font/google";
-import { useTheme } from "next-themes";
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
@@ -21,7 +20,6 @@ const poppins = Poppins({
   display: 'swap',
 });
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const {themes} = useTheme();
   const [mounted, setMounted] = useState(false);
   const { data: session } = useSession();
   const name = session?.user?.name;
