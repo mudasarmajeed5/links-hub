@@ -6,12 +6,13 @@ import { useSession } from "next-auth/react";
 import type { User } from "@/app/types/user-account";
 import { DashboardContent } from "../components/dashboard-content";
 import { DashboardSkeleton } from "../components/DashboardSkeleton";
+import { useTitle } from "@/app/hooks/get-user-title";
 const Dashboard = () => {
   const { data: session } = useSession();
   const [email, setEmail] = useState<string>("");
   const [userData, setUserData] = useState<User | undefined>();
   const { error, data, loading } = useFetchUser(email ? { email } : { email: '' });
-
+  useTitle(`${session?.user.username} - Dashboard`);
   useEffect(() => {
     if (session?.user?.email) {
       setEmail(session.user.email);

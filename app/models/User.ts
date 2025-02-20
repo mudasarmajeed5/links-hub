@@ -31,6 +31,7 @@ const UserSchema = new Schema(
     spotifyUrl: { type: String, default: "" },
     userLinks: { type: [UserLinksSchema], default: [] },
     theme: { type: String, enum: ["light", "dark"], default: "light" },
+    userTheme: { type: Number, default: 1 },
     accentColor: { type: String, default: "#000000" }, // Default to black
     cta: { type: String, default: "" },
     emailMarketing: { type: EmailMarketingSchema, default: () => ({}) },

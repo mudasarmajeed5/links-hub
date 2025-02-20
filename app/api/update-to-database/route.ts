@@ -29,7 +29,7 @@ export async function PUT(request:NextRequest){
     try {
         const updatedUser = await User.findOneAndUpdate(
             {email},
-            {theme:themeNo}
+            {userTheme:themeNo}
         )
         return NextResponse.json({updatedUser,status:200,message:"Theme updated"})
     } catch (error) {

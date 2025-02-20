@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import useFetchUser from "@/app/hooks/get-user-info"
 import { useRouter } from "next/navigation";
+import { useTitle } from "@/app/hooks/get-user-title";
 interface userLinks {
   icon: string;
   label: string;
@@ -41,6 +42,7 @@ const AddLink = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [loader, setLoader] = useState(false);
+  useTitle(`${session?.user.username} - Add Links`);
   const [userData, setUserData] = useState<userLinks[] | undefined>();
   const [email, setEmail] = useState<string>("");
   const { error, data, loading } = useFetchUser(email ? { email } : { email: '' });

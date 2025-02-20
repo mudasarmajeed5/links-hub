@@ -4,9 +4,11 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useTitle } from "@/app/hooks/get-user-title";
 const UserTemplate = () => {
     const { data: session } = useSession();
-    const [selectedTemplate, setSelectedTemplate] = useState<string | null>('/template-placeholders/free/template-3.jpeg');
+    useTitle(`${session?.user?.username} - Theme`);
+    const [selectedTemplate, setSelectedTemplate] = useState<string | null>('/template-placeholders/free/template-1.jpeg');
     const [themeNo, setThemeNo] = useState(1);
     const updatedThemeToDatabase = async (email: string) => {
         try {

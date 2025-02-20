@@ -11,17 +11,31 @@ export type User = {
   _id: {
     $oid: string;
   };
-  password?:'',
+  password?: string;
   email: string;
   username: string;
   profilePic?: string;
-  spotifyUrl?:string;
+  spotifyUrl?: string;
   bio?: string;
   name: string;
-  theme: number;
+  theme: "light" | "dark"; 
   isPremiumUser: boolean;
   userLinks: UserLink[];
   createdAt: string;
-  updatedAt: string; 
+  updatedAt: string;
+  userTheme:number;
   __v: number;
+  accentColor?: string;
+  cta?: string;
+  emailMarketing: {
+    emailList: string[];
+    enableSignupForm: boolean;
+    welcomeEmail?: string;
+  };
+  seoRanking: {
+    name?: string;
+    description?: string;
+    keywords?: string[];
+    metaTags?: string[];
+  };
 };

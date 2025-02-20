@@ -1,14 +1,13 @@
 "use client";
 import { usePathname } from 'next/navigation';
 import useGetUserPage from '../hooks/get-userpage-info';
-import { Loader2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { User } from '../types/user-account';
 import MinimalTheme from './components/templates/free/minimal-theme';
 import VibrantTheme from './components/templates/free/vibrant';
 import CyberPunkTheme from './components/templates/free/cyberpunk-theme';
 import { useTitle } from '../hooks/get-user-title';
-
+import LoadingSkeleton from "./components/LoadingSkeleton";
 const UserPage = () => {
   const path = usePathname();
   const username = path.split('/')[1];
@@ -22,8 +21,8 @@ const UserPage = () => {
   }, [data]);
   if (loading) {
     return (
-      <div className="flex min-h-screen justify-center items-center">
-        <Loader2 className="w-8 h-8 animate-spin" />
+      <div>
+        <LoadingSkeleton />
       </div>
     );
   }
@@ -41,7 +40,7 @@ const UserPage = () => {
   if (!pageData) {
     return (
       <div className="flex min-h-screen justify-center items-center">
-        <p className="text-gray-500">User not found</p>
+        <p className="text-red-500">{error}</p>
       </div>
     );
   }
@@ -55,7 +54,7 @@ const UserPage = () => {
  
   return (
     <main className="min-h-screen relative flex justify-center items-center">
-      {templateMapping[pageData.theme as 1 | 2 | 3] || <MinimalTheme user={pageData} />}
+      {templateMapping[pageData.userTheme as 1 | 2 | 3] || <MinimalTheme user={pageData} />}
     </main>
   );
 };
