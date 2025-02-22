@@ -18,12 +18,13 @@ export type User = {
   spotifyUrl?: string;
   bio?: string;
   name: string;
-  theme: "light" | "dark"; 
+  theme: "light" | "dark";
   isPremiumUser: boolean;
   userLinks: UserLink[];
   createdAt: string;
   updatedAt: string;
-  userTheme:number;
+  viewCount: number;
+  userTheme: number;
   __v: number;
   accentColor?: string;
   cta?: string;
@@ -32,6 +33,12 @@ export type User = {
     enableSignupForm: boolean;
     welcomeEmail?: string;
   };
+  viewHistory: [
+    {
+      date: string;
+      views: number;
+    }
+  ],
   seoRanking: {
     name?: string;
     description?: string;

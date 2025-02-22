@@ -30,6 +30,13 @@ const UserSchema = new Schema(
     profilePic: { type: String, required: true }, // Renamed for consistency
     spotifyUrl: { type: String, default: "" },
     userLinks: { type: [UserLinksSchema], default: [] },
+    viewCount: { type: Number, default: 0 },
+    viewHistory: [
+      {
+        date: { type: String, required: true },
+        views: { type: Number, required: true }
+      }
+    ],
     theme: { type: String, enum: ["light", "dark"], default: "light" },
     userTheme: { type: Number, default: 1 },
     accentColor: { type: String, default: "#000000" }, // Default to black

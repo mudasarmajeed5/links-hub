@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from 'next/navigation';
+import { notFound, usePathname } from 'next/navigation';
 import useGetUserPage from '../hooks/get-userpage-info';
 import { useState, useEffect } from 'react';
 import { User } from '../types/user-account';
@@ -13,10 +13,25 @@ const UserPage = () => {
   const username = path.split('/')[1];
   const [pageData, setPageData] = useState<User | null>(null);
   const { data, error, loading } = useGetUserPage({ username });
-  useTitle(data?.name)
+  useTitle(data?.name);
+  const updateViews = async(username:string) => {
+    if(!data?.isPremiumUser) return;
+    await fetch('/api/get-user-page',
+      {
+        method:'PUT',
+        headers:{
+          'Content-Type':'application/json',
+          'username':username,
+        }
+      }
+    ).then((res)=>res.json()).catch((error)=>console.log(error))
+  }
   useEffect(() => {
     if (data) {
       setPageData(data);
+      if(data.isPremiumUser){
+        updateViews(username);
+      }
     }
   }, [data]);
   if (loading) {
@@ -29,22 +44,14 @@ const UserPage = () => {
 
   // If there's an error, show error message
   if (error) {
-    return (
-      <div className="flex min-h-screen justify-center items-center">
-        <p className="text-red-500">{error}</p>
-      </div>
-    );
+    notFound();
   }
 
   // If no user data is found, display a user not found message
   if (!pageData) {
-    return (
-      <div className="flex min-h-screen justify-center items-center">
-        <p className="text-red-500">{error}</p>
-      </div>
-    );
+    notFound();
   }
-
+  
   // Map theme ID to corresponding template
   const templateMapping = {
     1: <MinimalTheme user={pageData} />,

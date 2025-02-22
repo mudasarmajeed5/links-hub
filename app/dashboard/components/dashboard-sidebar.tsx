@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useEffect } from 'react';
 import { useSession,signOut } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation';
-import { ArrowLeft, LayoutDashboard, LogOutIcon, Plus, Eye,Settings, Zap } from 'lucide-react';
+import { ArrowLeft, LayoutDashboard, LogOutIcon, Plus, Eye,Settings, Zap,MailMinus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 const DashboardNavigation = () => {
   const router = useRouter();
@@ -45,6 +45,11 @@ const DashboardNavigation = () => {
       name:"Visit Page",
       link:`/${username}`,
       icon:<Eye/>
+    },
+    {
+      name:"Email Marketing",
+      link:`/dashboard/${username}/emailmarketing`,
+      icon:<MailMinus/>
     }
 
   ]

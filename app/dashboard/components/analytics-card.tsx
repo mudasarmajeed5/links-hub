@@ -1,45 +1,54 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Button } from "@/components/ui/button";
+
 interface AnalyticsCardProps {
   isPremiumUser: boolean;
+  viewCount: number;
+  viewHistory: { date: string; views: number }[];
 }
 
-const AnalyticsCard = ({ isPremiumUser }: AnalyticsCardProps) => {
-  const data = [
-    { name: 'Jan', views: 4000, subscribers: 2400, impressions: 1200 },
-    { name: 'Feb', views: 3500, subscribers: 2100, impressions: 1100 },
-    { name: 'Mar', views: 5000, subscribers: 3000, impressions: 1500 },
-    { name: 'Apr', views: 6000, subscribers: 3500, impressions: 1800 },
-  ];
-
+const AnalyticsCard = ({ isPremiumUser, viewCount, viewHistory }: AnalyticsCardProps) => {
+  const sortedData = viewHistory
+    ?.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+    .map(item => ({
+      ...item,
+      date: item.date.substring(5)
+    })) || [];
 
   return (
     <Card className="relative">
       <CardHeader>
-        <CardTitle className="text-lg">Analytics</CardTitle>
-        <CardDescription>View your site statistics</CardDescription>
+        <CardTitle className="text-lg">7-Days Analytics</CardTitle>
+        <CardDescription>Total Views: {
+        isPremiumUser ? viewCount : "Locked"
+        }</CardDescription>
       </CardHeader>
-      <CardContent className="h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />  
-            <Line type="monotone" dataKey="views" stroke="#8884d8" />
-            <Line type="monotone" dataKey="subscribers" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="impressions" stroke="#ff7300" />
-          </LineChart>
-
-        </ResponsiveContainer>
-        <CardFooter>
-          {!isPremiumUser && (
-            <div className="absolute bottom-2 translate-x-[-50%] left-1/2 flex items-center justify-center bg-overlay">
-              <Button variant="destructive">Subscribe to Enable Statistics</Button>
-            </div>
-          )}
-        </CardFooter>
+      
+      <CardContent className="h-64 relative">
+        {isPremiumUser ? (
+          sortedData.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={sortedData}>
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip 
+                  contentStyle={{ fontSize: "12px" }}
+                  formatter={(value, name, props) => [`${name}: ${value} `, `Date: ${props.payload.date}`]} 
+                />
+                <Legend />
+                <Line type="monotone" dataKey="views" stroke="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : (
+            <p className="text-center text-gray-500">No analytics data available.</p>
+          )
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/80 text-white p-4 text-center rounded-lg">
+            <p className="text-lg">Analytics are only available for premium users.</p>
+            <Button variant="destructive" className="mt-3">Upgrade to Premium</Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

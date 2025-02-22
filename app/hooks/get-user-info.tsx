@@ -17,7 +17,7 @@ const useFetchUser = (props: FetchUserProps | null) => {
       setLoading(true);
       try {
         const response = await fetch("/api/get-user", {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             'email': props.email,
