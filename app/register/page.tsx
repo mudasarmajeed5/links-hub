@@ -7,22 +7,88 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { useRouter } from "next/navigation"; // For navigation after successful signup
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Register = () => {
   const { status } = useSession();
   const router = useRouter();
+  const [signUpAllowed, setSignupAllowed] = useState(false);
   const [email, setEmail] = useState("");
+  const [isdisabled, setIsDisabled] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false); 
-
+  const [loading, setLoading] = useState(false);
+  const [verifyingOtp, setverifyingOtp] = useState(false);
+  const [otp, setOtp] = useState<string>("");
+  const sendOtp = async () => {
+    setIsDisabled(true);
+    if (!email || !password || !confirmPassword) {
+      setError("Please complete all fields.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setIsDisabled(false);
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format.");
+      return;
+    }
+    const response = await fetch('/api/auth/send-otp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email })
+    });
+    const data = await response.json();
+    if (data.status == 201) {
+      toast.success('Email sent successfully');
+    }
+    setError(null);
+    setIsDisabled(false);
+  }
+  const verifyOtp = async () => {
+    setverifyingOtp(true);
+    if (!email || !password || !confirmPassword) {
+      setError("Please complete all fields.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format.");
+      return;
+    }
+    const response = await fetch('/api/auth/send-otp', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, otp })
+    });
+    const data = await response.json();
+    if (data.status == 400) {
+      toast.error('Invalid OTP')
+    }
+    if (data.status == 201) {
+      toast.success('OTP verified successfully, Signup to continue');
+      setSignupAllowed(true);
+    }
+    setError(null);
+    setverifyingOtp(false);
+  }
   if (status == "authenticated") {
     return (
       <div className="flex flex-col min-h-[80vh] justify-center items-center">
         <span>You are signed in already!</span>
-        <Link className="bg-black text-white rounded-md px-2 py-1" href="/">
+        <Link className="bg-black text-white rounded-md px-2 py-1" href="/dashboard/loading">
           Home
         </Link>
       </div>
@@ -32,7 +98,7 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null); 
+    setError(null);
 
     if (password !== confirmPassword) {
       setLoading(false);
@@ -71,9 +137,9 @@ const Register = () => {
     <div className="flex justify-center items-center min-h-screen">
       <Card>
         <CardHeader>
-          <CardTitle className="text-3xl">Sign up</CardTitle>
+          <CardTitle className="text-2xl">Sign up</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent>
           <div className="text-bold text-sm">Email</div>
           <Input
             type="email"
@@ -95,13 +161,30 @@ const Register = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Re-enter Password"
           />
-          <Button
-            className="mt-4 w-full"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? "Signing up..." : "Sign up"}
+          <div className="text-bold text-sm">OTP</div>
+          <div className="flex items-center gap-1">
+            <Input
+              type="text"
+              value={otp}
+              className="text-xs"
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Enter OTP" />
+            <div className="text-right my-2"><Button variant={"outline"} size={"sm"} onClick={sendOtp} disabled={isdisabled}>Send OTP</Button></div>
+          </div>
+          <Button disabled={verifyingOtp} variant={"outline"} onClick={verifyOtp} className="w-full">
+            {verifyingOtp ? "Validating..." : "Valide OTP"}
           </Button>
+          {
+            signUpAllowed && (
+              <Button
+                className="mt-4 w-full"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? "Signing up..." : "Sign up"}
+              </Button>
+            )
+          }
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <div className="text-center font-bold text-xl">OR</div>
           <div className="flex gap-4">
@@ -113,7 +196,7 @@ const Register = () => {
           <p className="text-xs">
             Already have an account? <Link href="/login">Login</Link>
           </p>
-          
+
         </CardFooter>
       </Card>
     </div>

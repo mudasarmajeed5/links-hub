@@ -1,5 +1,5 @@
 "use client";
-import { notFound, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import useGetUserPage from '../hooks/get-userpage-info';
 import { useState, useEffect } from 'react';
 import { User } from '../types/user-account';
@@ -34,24 +34,32 @@ const UserPage = () => {
       }
     }
   }, [data]);
-  if (loading) {
+  if (loading || (!data && !error)) {
+    return <LoadingSkeleton />;
+  }
+  if (!data || error) {
     return (
-      <div>
-        <LoadingSkeleton />
+      <div className="min-h-screen flex flex-col justify-center items-center text-center bg-black text-white">
+        <h1 className="text-4xl font-bold mb-4 text-red-500">404 - User Not Found</h1>
+        <p className="mb-8 text-gray-400">The user you are looking for does not exist.</p>
+        <div className="flex space-x-4">
+          <button 
+            onClick={() => window.location.href = '/'} 
+            className="px-4 py-2 bg-blue-700 text-white rounded transform -skew-x-12 hover:bg-blue-600 transition hover:shadow-md hover:shadow-blue-500/50"
+          >
+            Go to Home
+          </button>
+          <button 
+            onClick={() => window.location.href = 'mailto:helpdesk@linkshub.space'} 
+            className="px-4 py-2 bg-red-700 text-white rounded transform -skew-x-12 hover:bg-red-500 transition hover:shadow-md hover:shadow-red-500/50"
+          >
+            Get Help
+          </button>
+        </div>
       </div>
     );
   }
-
-  // If there's an error, show error message
-  if (error) {
-    notFound();
-  }
-
-  // If no user data is found, display a user not found message
-  if (!pageData) {
-    notFound();
-  }
-  
+  if(!pageData) return null;
   // Map theme ID to corresponding template
   const templateMapping = {
     1: <MinimalTheme user={pageData} />,

@@ -49,27 +49,27 @@ const EmailMarketing = () => {
 
 
     return (
-        <div className='p-4 min-h-[90vh] overflow-auto'>
-            <Table>
-                <TableCaption>Feature is in the pipeline, not built fully yet.</TableCaption>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Subscription Date</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {subscribers.map((subscriber, idx) => (
-                        <TableRow key={idx}>
-                            <TableCell className="font-medium">{idx+1}</TableCell>
-                            <TableCell>{subscriber.email}</TableCell>
-                            <TableCell>{subscriber.status}</TableCell>
-                            <TableCell className="text-right">{subscriber.subscriptionDate}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
+        <div className='p-4 min-h-[90vh] overflow-auto bg-white dark:bg-gray-800 rounded-lg shadow-md'>
+            <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <TableCaption className="text-gray-500 dark:text-gray-400">Feature is in the pipeline, not built fully yet.</TableCaption>
+            <TableHeader className="bg-gray-50 dark:bg-gray-700">
+                <TableRow>
+                <TableHead className="w-[100px] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">ID</TableHead>
+                <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Email</TableHead>
+                <TableHead className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Status</TableHead>
+                <TableHead className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Subscription Date</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                {subscribers.map((subscriber, idx) => (
+                <TableRow key={idx} className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{idx+1}</TableCell>
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{subscriber.email}</TableCell>
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{subscriber.status}</TableCell>
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-500 dark:text-gray-300">{subscriber.subscriptionDate}</TableCell>
+                </TableRow>
+                ))}
+            </TableBody>
             </Table>
         </div>
     )
