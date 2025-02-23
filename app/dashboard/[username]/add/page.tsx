@@ -7,7 +7,7 @@ import * as Icons from "react-icons/fa"; // Import all Fa icons
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import useFetchUser from "@/app/hooks/get-user-info"
 import { useRouter } from "next/navigation";
 import { useTitle } from "@/app/hooks/get-user-title";
@@ -36,6 +36,7 @@ interface Inputs {
   pinterest?: string;
   github?: string;
   tiktok?: string;
+  stackoverflow?: string;
 }
 
 const AddLink = () => {
@@ -46,10 +47,25 @@ const AddLink = () => {
   const [userData, setUserData] = useState<userLinks[] | undefined>();
   const [email, setEmail] = useState<string>("");
   const { error, data, loading } = useFetchUser(email ? { email } : { email: '' });
+  const platformBaseUrls = {
+    instagram: "https://instagram.com/",
+    facebook: "https://facebook.com/",
+    discord: "https://discord.com/users/",
+    linkedIn: "https://linkedin.com/in/",
+    medium: "https://medium.com/@",
+    x: "https://x.com/",
+    youtube: "https://youtube.com/@",
+    snapchat: "https://snapchat.com/add/",
+    pinterest: "https://pinterest.com/",
+    github: "https://github.com/",
+    tiktok: "https://tiktok.com/@",
+    stackoverflow: "https://stackoverflow.com/users/",
+  };
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {},
@@ -67,7 +83,9 @@ const AddLink = () => {
       userLinks.forEach(({ name, label }) => {
         const linkEntry = userData.find((user: userLinks) => user.label.toLowerCase() === label.toLowerCase());
         if (linkEntry) {
-          setValue(name as keyof Inputs, linkEntry.link);
+          const baseUrl = platformBaseUrls[name as keyof Inputs];
+          const username = linkEntry.link.replace(baseUrl, "");
+          setValue(name as keyof Inputs, username);
         } else {
           console.log(`No data found for ${label}`);
         }
@@ -113,9 +131,25 @@ const AddLink = () => {
   }
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const filteredData = userLinks.map(({ name, label, icon }) => {
-      const link = data[name as keyof Inputs] || "";
-      return { icon, label, link };  // Store the icon as a string (e.g., "FaInstagram")
+      const username = data[name as keyof Inputs] || ""; // Get the username only
+      const baseUrl = {
+        instagram: "https://instagram.com/",
+        facebook: "https://facebook.com/",
+        discord: "https://discord.com/users/",
+        linkedIn: "https://linkedin.com/in/",
+        medium: "https://medium.com/@",
+        x: "https://x.com/",
+        youtube: "https://youtube.com/@",
+        snapchat: "https://snapchat.com/add/",
+        pinterest: "https://pinterest.com/",
+        github: "https://github.com/",
+        tiktok: "https://tiktok.com/@",
+        stackoverflow: "https://stackoverflow.com/users/",
+      }[name as keyof Inputs] || "";
+
+      return { icon, label, link: username ? baseUrl + username : "" };
     });
+
     if (!session || !session.user || !session.user.email) {
       toast.error("Make sure You're signed In");
       return;
@@ -123,12 +157,6 @@ const AddLink = () => {
 
     console.log(filteredData);
     updateToDatabase(session?.user.email, filteredData);
-  };
-
-  const validateUrl = (value: string | undefined) => {
-    if (!value) return true;
-    const urlRegex = /^(https?:\/\/)?([\w.-]+)\.([a-z.]{2,6})([\/\w.-]*)*\/?$/;
-    return urlRegex.test(value) || "Invalid URL format";
   };
   if (error) {
     return <div className="min-h-[80vh] flex justify-center items-center">{error}</div>
@@ -142,22 +170,25 @@ const AddLink = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {userLinks.map(({ name, label, icon }) => {
-            const IconComponent = Icons[icon as keyof typeof Icons]; 
-
+            const IconComponent = Icons[icon as keyof typeof Icons];
             return (
-              <div key={name} className="flex flex-col gap-1">
+              <div key={name} className="flex flex-col relative gap-1">
                 <div className="flex items-center gap-2">
                   {IconComponent && <IconComponent className="w-6 h-6" />}
                   <Label htmlFor={name}>{label}</Label>
                 </div>
                 <Input
                   id={name}
-                  {...register(name as keyof Inputs, {
-                    validate: validateUrl,
-                  })}
-                  placeholder={`${label} URL`}
-                  className="mt-2 text-muted-foreground"
+                  {...register(name as keyof Inputs)}
+                  placeholder={`Enter ${label} username`}
+                  className={`mt-2 text-muted-foreground pr-10 border rounded-md p-2 ${watch(name as keyof Inputs) ? "border-green-500" : "border-gray-300"
+                    }`}
                 />
+
+                {watch(name as keyof Inputs) && (
+                  <Check className="absolute -right-2 p-1 top-1/2 bg-green-600 rounded-full transform -translate-y-1/2 text-black" size={25} />
+                )}
+
                 {errors[name as keyof Inputs] && (
                   <span className="text-red-500 text-sm">{errors[name as keyof Inputs]?.message}</span>
                 )}

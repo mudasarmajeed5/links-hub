@@ -84,10 +84,10 @@ const Navbar = () => {
                   </Link>
                 </li>
 
-                <li className="nav-li">
+                <li className="nav-li text-[16px]">
                   <NavLink title="faq" />
                   <div className="dot" />
-                  <span className="flex text-lg text-white font-bold gap-2 items-center">
+                  <span className="flex text-white font-bold gap-2 items-center">
                     {session ? (
                       <button onClick={() => signOut()} className="btn uppercase">Logout</button>
                     ) : (

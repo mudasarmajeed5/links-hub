@@ -8,7 +8,7 @@ import Testimonials from "./sections/Testimonials";
 import Download from "./sections/Download";
 export default function Home() {
   return (
-    <main className="overflow-hidden bg-[#030822]">
+    <main className="overflow-hidden text-white bg-[#030822]">
       <Navbar/>
       <Hero/>
       <Features/>
