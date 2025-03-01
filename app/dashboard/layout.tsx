@@ -13,6 +13,7 @@ interface DashboardLayoutProps {
   children: React.ReactNode
 }
 import { Poppins } from "next/font/google";
+import { ModeToggle } from "@/components/toggle-theme";
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
@@ -38,7 +39,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       >
         <div className="bg-gradient-to-r z-10 sticky top-0 border-b from-background to-muted supports-[backdrop]:bg-background/10 flex justify-between items-center p-4">
           <div className="font-medium">Welcome <span className="font-bold">{name}</span></div>
+          <div className="flex gap-2">
           <Link className="border px-2 py-1 border-black rounded-md hover:bg-black hover:text-white" target="_blank" href={"https://github.com/mudasarmajeed5"}>Follow me</Link>
+          <ModeToggle/>
+          </div>
         </div>
         <div className="min-h-[calc(100vh-80px)]">
           <ResizablePanelGroup direction="horizontal">

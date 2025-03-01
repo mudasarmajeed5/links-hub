@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Image from "next/image";
 
 // Define types for the item prop
 interface TestimonialItemProps {
@@ -23,9 +24,11 @@ const TestimonialItem: React.FC<TestimonialItemProps> = ({ item, containerClassN
 
       <div className="flex items-center max-xl:-mr-8">
         <div className="mr-4 size-20 shrink-0 rounded-half border-2 border-s2 p-1.5">
-          <img
+          <Image
             src={item.avatarUrl}
             alt={item.name}
+            width={100}
+            height={100}
             className="size-full object-cover"
           />
         </div>

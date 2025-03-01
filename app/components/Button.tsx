@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import { Marker } from "./Marker";
 import React from "react";
+import Image from "next/image";
 // Define the prop types for the Button component
 interface ButtonProps {
   icon?: string; // Optional string for the icon URL
@@ -27,11 +28,13 @@ const Button = ({
         </span>
 
         {icon && (
-          <img
-            src={icon}
-            alt="circle"
-            className="size-10 mr-5 object-contain z-10"
-          />
+          <Image
+          src={icon}
+          alt="circle"
+          width={40}
+          height={40}
+          className="mr-5 object-contain z-10"
+        />
         )}
 
         <span className="relative z-2 font-poppins base-bold text-p1 uppercase">

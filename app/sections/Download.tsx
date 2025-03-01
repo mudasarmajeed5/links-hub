@@ -2,6 +2,7 @@
 import React from "react";
 import { FC } from "react";
 import { logos } from "../constants/index";
+import Image from "next/image";
 
 interface Logo {
   id: string;
@@ -22,7 +23,7 @@ const Download: FC = () => {
           <div className="flex items-center">
             <div className="relative mr-6 flex-540 max-xl:flex-280 max-lg:flex256 max-md:flex-100">
               <div className="mb-10">
-                <img
+                <Image
                   src="/images/magic.svg"
                   width={160}
                   height={55}
@@ -34,7 +35,7 @@ const Download: FC = () => {
                 Try it now for free Web
               </p>
               <div className="p-3 border rounded-xl bg-gray-950 border-blue-600">
-              <img src="/images/socials/links_dashboard.png" className="rounded-xl border-purple-600" alt="" />
+                <img src="/images/socials/links_dashboard.png" className="rounded-xl border-purple-600" alt="" />
               </div>
             </div>
 
@@ -60,7 +61,12 @@ const Download: FC = () => {
           <ul className="mt-24 flex justify-center max-lg:hidden">
             {logos.map(({ id, url, width, height, title }: Logo) => (
               <li key={id} className="mx-10">
-                <img src={url} width={width} height={height} alt={title} />
+                <Image
+                  src={url}
+                  width={width}
+                  height={height}
+                  alt={title}
+                />
               </li>
             ))}
           </ul>

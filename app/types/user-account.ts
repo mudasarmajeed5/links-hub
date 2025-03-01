@@ -6,6 +6,11 @@ export type UserLink = {
     $oid: string;
   };
 };
+type EmailItem = {
+  email: string;
+  subscriptionDate: string;
+  status: "subscribed" | "bounced" | "unsubscribed";
+};
 
 export type User = {
   _id: {
@@ -29,7 +34,7 @@ export type User = {
   accentColor?: string;
   cta?: string;
   emailMarketing: {
-    emailList: string[];
+    emailList: EmailItem[];
     enableSignupForm: boolean;
     welcomeEmail?: string;
   };

@@ -8,9 +8,11 @@ import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { FormEventHandler, useState } from 'react';
+import { Loader2 } from 'lucide-react';
 const Login = () => {
   const router = useRouter();
-  const [error,setError] = useState<string | null>()
+  const [error,setError] = useState<string | null>();
+  const [loading,setLoading] = useState<boolean>(false);
   const [userInfo,setUserInfo] = useState({
     email:'',
     password:''
@@ -24,6 +26,7 @@ const Login = () => {
   
   const handleSubmit:FormEventHandler<HTMLFormElement> = async(e) => {
     e.preventDefault(); 
+    setLoading(true);
     const res = await signIn('credentials',{
       email:userInfo.email,
       password:userInfo.password,
@@ -35,6 +38,7 @@ const Login = () => {
     else{
       router.push('/dashboard/loading')
     }
+    setLoading(false);
   }
   const handleChange = (event:React.ChangeEvent<HTMLInputElement>) => {
     const {name,value} = event.target;
@@ -57,7 +61,12 @@ const Login = () => {
           <div className="text-bold text-sm">Password</div>
           <Input required onChange={handleChange} value={userInfo.password} name='password' type='password' placeholder='Enter your Password'></Input>
           {error && <span className='text-red-600'>{error}</span>}
-          <Button className='w-full mt-6' variant={"outline"}>Log in</Button>
+          <Button className='w-full mt-6 flex items-center' variant={"outline"}>
+            {
+              loading ? 
+              <span className='flex items-center gap-2'>Logging in <Loader2 className='animate-spin'/> </span> : 'Login'
+            }
+          </Button>
           <div className='text-center font-bold text-xl'>OR</div>
           <div className="flex gap-4">
             <Button onClick={() => { signIn("google", { callbackUrl: `/dashboard/loading` }) }}><FaGoogle /> Login with Google</Button>

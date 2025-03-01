@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useTitle } from "@/app/hooks/get-user-title";
+import Image from "next/image";
 const UserTemplate = () => {
     const { data: session } = useSession();
     useTitle(`${session?.user?.username} - Theme`);
@@ -35,7 +36,7 @@ const UserTemplate = () => {
             <h2 className="text-center text-2xl underline underline-offset-4">Select a Template</h2>
             <div className="text-center my-2">
                 <Link target="_blank" className="p-1 text-xs bg-red-800 border-b-red-300 border" href={`https://linkshub.space/${session?.user.username}`}>
-                Website Live at: {`https://linkshub.space/${session?.user.username}`}
+                    Website Live at: {`https://linkshub.space/${session?.user.username}`}
                 </Link>
             </div>
             <div className="flex lg:justify-around flex-col lg:flex-row items-center">
@@ -44,21 +45,39 @@ const UserTemplate = () => {
                         className={`cursor-pointer ${selectedTemplate === '/template-placeholders/free/template-1.jpeg' ? 'border-4 border-red-500' : ''}`}
                         onClick={() => { handleSelectTemplate('/template-placeholders/free/template-1.jpeg'); setThemeNo(1) }}
                     >
-                        <img src="/template-placeholders/free/template-1.jpeg" alt="Template 1" className="w-32 h-64" />
+                        <Image
+                            src="/template-placeholders/free/template-1.jpeg"
+                            alt="Template 1"
+                            width={128}
+                            height={256}
+                            className="w-32 h-64"
+                        />
                     </div>
 
                     <div
                         className={`cursor-pointer ${selectedTemplate === '/template-placeholders/free/template-2.jpeg' ? 'border-4 border-red-500' : ''}`}
                         onClick={() => { handleSelectTemplate('/template-placeholders/free/template-2.jpeg'); setThemeNo(2) }}
                     >
-                        <img src="/template-placeholders/free/template-2.jpeg" alt="Template 2" className="w-32 h-64" />
+                        <Image
+                            src="/template-placeholders/free/template-2.jpeg"
+                            alt="Template 2"
+                            width={128}
+                            height={256}
+                            className="w-32 h-64"
+                        />
                     </div>
 
                     <div
                         className={`cursor-pointer ${selectedTemplate === '/template-placeholders/free/template-3.jpeg' ? 'border-4 border-blue-500' : ''}`}
                         onClick={() => { handleSelectTemplate('/template-placeholders/free/template-3.jpeg'); setThemeNo(3) }}
                     >
-                        <img src="/template-placeholders/free/template-3.jpeg" alt="Template 3" className="w-32 h-64" />
+                        <Image
+                            src="/template-placeholders/free/template-3.jpeg"
+                            alt="Template 3"
+                            width={128}
+                            height={256}
+                            className="w-32 h-64"
+                        />
                     </div>
                 </div>
 
@@ -66,9 +85,11 @@ const UserTemplate = () => {
                     {selectedTemplate ? (
                         <p className="flex flex-col gap-1">
 
-                            <img
+                            <Image
                                 src={selectedTemplate}
                                 alt="Selected Template"
+                                width={200}
+                                height={400}
                                 className="w-[200px] h-[400px] object-cover object-center mt-2"
                             />
                             <Button onClick={() => updatedThemeToDatabase(session?.user?.email ?? '')}>

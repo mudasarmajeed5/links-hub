@@ -98,7 +98,6 @@ export default function UpdateUserSettings() {
 
   useEffect(() => {
     if (!session) return;
-    console.log(form)
     if (session.user?.email) {
       setForm((prevForm) => ({ ...prevForm, email: session.user.email ?? "" }));
       setEmail(session.user.email);
@@ -181,12 +180,13 @@ export default function UpdateUserSettings() {
                     onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
                     placeholder="Enter profile picture URL"
                   />
-                  <CldUploadWidget uploadPreset="links-hub-pfp" onSuccess={handleSuccess}>
+                  <CldUploadWidget uploadPreset="links-hub-pfp" onSuccess={handleSuccess} onCloseAction={()=>setUploadWidgetState(false)}>
                     {({ open }) => (
                       <Button
                         type="button"
                         variant={"outline"}
                         className="w-full"
+                        disabled={uploadWidgetState}
                         onClick={() => {
                           open();
                           setUploadWidgetState(true);

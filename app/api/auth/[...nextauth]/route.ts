@@ -82,6 +82,7 @@ const handler = NextAuth({
               name: user.name,
               username: username,
               profilePic: user.image,
+              emailMarketing: { emailList: [] },
             });
 
             if (!newUser) {

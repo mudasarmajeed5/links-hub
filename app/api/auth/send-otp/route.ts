@@ -54,8 +54,7 @@ export async function PUT(request: NextRequest) {
 
         // Compare OTP
         const isMatch = await bcrypt.compare(otp, storedOtp.otp);
-
-        if (!isMatch) return NextResponse.json({ error: "Invalid OTP" }, { status: 400 });
+        if (!isMatch) return NextResponse.json({ error: "Invalid OTP",status: 400 });
 
         // Delete OTP after verification
         await OtpModal.deleteOne({ email });

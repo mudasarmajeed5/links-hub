@@ -1,4 +1,5 @@
 import Button from "@/app/components/Button";
+import Image from "next/image";
 
 const Hero = () => {
   return (
@@ -19,10 +20,12 @@ const Hero = () => {
 
 
         <div className="absolute top-32 lg:top-44 left-[calc(80%-340px)] setPhoneStar pointer-events-none hero-img_res">
-          <img
+          <Image
             src="/images/hero1.png"
-            className="size-400 max-lg:h-auto imgRotate"
+            width={400}
+            height={400}
             alt="hero"
+            className="size-400 max-lg:h-auto imgRotate"
           />
         </div>
       </div>

@@ -4,12 +4,16 @@ const { Schema, model, models } = mongoose;
 const UserLinksSchema = new Schema({
   icon: { type: String, required: true },
   label: { type: String, required: true },
-  link: { type: String, required: true },
+  link: { type: String, default:'' },
 });
-
+const emailSchema = new Schema({
+  email: { type: String, required: true,  },
+  status: { type: String, required: true, default: 'subscribed' },
+  subscriptionDate: { type: Date,required:true, default: Date.now }
+})
 const EmailMarketingSchema = new Schema({
-  emailList: { type: [String], default: [] },
-  enableSignupForm: { type: Boolean, default: true },
+  emailList: { type: [emailSchema], default: [] },
+  enableSignupForm: { type: Boolean, default: false },
   welcomeEmail: { type: String, default: "" },
 });
 
@@ -27,7 +31,7 @@ const UserSchema = new Schema(
     bio: { type: String, default: "" },
     password: { type: String, default: "" },
     name: { type: String, required: true },
-    profilePic: { type: String, required: true }, // Renamed for consistency
+    profilePic: { type: String, required: true },
     spotifyUrl: { type: String, default: "" },
     userLinks: { type: [UserLinksSchema], default: [] },
     viewCount: { type: Number, default: 0 },

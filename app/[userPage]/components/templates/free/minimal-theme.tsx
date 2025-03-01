@@ -7,10 +7,35 @@ import UserLinks from '../../user-links';
 import ContributeHeader from '../../contribute-header';
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 import SpotifyPlayer from '../../SpotifyPlayer';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { FormEvent, useState } from 'react';
+import { toast } from 'sonner';
 interface MinimalThemeProps {
   user: User;
 }
 const MinimalTheme = ({ user }: MinimalThemeProps) => {
+  const [enteredEmail, setEnteredEmail] = useState<string>('')
+  const pushEmail = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await fetch('/api/email-marketing/add-email',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email:enteredEmail,id:user._id})
+      }
+    )
+    if (!response.ok) {
+      toast.error(response.statusText)
+    }
+    const data = await response.json();
+    if (data.status == 201) {
+      toast.success(data.message);
+    }
+  }
+
   return (
     <>
       {/* Background Image */}
@@ -41,6 +66,20 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
           iconClass="text-black text-xl"
           textClass="text-gray-800 font-medium"
         />
+        {user.emailMarketing.enableSignupForm && 
+        <form className='flex items-center border rounded-md' onSubmit={(e) => pushEmail(e)}>
+        <Input
+          className="focus:outline-none border-transparent outline-none"
+          placeholder="Enter your email"
+          type="email"
+          value={enteredEmail}
+          required
+          onChange={(e) => setEnteredEmail(e.target.value)}
+        />
+        <Button type='submit' className="bg-blue-500 text-white px-4 py-2 rounded">Subscribe</Button>
+      </form>
+        }
+        
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
     </>

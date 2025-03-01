@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import { toast } from "sonner";
 const Register = () => {
   const { status } = useSession();
   const router = useRouter();
+  const [timer,setTimer] = useState(0);
   const [signUpAllowed, setSignupAllowed] = useState(false);
   const [email, setEmail] = useState("");
   const [isdisabled, setIsDisabled] = useState(false);
@@ -22,10 +23,26 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [verifyingOtp, setverifyingOtp] = useState(false);
   const [otp, setOtp] = useState<string>("");
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer(prev => {
+          if (prev === 1) {
+            clearInterval(interval);
+            setIsDisabled(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer]);
   const sendOtp = async () => {
     setIsDisabled(true);
     if (!email || !password || !confirmPassword) {
       setError("Please complete all fields.");
+      setIsDisabled(false);
       return;
     }
     if (password !== confirmPassword) {
@@ -36,6 +53,7 @@ const Register = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Invalid email format.");
+      setIsDisabled(false);
       return;
     }
     const response = await fetch('/api/auth/send-otp', {
@@ -47,10 +65,13 @@ const Register = () => {
     });
     const data = await response.json();
     if (data.status == 201) {
-      toast.success('Email sent successfully');
+      toast.success('OTP sent successfully');
+      setTimer(60);
+    }
+    else{
+      setIsDisabled(false);
     }
     setError(null);
-    setIsDisabled(false);
   }
   const verifyOtp = async () => {
     setverifyingOtp(true);
@@ -74,15 +95,16 @@ const Register = () => {
       body: JSON.stringify({ email, otp })
     });
     const data = await response.json();
-    if (data.status == 400) {
-      toast.error('Invalid OTP')
+    if(data.error){
+      toast.error(data.error)
+      setverifyingOtp(false);
     }
     if (data.status == 201) {
       toast.success('OTP verified successfully, Signup to continue');
       setSignupAllowed(true);
+      setverifyingOtp(false);
     }
     setError(null);
-    setverifyingOtp(false);
   }
   if (status == "authenticated") {
     return (
@@ -169,7 +191,12 @@ const Register = () => {
               className="text-xs"
               onChange={(e) => setOtp(e.target.value)}
               placeholder="Enter OTP" />
-            <div className="text-right my-2"><Button variant={"outline"} size={"sm"} onClick={sendOtp} disabled={isdisabled}>Send OTP</Button></div>
+            <div className="text-right my-2"><Button variant={"outline"} size={"sm"} onClick={sendOtp} disabled={isdisabled}>
+              {
+                isdisabled ?
+                `Resend OTP in ${timer}` : 'Request OTP'
+              }
+            </Button></div>
           </div>
           <Button disabled={verifyingOtp} variant={"outline"} onClick={verifyOtp} className="w-full">
             {verifyingOtp ? "Validating..." : "Valide OTP"}
