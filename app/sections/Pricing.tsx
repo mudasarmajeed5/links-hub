@@ -117,8 +117,9 @@ const Pricing = () => {
                       index === 1 ? "text-p3" : "text-p4",
                     )}
                   >
-                    ${" "}
+                    <span className="text-5xl">Rs.{" "}</span>
                     <CountUp
+                      className="text-5xl"
                       start={plan.priceMonthly}
                       end={monthly ? plan.priceMonthly : plan.priceYearly}
                       duration={0.4}
@@ -127,7 +128,7 @@ const Pricing = () => {
                     />
                   </div>
                   <div className="small-1 relative top-3 ml-1 uppercase">
-                    / mo
+                    {monthly ? '/ mo': '/ yr'}
                   </div>
                 </div>
               </div>

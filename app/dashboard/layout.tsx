@@ -14,6 +14,7 @@ interface DashboardLayoutProps {
 }
 import { Poppins } from "next/font/google";
 import { ModeToggle } from "@/components/toggle-theme";
+import { FaGithub } from "react-icons/fa";
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
@@ -40,7 +41,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <div className="bg-gradient-to-r z-10 sticky top-0 border-b from-background to-muted supports-[backdrop]:bg-background/10 flex justify-between items-center p-4">
           <div className="font-medium">Welcome <span className="font-bold">{name}</span></div>
           <div className="flex gap-2">
-          <Link className="border px-2 py-1 border-black rounded-md hover:bg-black hover:text-white" target="_blank" href={"https://github.com/mudasarmajeed5"}>Follow me</Link>
+          <Link className="border text-sm px-2 py-1 border-black dark:border-white rounded-md hover:bg-black hover:text-white flex items-center gap-2" target="_blank" href={"https://github.com/mudasarmajeed5"}>
+          <FaGithub/>
+          <span>Follow me</span>
+          </Link>
           <ModeToggle/>
           </div>
         </div>

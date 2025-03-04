@@ -42,8 +42,8 @@ const Navbar = () => {
     >
       <div className="container justify-between flex h-14 items-center max-lg:px-5">
         <Link href="/" className="hidden max-lg:flex items-center gap-2">
-          <Rss className="text-3xl" />
-          <span className="text-xl font-bold uppercase">Links Hub</span>
+          <Rss className="text-3xl text-white" />
+          <span className="text-xl text-white font-bold uppercase">Links Hub</span>
         </Link>
         <button
           className="lg:hidden z-2 size-10 border-2 border-s4/25 rounded-full flex justify-center items-center"
@@ -74,13 +74,13 @@ const Navbar = () => {
 
                 <li className="nav-logo">
                   <Link
-                    href="#hero"
+                    href="/"
                     className={clsx(
                       "max-lg:hidden flex gap-2 text-xl font-bold uppercase transition-transform duration-500 cursor-pointer"
                     )}
                   >
-                    <Rss className="text-3xl" />
-                    <span>Links Hub</span>
+                    <Rss className="text-3xl text-white" />
+                    <span className="text-white">Links Hub</span>
                   </Link>
                 </li>
 

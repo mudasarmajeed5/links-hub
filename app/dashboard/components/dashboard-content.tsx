@@ -1,14 +1,28 @@
 "use client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import type { User } from "@/app/types/user-account"
 import AnalyticsCard from "./analytics-card"
-import Image from "next/image"
+import { convertToPaisa } from "@/lib/convert-currency/convert-to-paisa";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutPage from "./checkout-page";
+import { useState, useEffect } from "react";
+import { plans } from "@/app/constants"
+const stripe_public_Key = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 type DashboardContentProps = {
   user: User | undefined
 }
+if (!stripe_public_Key) {
+  throw new Error('Key is not available')
+}
+const stripePromise = loadStripe(stripe_public_Key);
 export function DashboardContent({ user }: DashboardContentProps) {
+  const [subscriptionPrice, setSubscriptionPrice] = useState<number>(200);
+  const [isAnnual, setIsAnnual] = useState(false);
+  const selectedPlan = plans.find(plan => plan.priceMonthly === subscriptionPrice) || plans[1];
+
   const formatDate = (date?: string) => {
     if (!date) {
       return "Date not available"; // Default fallback
@@ -23,6 +37,11 @@ export function DashboardContent({ user }: DashboardContentProps) {
       hour12: true,
     });
   };
+  useEffect(() => {
+    if (isAnnual) {
+      console.log(selectedPlan)
+    }
+  }, [isAnnual,selectedPlan])
 
   return (
     <>
@@ -37,11 +56,11 @@ export function DashboardContent({ user }: DashboardContentProps) {
             <div className="mb-4">
               <div className="flex text-center text-md gap-1 flex-col">
                 <div className="flex justify-center">
-                  <Image
-                    src={user?.profilePic || ''}
+                  <img
+                    src={user?.profilePic}
                     alt=""
-                    width={176} // w-44 = 176px
-                    height={176} // h-44 = 176px
+                    width={176}
+                    height={176}
                     className="rounded-full object-cover object-center w-44 h-44"
                   />
                 </div>
@@ -61,14 +80,72 @@ export function DashboardContent({ user }: DashboardContentProps) {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Subscription Status</CardTitle>
-            <CardDescription>Your current membership level</CardDescription>
+            <CardTitle className="text-lg flex justify-between"><div>
+              Subscription Status
+            </div>
+
+              <Badge variant={user?.isPremiumUser ? "secondary" : "outline"} className="text-sm font-semibold py-1 px-2">
+                {user?.isPremiumUser ? "Premium Member" : "Free User"}
+              </Badge>
+            </CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col items-center gap-4">
-            <Badge variant={user?.isPremiumUser ? "default" : "secondary"} className="text-lg py-1 px-3">
-              {user?.isPremiumUser ? "Premium Member" : "Free User"}
-            </Badge>
+          <CardContent className="flex flex-col justify-center items-center gap-4">
             {!user?.isPremiumUser && <Button>Upgrade to Premium</Button>}
+            <div className="flex flex-col">
+              {/* Plan Selection Buttons */}
+              <div className="flex gap-2">
+                {[0, 200, 400].map((price, idx) => (
+                  <button
+                    key={idx}
+                    className={`border ${price === subscriptionPrice ? "bg-gray-950 border-gray-300" : "bg-gray-700"
+                      } text-white px-3 py-2 rounded-md transition-all`}
+                    onClick={() => setSubscriptionPrice(price)}
+                  >
+                    Plan {idx + 1}: Rs. {price}
+                  </button>
+                ))}
+              </div>
+
+              {/* Toggle for Monthly / Annual Pricing */}
+              <Button
+                variant={"outline"}
+                className="mt-3 px-4 text-xs py-2 rounded-md transition-all"
+                onClick={() => setIsAnnual(!isAnnual)}
+              >
+                Switch to {isAnnual ? "Monthly" : "Annual"} Billing
+              </Button>
+
+              <div className="border rounded-md my-5 p-5 text-center w-full max-w-md shadow-md">
+                <h2 className="text-2xl font-semibold">{selectedPlan.title} Plan</h2>
+                <p className="text-sm text-gray-600">{selectedPlan.caption}</p>
+                <p className="text-lg font-bold">
+                  Rs. {isAnnual ? selectedPlan.priceYearly : selectedPlan.priceMonthly} / {isAnnual ? "year" : "month"}
+                </p>
+              </div>
+              <div className="border p-5 rounded-md shadow-md mb-2 w-full max-w-md">
+                <h3 className="text-lg font-semibold mb-3">Features</h3>
+                <ul className="list-disc list-inside text-gray-500">
+                  {selectedPlan.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      ✅ {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {
+                subscriptionPrice > 10 && <Elements
+                  options={{
+                    mode: "payment",
+                    amount: convertToPaisa(subscriptionPrice),
+                    currency: "pkr",
+                  }}
+                  stripe={stripePromise}
+                >
+                  <div><CheckoutPage amount={subscriptionPrice} /></div>
+                </Elements>
+              }
+
+            </div>
           </CardContent>
         </Card>
       </div>

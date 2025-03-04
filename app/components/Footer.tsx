@@ -1,44 +1,101 @@
-import { Rss } from "lucide-react";
-import { FaInstagram, FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebook, FaLinkedinIn } from "react-icons/fa";
 import Link from "next/link";
-const date = new Date();
-const year = date.getFullYear();
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { MdArrowForward } from "react-icons/md";
 export const Footer = () => {
     return (
-        <footer className="bg-blue-900/10 pt-8 text-white">
-            <div className="flex justify-between px-5">
-                <div className="logo flex flex-col space-y-2 text-xl">
-                    <span className="flex gap-2"><Rss /> Links Hub</span>
-                    <Link target="_blank" href={"https://github.com/mudasarmajeed5/links-hub"} className="text-gray-400 text-sm">Source Code</Link>
-
-                </div>
-                <div className="flex flex-col text-gray-400 text-sm flex-wrap space-y-2">
-                    <Link href={"/contact"}>
-                        Contact
-                    </Link>
-                    <Link href={"/terms"}>
-                        Terms and Conditions
-                    </Link>
-                    <Link href={"/about"}>
-                        About
-                    </Link>
-                </div>
-                <div className="flex flex-col socials space-y-2">
-                    <div>Follow</div>
-                    <div className="flex flex-col md:flex-row gap-2">
-                        <div className="flex gap-2">
-                            <a href="https://instagram.com/mudasarmajeed5" target="_blank"><FaInstagram className="text-xl" /></a>
-                            <a href="https://x.com/mudasarmajeed55" target="_blank"><FaTwitter className="text-xl" /></a>
+        <footer
+                className="py-8 px-4 md:px-6 lg:px-8"
+                style={{ backgroundColor: "#0C1838", borderTop: "1px solid #263466" }}
+            >
+                <div className="container mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div>
+                            <h3 className="font-bold text-lg text-white mb-4">Links Hub</h3>
+                            <p className="text-sm text-[#C4CBF5]">
+                                The ultimate platform for creating your personalized link page. Connect all your online profiles in one
+                                place.
+                            </p>
                         </div>
-                        <div className="flex gap-2">
-                            <a href="https://github.com/mudasarmajeed5" target="_blank"><FaGithub className="text-xl" /></a>
-                            <a href="https://linkedin.com/in/mudasarmajeed5" target="_blank"><FaLinkedin className="text-xl" /></a>
+                        <div>
+                            <h3 className="font-bold text-lg text-white mb-4">Quick Links</h3>
+                            <ul className="space-y-2 text-sm">
+                                <li>
+                                    <Link href="/" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                        Home
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/features" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                        Features
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/pricing" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                        Pricing
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/contact" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                        Contact
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-lg text-white mb-4">Legal</h3>
+                            <ul className="space-y-2 text-sm">
+                                <li>
+                                    <Link href="/terms" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                        Terms of Service
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/about" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                        About
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/cookies" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                        Cookie Policy
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-lg text-white mb-4">Newsletter</h3>
+                            <p className="text-sm text-[#C4CBF5] mb-2">Subscribe to get updates on new features and announcements.</p>
+                            <div className="flex gap-2">
+                                <Input
+                                    placeholder="Your email"
+                                    className="bg-[#263466] border-0 text-white placeholder:text-[#C4CBF5]/50"
+                                />
+                                <Button className="bg-[#3C52D9] hover:bg-[#1959AD]">
+                                    <MdArrowForward className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-t border-[#263466] mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                        <p className="text-sm text-[#C4CBF5]">© {new Date().getFullYear()} Links Hub. All rights reserved.</p>
+                        <div className="flex gap-4 mt-4 md:mt-0">
+                            <a href="#" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                <FaFacebook className="h-5 w-5" />
+                            </a>
+                            <a href="#" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                <FaTwitter className="h-5 w-5" />
+                            </a>
+                            <a href="#" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                <FaInstagram className="h-5 w-5" />
+                            </a>
+                            <a href="#" className="text-[#C4CBF5] hover:text-[#2EF2FF] transition-colors">
+                                <FaLinkedinIn className="h-5 w-5" />
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div className="text-xs mt-5 text-center bg-blue-900/30 py-2 px-2 rounded-md text-gray-500">&copy; 2024 - {year} <Link target="_blank" href={"https://instagram.com/mudasarmajeed5"} className="text-muted-foreground">@mudasarmajeed5</Link> All rights reserved</div>
-        </footer>
+            </footer>
 
     )
 }

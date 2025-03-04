@@ -118,8 +118,8 @@ export const plans = [
   {
     id: "1",
     title: "Pro",
-    priceMonthly: 2,
-    priceYearly: 1,
+    priceMonthly: 200,
+    priceYearly: 2000, // Example: 10 months equivalent
     caption: "Most popular plan",
     features: [
       "All Free features",
@@ -133,8 +133,8 @@ export const plans = [
   {
     id: "2",
     title: "Business",
-    priceMonthly: 4,
-    priceYearly: 2,
+    priceMonthly: 400,
+    priceYearly: 4000, // Example: 10 months equivalent
     caption: "For professionals and teams",
     features: [
       "All Pro features",
@@ -144,8 +144,9 @@ export const plans = [
     ],
     icon: "/images/hexagon.svg",
     logo: "/images/plan-3.png",
-  },
+  }, 
 ];
+
 
 export const testimonials = [
   {
