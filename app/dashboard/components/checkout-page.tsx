@@ -22,7 +22,6 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [clientSecret, setClientSecret] = useState<string>('');
     const [loading, setLoading] = useState(false);
-
     useEffect(() => {
         fetch('/api/create-payment-intent', {
             method: 'POST',

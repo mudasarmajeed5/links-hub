@@ -62,7 +62,7 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
         <CardDescription className='text-black/80 font-poppins font-semibold'>{user.bio}</CardDescription>
         <UserLinks
           data={user}
-          linkClass="text-lg text-black bg-white/70 hover:bg-white w-[300px]"
+          linkClass={`text-lg text-black bg-white/70 hover:bg-white w-[300px]`}
           iconClass="text-black text-xl"
           textClass="text-gray-800 font-medium"
         />

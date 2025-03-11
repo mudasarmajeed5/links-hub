@@ -17,16 +17,16 @@ const TableSkeleton = () => {
             <TableBody className="bg-white divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                 {Array.from({length:10}).map((_,index)=>(
                 <TableRow key={index} className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm font-medium bg-gray-900 dark:bg-gray-700">
+                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm font-medium bg-gray-100 dark:bg-gray-700">
                         <Skeleton className="w-full h-6"/>
                     </TableCell>
-                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm bg-gray-500 dark:bg-gray-700">
+                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm bg-gray-100 dark:bg-gray-700">
                         <Skeleton className="w-full h-6"/>
                     </TableCell>
-                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm bg-gray-500 dark:bg-gray-700">
+                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm bg-gray-100 dark:bg-gray-700">
                         <Skeleton className="w-full h-6"/>
                     </TableCell>
-                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm text-right bg-gray-500 dark:bg-gray-700">
+                    <TableCell className="px-6 h-6 whitespace-nowrap text-sm text-right bg-gray-100 dark:bg-gray-700">
                         <Skeleton className="w-full h-6"/>
                     </TableCell>
                 </TableRow>

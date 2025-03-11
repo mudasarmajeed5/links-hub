@@ -24,7 +24,6 @@ type EmailItem = {
 const EmailMarketing = () => {
     const { data: session } = useSession();
     const [emailsList, setEmailsList] = useState<EmailItem[]>([]);
-    
     const email = session?.user?.email || '';
 
     const { data, error, loading } = useFetchUser(email ? { email } : { email: '' });
@@ -86,7 +85,10 @@ const EmailMarketing = () => {
                 </TableHeader>
                 <TableBody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                     {emailsList.length == 0 && <TableRow>
-                        <TableCell className="whitespace-nowrap">No Emails found</TableCell>    
+                        <TableCell className="whitespace-nowrap">Null</TableCell>    
+                        <TableCell className="whitespace-nowrap">--------------------</TableCell>    
+                        <TableCell className="whitespace-nowrap">Data not available</TableCell>    
+                        <TableCell className="whitespace-nowrap text-right">---------</TableCell>    
                     </TableRow>}
                     {emailsList.map((emailItem, idx) => (
                         <TableRow key={idx} className="hover:bg-gray-100 dark:hover:bg-gray-700">

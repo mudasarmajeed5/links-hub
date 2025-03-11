@@ -333,7 +333,7 @@ export default function UpdateUserSettings() {
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
                   </select>
-                  <Label htmlFor="accentColor">Add Accent Color</Label>
+                  <Label htmlFor="accentColor">Add Accent color for your Profile</Label>
                   <Input
                     id="accentColor"
                     disabled={!data?.isPremiumUser}

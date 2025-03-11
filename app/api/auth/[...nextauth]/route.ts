@@ -107,6 +107,7 @@ const handler = NextAuth({
           await connectDB();
           const user = await User.findOne({ email: token.email });
           if (user && session.user) {
+            session.user.id = user._id;
             session.user.name = user.name;
             session.user.username = user.username;
           }
