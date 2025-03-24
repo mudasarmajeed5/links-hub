@@ -34,6 +34,9 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
     if (data.status == 201) {
       toast.success(data.message);
     }
+    if(data.status == 200){
+      toast.success(data.message);
+    }
   }
 
   return (

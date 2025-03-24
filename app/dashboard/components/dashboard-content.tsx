@@ -87,7 +87,7 @@ export function DashboardContent({ user }: DashboardContentProps) {
           {
             user?.isPremiumUser ? <>
               <div className="mt-1/5 text-center">
-              Render something if the user has not subscribed
+                User has subscribed
               </div>
             
             </> : <>
@@ -98,7 +98,7 @@ export function DashboardContent({ user }: DashboardContentProps) {
                     {[0, 200, 400].map((price, idx) => (
                       <button
                         key={idx}
-                        className={`border ${price === subscriptionPrice ? "border-black dark:border-gray-300" : ""
+                        className={`border text-xs ${price === subscriptionPrice ? "border-black dark:border-gray-300" : ""
                           } px-3 py-2 rounded-md transition-all`}
                         onClick={() => setSubscriptionPrice(price)}
                       >

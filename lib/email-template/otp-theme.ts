@@ -39,7 +39,9 @@ const emailTemplate = `
     <p style="font-size: 12px; color: #666;">
         Stay secure, stay connected.  
     </p>
-
+    <p>
+        <a href="{{unsubLink}}" style="color:red; font-size:12px;">Unsubscribe</a> if you wish no longer to receive emails
+    </p>
     <p style="font-size: 12px; color: #555;">
         © 2025 Linkshub. All rights reserved.
     </p>

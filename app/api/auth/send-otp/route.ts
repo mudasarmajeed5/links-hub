@@ -5,6 +5,11 @@ import OtpModal from "@/app/models/OtpModal";
 import connectDB from "@/lib/mongodb";
 import emailTemplate from "@/lib/email-template/otp-theme";
 await connectDB();
+
+const unsub_link = (email:string) => {
+  const baseUrl = 'https://linkshub.space';
+  return `${baseUrl}/unsubscribe?email=${encodeURIComponent(email)}`;
+}
 const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
     port: 465,
@@ -19,7 +24,7 @@ export async function POST(request: NextRequest) {
     try {
         const { email } = await request.json();
         if (!email) return NextResponse.json({ error: "Email is required" }, { status: 400 });
-
+        
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const hashedOtp = await bcrypt.hash(otp, 10);
         // Store OTP in database
@@ -29,7 +34,7 @@ export async function POST(request: NextRequest) {
             { upsert: true }
         );
 
-        const emailContent = emailTemplate.replace("{{OTP}}", otp);
+        const emailContent = emailTemplate.replace("{{OTP}}", otp).replace("{{unsubLink}}",unsub_link(email));
         await transporter.sendMail({
             from: `"LinksHub Support" <${process.env.ZOHO_EMAIL}>`,
             to: email,
