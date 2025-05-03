@@ -5,7 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import backgroundImage from "@/public/theme-backgrounds/free/minimal-background.png";
 import UserLinks from '../../user-links';
 import ContributeHeader from '../../contribute-header';
-import { MdOutlineWorkspacePremium } from "react-icons/md";
+import { FaCrown } from "react-icons/fa6";
 import SpotifyPlayer from '../../SpotifyPlayer';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -51,35 +51,38 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
         alt='Background Image'
       />
 
-      <Card className='flex relative mt-20 mb-32 w-10/12 md:w-4/5 lg:max-w-[400px] z-1 bg-white/30 flex-col items-center justify-center p-6 space-y-4 shadow-md'>
-        {user.isPremiumUser && <span className="absolute text-sm flex items-center gap-2 top-0 left-0 bg-yellow-600 text-white rounded-full px-3 py-1 border-2 border-yellow-300 shadow-md">
-          <MdOutlineWorkspacePremium className="rotate-45 text-xl" /> Premium User
-        </span>}
-
-        <Avatar className='w-44 border bg-background/30 h-44'>
+      <Card className='flex relative mt-20 border-transparent mb-32 w-10/12 md:w-4/5 lg:max-w-[400px] z-1 bg-transparent flex-col items-center justify-center p-6 space-y-4 shadow-none'>
+        <div className='border-2 border-yellow-300 rounded-full relative'>
+        <Avatar className='w-44 bg-background/30 h-44'>
           <AvatarImage className='object-contain object-center' src={user?.profilePic} alt="User Profile" />
           <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
         </Avatar>
-        <CardDescription className='text-lg text-black font-bold'>{user?.name}</CardDescription>
-        <div className="text-lg text-black">About me</div>
-        <CardDescription className='text-black/80 font-poppins font-semibold'>{user.bio}</CardDescription>
+        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 flex items-center px-2 py-1">
+          <span className="">
+            <FaCrown className="fill-yellow-400 text-3xl" />
+          </span>
+        </div>
+        </div>
+        <CardDescription className='text-lg text-black font-semibold'>{user?.name}</CardDescription>
+        <div className="text-lg font-semibold text-black">About me</div>
+        <CardDescription className='text-black font-poppins font-semibold w-388'>{user.bio}</CardDescription>
         <UserLinks
           data={user}
-          linkClass={`text-lg text-black bg-white/70 hover:bg-white w-[300px]`}
+          linkClass={`text-lg text-black bg-white/70 hover:bg-white w-388`}
           iconClass="text-black text-xl"
           textClass="text-gray-800 font-medium"
         />
         {user.emailMarketing.enableSignupForm && 
-        <form className='flex items-center border rounded-md' onSubmit={(e) => pushEmail(e)}>
+        <form className='flex items-center rounded-full border border-white' onSubmit={(e) => pushEmail(e)}>
         <Input
-          className="focus:outline-none border-transparent outline-none"
+          className="focus:outline-none placeholder:text-white border-transparent outline-none"
           placeholder="Enter your email"
           type="email"
           value={enteredEmail}
           required
           onChange={(e) => setEnteredEmail(e.target.value)}
         />
-        <Button type='submit' className="bg-blue-500 text-white px-4 py-2 rounded">Subscribe</Button>
+        <Button type='submit' className="bg-red-500 rounded-br-full rounded-tr-full text-white px-4 py-2">Subscribe</Button>
       </form>
         }
         

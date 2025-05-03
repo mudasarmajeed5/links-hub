@@ -1,9 +1,9 @@
 "use client"
 import Link from 'next/link'
 import { useEffect } from 'react';
-import { useSession,signOut } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation';
-import { ArrowLeft, LayoutDashboard, LogOutIcon, Plus, Eye,Settings, Zap,MailMinus } from 'lucide-react';
+import { ArrowLeft, LayoutDashboard, LogOutIcon, Plus, Eye, Settings, Zap, MailMinus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 const DashboardNavigation = () => {
   const router = useRouter();
@@ -16,7 +16,7 @@ const DashboardNavigation = () => {
     if (status === "unauthenticated") {
       router.push('/login')
     }
-  }, [status,router])
+  }, [status, router])
   const Links = [
     {
       name: 'Dashboard',
@@ -29,9 +29,9 @@ const DashboardNavigation = () => {
       icon: <Plus />
     },
     {
-      name:"Set Template",
-      link:`/dashboard/${username}/theme`,
-      icon:<Zap/>
+      name: "Templates",
+      link: `/dashboard/${username}/theme`,
+      icon: <Zap />
     },
     {
       name: 'Settings',
@@ -39,45 +39,51 @@ const DashboardNavigation = () => {
       icon: <Settings />
     },
     {
-      name:"Website",
-      link:"/",
-      icon:<ArrowLeft/>
+      name: "Website",
+      link: "/",
+      icon: <ArrowLeft />
     },
     {
-      name:"Visit Page",
-      link:`/${username}`,
-      icon:<Eye/>
+      name: "Visit Page",
+      link: `/${username}`,
+      icon: <Eye />
     },
     {
-      name:"Email Marketing",
-      link:`/dashboard/${username}/emailmarketing`,
-      icon:<MailMinus/>
+      name: "Email Marketing",
+      link: `/dashboard/${username}/emailmarketing`,
+      icon: <MailMinus />
     }
 
   ]
 
   return (
     <div className="flex sticky top-0 flex-col justify-between h-full p-4">
-      <div>{Links.map((link, idx) => (
-        <Link
-          href={link.link}
-          key={idx}
+      <div>
+        {Links.map((link, idx) => {
+          const isVisitPage = link.name == "Visit Page";
+          const isActive = isVisitPage ? path == link.link: path.toLowerCase() === link.link.toLowerCase();
+          return (
+          <Link
+            href={link.link}
+            key={idx}
 
-          className={`${path.endsWith(link.link.toLocaleLowerCase())? "bg-blue-200 text-blue-600":""} ${dashboard_buttons_style}`}
-        >
-          <span className="text-lg">{link.icon}</span>
-          <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
-        </Link>
-      ))}</div>
+            className={`${isActive ? "bg-blue-200 text-blue-600" : ""} ${dashboard_buttons_style}`}
+          >
+            <span className="text-lg">{link.icon}</span>
+            <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
+          </Link>
+          )
+          })}
+      </div>
 
       <Button
-        onClick={()=>signOut()}
+        onClick={() => signOut()}
         variant={"outline"}
         className={signoutButtonStyles}
       >
         <span className="text-lg"><LogOutIcon /></span>
         <span className='whitespace-nowrap text-ellipsis overflow-hidden'>Logout</span>
-      </Button> 
+      </Button>
 
 
     </div>

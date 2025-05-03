@@ -121,8 +121,8 @@ export default function UpdateUserSettings() {
   }
 
   return (
-    <section className="min-h-[80vh] flex justify-center items-center">
-      <Card className="w-full lg:max-w-2xl my-10 overflow-auto mx-auto">
+    <section>
+      <Card className="w-full rounded-none h-[calc(100vh-80px)] overflow-auto mx-auto dark:bg-[#151515]">
         <CardHeader>
           <CardTitle className="flex justify-between mb-4">
             <span>Update Settings</span>
@@ -367,7 +367,7 @@ export default function UpdateUserSettings() {
                 />
               </div>
             )}
-            <Button type="submit" disabled={updateLoad} className="w-full">
+            <Button type="submit" disabled={updateLoad} className="max-w-fit">
               Update Settings {updateLoad && <Loader2 className="animate-spin" />}
             </Button>
           </form>
