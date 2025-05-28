@@ -31,24 +31,29 @@ const CyberPunkTheme = ({ user }: CyberPunkThemeProps) => {
             <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
           </Avatar>
           <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 flex items-center px-2 py-1">
-            <span className="">
-              <FaCrown className="fill-yellow-400 text-3xl" />
-            </span>
+            {
+              user.isPremiumUser &&
+              (
+                <span>
+                  <FaCrown className="fill-yellow-400 text-3xl" />
+                </span>
+              )
+            }
           </div>
         </div>
         <div className='bg-white p-5 rounded-2xl'>
-        <CardDescription className='text-xl font-poppins text-black font-bold'>{user?.name}</CardDescription>
-        <div className="text-lg text-black">About me</div>
-        <CardDescription className='text-black/80 font-poppins font-semibold w-388'>{user.bio}</CardDescription>
+          <CardDescription className='text-xl font-poppins text-black font-bold'>{user?.name}</CardDescription>
+          <div className="text-lg text-black">About me</div>
+          <CardDescription className='text-black/80 font-poppins font-semibold w-388'>{user.bio}</CardDescription>
         </div>
         <div className='bg-white p-5 rounded-2xl'>
-        <UserLinks
-          data={user}
-          linkClass="text-lg hover:bg-blue-600/90 my-2 bg-blue-500 border-2 border-blue-500 w-388"
-          iconClass="text-blue-50 text-xl"
-          textClass="text-blue-100 font-medium"
-        />
-        </div>  
+          <UserLinks
+            data={user}
+            linkClass="text-lg hover:bg-blue-600/90 my-2 bg-blue-500 border-2 border-blue-500 w-388"
+            iconClass="text-blue-50 text-xl"
+            textClass="text-blue-100 font-medium"
+          />
+        </div>
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
     </>

@@ -5,6 +5,8 @@ import { useSession, signOut } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowLeft, LayoutDashboard, LogOutIcon, Plus, Eye, Settings, Zap, MailMinus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { HiOutlinePaperAirplane } from 'react-icons/hi';
+
 const DashboardNavigation = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -49,11 +51,15 @@ const DashboardNavigation = () => {
       icon: <Eye />
     },
     {
-      name: "Email Marketing",
+      name: "Manage Users",
       link: `/dashboard/${username}/emailmarketing`,
       icon: <MailMinus />
+    },
+    {
+      name: "Campaigns",
+      link: `/dashboard/${username}/campaigns`,
+      icon: <HiOutlinePaperAirplane />
     }
-
   ]
 
   return (
@@ -61,19 +67,19 @@ const DashboardNavigation = () => {
       <div>
         {Links.map((link, idx) => {
           const isVisitPage = link.name == "Visit Page";
-          const isActive = isVisitPage ? path == link.link: path.toLowerCase() === link.link.toLowerCase();
+          const isActive = isVisitPage ? path == link.link : path.toLowerCase() === link.link.toLowerCase();
           return (
-          <Link
-            href={link.link}
-            key={idx}
+            <Link
+              href={link.link}
+              key={idx}
 
-            className={`${isActive ? "bg-blue-200 text-blue-600" : ""} ${dashboard_buttons_style}`}
-          >
-            <span className="text-lg">{link.icon}</span>
-            <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
-          </Link>
+              className={`${isActive ? "bg-blue-200 text-blue-600" : ""} ${dashboard_buttons_style}`}
+            >
+              <span className="text-lg">{link.icon}</span>
+              <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
+            </Link>
           )
-          })}
+        })}
       </div>
 
       <Button

@@ -24,7 +24,7 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email:enteredEmail,id:user._id})
+        body: JSON.stringify({ email: enteredEmail, id: user._id })
       }
     )
     if (!response.ok) {
@@ -34,7 +34,7 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
     if (data.status == 201) {
       toast.success(data.message);
     }
-    if(data.status == 200){
+    if (data.status == 200) {
       toast.success(data.message);
     }
   }
@@ -53,15 +53,20 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
 
       <Card className='flex relative mt-20 border-transparent mb-32 w-10/12 md:w-4/5 lg:max-w-[400px] z-1 bg-transparent flex-col items-center justify-center p-6 space-y-4 shadow-none'>
         <div className='border-2 border-yellow-300 rounded-full relative'>
-        <Avatar className='w-44 bg-background/30 h-44'>
-          <AvatarImage className='object-contain object-center' src={user?.profilePic} alt="User Profile" />
-          <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
-        </Avatar>
-        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 flex items-center px-2 py-1">
-          <span className="">
-            <FaCrown className="fill-yellow-400 text-3xl" />
-          </span>
-        </div>
+          <Avatar className='w-44 bg-background/30 h-44'>
+            <AvatarImage className='object-contain object-center' src={user?.profilePic} alt="User Profile" />
+            <AvatarFallback>{user?.name?.charAt(0) || "U"}</AvatarFallback>
+          </Avatar>
+          <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2 flex items-center px-2 py-1">
+            {
+              user.isPremiumUser &&
+              (
+                <span>
+                  <FaCrown className="fill-yellow-400 text-3xl" />
+                </span>
+              )
+            }
+          </div>
         </div>
         <CardDescription className='text-lg text-black font-semibold'>{user?.name}</CardDescription>
         <div className="text-lg font-semibold text-black">About me</div>
@@ -72,20 +77,20 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
           iconClass="text-black text-xl"
           textClass="text-gray-800 font-medium"
         />
-        {user.emailMarketing.enableSignupForm && 
-        <form className='flex items-center rounded-full border border-white' onSubmit={(e) => pushEmail(e)}>
-        <Input
-          className="focus:outline-none placeholder:text-white border-transparent outline-none"
-          placeholder="Enter your email"
-          type="email"
-          value={enteredEmail}
-          required
-          onChange={(e) => setEnteredEmail(e.target.value)}
-        />
-        <Button type='submit' className="bg-red-500 rounded-br-full rounded-tr-full text-white px-4 py-2">Subscribe</Button>
-      </form>
+        {user.emailMarketing.enableSignupForm &&
+          <form className='flex items-center rounded-full border border-white' onSubmit={(e) => pushEmail(e)}>
+            <Input
+              className="focus:outline-none placeholder:text-white border-transparent outline-none"
+              placeholder="Enter your email"
+              type="email"
+              value={enteredEmail}
+              required
+              onChange={(e) => setEnteredEmail(e.target.value)}
+            />
+            <Button type='submit' className="bg-red-500 rounded-br-full rounded-tr-full text-white px-4 py-2">Subscribe</Button>
+          </form>
         }
-        
+
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
     </>
