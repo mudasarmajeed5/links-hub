@@ -85,7 +85,7 @@ const Campaigns = () => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {campaigns.map((c, i) => (
+                                    {campaigns.map((c) => (
                                         <TableRow key={c.id}>
                                             <TableCell>{c.title}</TableCell>
                                             <TableCell>Active</TableCell>

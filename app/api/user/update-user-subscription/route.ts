@@ -5,7 +5,6 @@ export async function PUT(request:NextRequest){
     try {
         await connectDB();
         const {userId} = await request.json();
-        console.log(userId);
         const user = await User.findOneAndUpdate(
             { _id: userId },
             { $set: { isPremiumUser: true } },

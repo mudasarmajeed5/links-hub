@@ -21,7 +21,7 @@ interface UserLinks {
     $oid: string;
   };
 }
-
+type UserLinkPayload = Omit<UserLinks, "_id">;
 interface SocialPlatform {
   name: string;
   label: string;
@@ -150,7 +150,8 @@ const AddLink = () => {
   };
 
   // Update database function
-  const updateToDatabase = async (email: string, formattedData: any[]) => {
+  const updateToDatabase = async (email: string,
+    formattedData: UserLinkPayload[]) => {
     setLoader(true);
     try {
       await fetch('/api/update-to-database', {
@@ -208,7 +209,7 @@ const AddLink = () => {
           };
         }
       })
-      .filter(Boolean); // Remove null entries
+      .filter((item): item is UserLinkPayload => item !== null);
 
     console.log("Formatted data for backend:", formattedData);
     updateToDatabase(session.user.email, formattedData);
