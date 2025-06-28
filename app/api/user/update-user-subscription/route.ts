@@ -5,13 +5,11 @@ export async function PUT(request:NextRequest){
     try {
         await connectDB();
         const {userId} = await request.json();
-        const user = await User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { _id: userId },
             { $set: { isPremiumUser: true } },
             { new: true } 
         );
-        console.log(user);
-        
     } catch (error) {
         console.log(error);
     }

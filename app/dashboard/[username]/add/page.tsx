@@ -1,42 +1,22 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import * as Icons from "react-icons/fa";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { Check, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import useFetchUser from "@/app/hooks/get-user-info";
 import { useRouter } from "next/navigation";
 import { useTitle } from "@/app/hooks/get-user-title";
+import { socialPlatforms } from "@/app/constants/userLinks";
+// helper functions
 import { AddCustomLink } from "./components/AddCustomLink";
+import { prefillFormFromUserData } from "./helpers/preFillFormFromUserData";
+import { formatFormData } from "./helpers/formatFormData";
+import { PlatformInput } from "./components/PlatformInput";
 
-interface UserLinks {
-  icon: string;
-  label: string;
-  link: string;
-  _id: {
-    $oid: string;
-  };
-}
-type UserLinkPayload = Omit<UserLinks, "_id">;
-interface SocialPlatform {
-  name: string;
-  label: string;
-  icon: string;
-  baseUrl: string;
-}
-
-interface CustomLink {
-  name: string;
-  label: string;
-  icon: string;
-  isCustom: true;
-}
-
-type PlatformConfig = SocialPlatform | CustomLink;
+// types
+import { PlatformConfig, UserLinks, CustomLink, UserLinkPayload } from "./helpers/types/add-link-types";
 
 interface Inputs {
   [key: string]: string;
@@ -45,31 +25,15 @@ interface Inputs {
 const AddLink = () => {
   const router = useRouter();
   // Static social platforms configuration
-  const socialPlatforms: SocialPlatform[] = [
-    { name: "instagram", label: "Instagram", icon: "FaInstagram", baseUrl: "https://instagram.com/" },
-    { name: "facebook", label: "Facebook", icon: "FaFacebook", baseUrl: "https://facebook.com/" },
-    { name: "x", label: "X (Twitter)", icon: "FaTwitter", baseUrl: "https://x.com/" },
-    { name: "github", label: "Github", icon: "FaGithub", baseUrl: "https://github.com/" },
-    { name: "linkedIn", label: "LinkedIn", icon: "FaLinkedin", baseUrl: "https://linkedin.com/in/" },
-    { name: "snapchat", label: "Snapchat", icon: "FaSnapchat", baseUrl: "https://snapchat.com/add/" },
-    { name: "pinterest", label: "Pinterest", icon: "FaPinterest", baseUrl: "https://pinterest.com/" },
-    { name: "youtube", label: "YouTube", icon: "FaYoutube", baseUrl: "https://youtube.com/@" },
-    { name: "medium", label: "Medium", icon: "FaMedium", baseUrl: "https://medium.com/@" },
-    { name: "discord", label: "Discord", icon: "FaDiscord", baseUrl: "https://discord.com/users/" },
-    { name: "tiktok", label: "TikTok", icon: "FaTiktok", baseUrl: "https://tiktok.com/@" },
-    { name: "stackoverflow", label: "Stack Overflow", icon: "FaStackOverflow", baseUrl: "https://stackoverflow.com/users/" },
-  ];
 
   const { data: session } = useSession();
   const [loader, setLoader] = useState(false);
   const [allPlatforms, setAllPlatforms] = useState<PlatformConfig[]>(socialPlatforms);
   const [userData, setUserData] = useState<UserLinks[] | undefined>();
   const [email, setEmail] = useState<string>("");
-
   useTitle(`${session?.user.username} - Add Links`);
 
   const { error, data, loading } = useFetchUser(email ? { email } : { email: '' });
-
   const {
     register,
     handleSubmit,
@@ -79,19 +43,6 @@ const AddLink = () => {
   } = useForm<Inputs>({
     defaultValues: {},
   });
-
-  // Helper function to extract username from full URL
-  const extractUsername = (fullUrl: string, baseUrl: string): string => {
-    if (!fullUrl) return "";
-    return fullUrl.replace(baseUrl, "");
-  };
-
-  // Helper function to find platform by label (case-insensitive)
-  const findPlatformByLabel = (label: string): PlatformConfig | undefined => {
-    return allPlatforms.find(platform =>
-      platform.label.toLowerCase() === label.toLowerCase()
-    );
-  };
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -105,24 +56,10 @@ const AddLink = () => {
   // Populate form with existing user data
   useEffect(() => {
     if (userData && userData.length > 0) {
-      userData.forEach((userLink: UserLinks) => {
-        const platform = findPlatformByLabel(userLink.label);
-
-        if (platform) {
-          if ('baseUrl' in platform) {
-            // Social platform - extract username
-            const username = extractUsername(userLink.link, platform.baseUrl);
-            setValue(platform.name, username);
-          } else {
-            // Custom link - store full URL
-            setValue(platform.name, userLink.link);
-          }
-        }
-      });
+      prefillFormFromUserData(userData, allPlatforms, setValue);
     }
   }, [userData, setValue, allPlatforms]);
 
-  // Add custom link functionality
   const createCustomLink = (linkData: { link_url: string, link_title: string }) => {
     const isPremiumUser = data?.isPremiumUser || false;
     const currentCustomLinks = allPlatforms.filter(platform => 'isCustom' in platform);
@@ -183,35 +120,7 @@ const AddLink = () => {
       toast.error("Make sure You're signed In");
       return;
     }
-
-    // Format data for backend (maintaining compatibility)
-    const formattedData = allPlatforms
-      .map((platform) => {
-        const inputValue = formData[platform.name] || "";
-
-        if (!inputValue.trim()) {
-          return null; // Skip empty fields
-        }
-
-        if ('baseUrl' in platform) {
-          // Social platform - construct full URL from username
-          return {
-            icon: platform.icon,
-            label: platform.label,
-            link: platform.baseUrl + inputValue.trim()
-          };
-        } else {
-          // Custom link - use full URL as provided
-          return {
-            icon: platform.icon,
-            label: platform.label,
-            link: inputValue.trim()
-          };
-        }
-      })
-      .filter((item): item is UserLinkPayload => item !== null);
-
-    console.log("Formatted data for backend:", formattedData);
+    const formattedData = formatFormData(formData, allPlatforms);
     updateToDatabase(session.user.email, formattedData);
   };
 
@@ -229,58 +138,16 @@ const AddLink = () => {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          {allPlatforms.map((platform) => {
-            const IconComponent = Icons[platform.icon as keyof typeof Icons];
-            const fieldValue = watch(platform.name);
-            const isCustomLink = 'isCustom' in platform;
-
-            return (
-              <div key={platform.name} className="flex flex-col relative gap-1">
-                <div className="flex items-center gap-2 relative">
-                  {IconComponent && <IconComponent className="w-6 h-6" />}
-                  <Label htmlFor={platform.name} className="flex items-center gap-2">
-                    {platform.label}
-                    {isCustomLink && (
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded bg-primary/20 text-primary select-none">
-                        Custom
-                      </span>
-                    )}
-                  </Label>
-                  {isCustomLink && (
-                    <button
-                      type="button"
-                      onClick={() => removeCustomLink(platform.name)}
-                      className="ml-auto p-1 rounded hover:bg-red-100 active:bg-red-200"
-                      aria-label={`Delete custom link ${platform.label}`}
-                    >
-                      <Icons.FaTrash className="w-4 h-4 text-red-600 hover:text-red-700" />
-                    </button>
-                  )}
-                </div>
-
-
-                <Input
-                  id={platform.name}
-                  {...register(platform.name)}
-                  placeholder={
-                    isCustomLink
-                      ? "Enter full URL (https://...)"
-                      : `Enter ${platform.label} username`
-                  }
-                  className={`mt-2 text-muted-foreground pr-10 border rounded-md p-2 ${fieldValue ? "border-green-500" : "border-gray-300"
-                    }`}
-                />
-
-                {fieldValue && (
-                  <Check className="absolute -right-2 p-1 top-1/2 bg-green-600 rounded-full transform -translate-y-1/2 text-black" size={25} />
-                )}
-
-                {errors[platform.name] && (
-                  <span className="text-red-500 text-sm">{errors[platform.name]?.message}</span>
-                )}
-              </div>
-            );
-          })}
+          {allPlatforms.map((platform) =>
+            <PlatformInput
+              key={platform.name}
+              platform={platform}
+              register={register}
+              watch={watch}
+              errors={errors}
+              removeCustomLink={removeCustomLink}
+            />
+          )}
         </div>
 
         <div className="flex gap-2 items-center w-full">

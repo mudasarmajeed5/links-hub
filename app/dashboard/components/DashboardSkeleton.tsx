@@ -3,7 +3,6 @@ import { Skeleton } from "@/components/ui/skeleton" // Assuming you have this co
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function DashboardSkeleton() {
-
   return (
     <>
       <div className="p-4">
@@ -16,7 +15,7 @@ export function DashboardSkeleton() {
           <CardContent>
             <div className="mb-4">
               <div className="flex text-center text-md gap-1 flex-col">
-                <div className="flex justify-center">
+                <div className="flex justify-center">       
                   <Skeleton className="w-full h-56" />
                 </div>
               </div>
