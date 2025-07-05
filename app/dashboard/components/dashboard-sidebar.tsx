@@ -5,7 +5,7 @@ import { useSession, signOut } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation';
 import { ArrowLeft, LayoutDashboard, LogOutIcon, Plus, Eye, Settings, Zap, MailMinus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { HiOutlinePaperAirplane } from 'react-icons/hi';
+import { MdCampaign } from "react-icons/md";
 
 const DashboardNavigation = () => {
   const router = useRouter();
@@ -58,7 +58,7 @@ const DashboardNavigation = () => {
     {
       name: "Campaigns",
       link: `/dashboard/${username}/campaigns`,
-      icon: <HiOutlinePaperAirplane />
+      icon: <MdCampaign />
     }
   ]
 
@@ -75,7 +75,7 @@ const DashboardNavigation = () => {
 
               className={`${isActive ? "bg-blue-200 text-blue-600" : ""} ${dashboard_buttons_style}`}
             >
-              <span className="text-lg">{link.icon}</span>
+              <span className="text-2xl">{link.icon}</span>
               <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
             </Link>
           )
