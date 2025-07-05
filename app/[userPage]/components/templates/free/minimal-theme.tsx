@@ -7,8 +7,7 @@ import UserLinks from '../../user-links';
 import ContributeHeader from '../../contribute-header';
 import { FaCrown } from "react-icons/fa6";
 import SpotifyPlayer from '../../SpotifyPlayer';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import PushEmail from '../../pushEmail';
 import { FormEvent, useState } from 'react';
 import { toast } from 'sonner';
 interface MinimalThemeProps {
@@ -77,20 +76,7 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
           iconClass="text-black text-xl"
           textClass="text-gray-800 font-medium"
         />
-        {user.emailMarketing.enableSignupForm &&
-          <form className='flex items-center rounded-full border border-white' onSubmit={(e) => pushEmail(e)}>
-            <Input
-              className="focus:outline-none placeholder:text-white border-transparent outline-none"
-              placeholder="Enter your email"
-              type="email"
-              value={enteredEmail}
-              required
-              onChange={(e) => setEnteredEmail(e.target.value)}
-            />
-            <Button type='submit' className="bg-red-500 rounded-br-full rounded-tr-full text-white px-4 py-2">Subscribe</Button>
-          </form>
-        }
-
+        <PushEmail id={user._id} isPremiumUser={user.emailMarketing.enableSignupForm}/>
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
     </>

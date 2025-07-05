@@ -10,20 +10,22 @@ export async function POST(request:NextRequest){
         
         if (user) {
             const existingEmailEntry = user.emailMarketing.emailList.find((entry:EmailSubscriber) => entry.email === email);
-            
             if (existingEmailEntry) {
-                // If the email exists but is unsubscribed, change it to subscribed
-                if (!existingEmailEntry.subscribed) {
-                    existingEmailEntry.status = 'subscribed';
+                if(existingEmailEntry.status == "subscribed"){
+                    existingEmailEntry.status = "unsubscribed";
                     await user.save();
-                    return NextResponse.json({ status: 200, message: "You've been resubscribed" });
-                } else {
-                    return NextResponse.json({ status: 200, message: "You're already subscribed" });
+                    return NextResponse.json({status:200,message:"Unsubscribed from Mailing list."})
                 }
+                else{
+                    existingEmailEntry.status = "subscribed";
+                    existingEmailEntry.subscriptionDate = Date.now();
+                    await user.save();
+                    return NextResponse.json({status:201,message:"You've been Subscribed"});
+                }  
             } else {
-                user.emailMarketing.emailList.push({ email, subscribed: true });
+                user.emailMarketing.emailList.push({ email, status:"subscribed" });
                 await user.save();
-                return NextResponse.json({ status: 201, message: "You've been subscribed" });
+                return NextResponse.json({ status: 202, message: "You've been subscribed" });
             }
         }
     } catch (error) {

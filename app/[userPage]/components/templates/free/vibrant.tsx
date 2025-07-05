@@ -6,13 +6,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import UserLinks from '../../user-links';
 import SpotifyPlayer from '../../SpotifyPlayer';
 import { FaCrown } from 'react-icons/fa';
+import PushEmail from '../../pushEmail';
 interface VibrantThemeProps {
   user: User
 }
 const VibrantTheme = ({ user }: VibrantThemeProps) => {
   return (
     <div className='bg-purple-400 w-full h-full flex items-center justify-center'>
-      {/* Background Image */}
       <ContributeHeader navStyle='bg-green-600/60 z-2 text-white' />
       <Card className='flex z-1 relative mt-20 mb-32 w-10/12 md:w-4/5 lg:max-w-[400px] bg-transparent flex-col items-center justify-center p-6 space-y-4 border-none shadow-none'>
         
@@ -41,7 +41,7 @@ const VibrantTheme = ({ user }: VibrantThemeProps) => {
           iconClass="text-white text-xl"
           textClass="text-white font-medium"
         />
-
+        <PushEmail id={user._id} isPremiumUser={user.emailMarketing.enableSignupForm}/>        
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
     </div>

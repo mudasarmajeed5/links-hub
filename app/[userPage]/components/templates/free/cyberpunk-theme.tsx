@@ -8,6 +8,7 @@ import UserLinks from '../../user-links';
 import backgroundImage from "@/public/theme-backgrounds/free/cyberpunk-theme.jpg";
 import SpotifyPlayer from '../../SpotifyPlayer';
 import { FaCrown } from 'react-icons/fa';
+import PushEmail from '../../pushEmail';
 interface CyberPunkThemeProps {
   user: User
 }
@@ -53,6 +54,7 @@ const CyberPunkTheme = ({ user }: CyberPunkThemeProps) => {
             iconClass="text-blue-50 text-xl"
             textClass="text-blue-100 font-medium"
           />
+        <PushEmail id={user._id} isPremiumUser={user.emailMarketing.enableSignupForm}/>
         </div>
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
