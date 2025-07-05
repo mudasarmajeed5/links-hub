@@ -7,37 +7,11 @@ import UserLinks from '../../user-links';
 import ContributeHeader from '../../contribute-header';
 import { FaCrown } from "react-icons/fa6";
 import SpotifyPlayer from '../../SpotifyPlayer';
-import PushEmail from '../../pushEmail';
-import { FormEvent, useState } from 'react';
-import { toast } from 'sonner';
+import PushEmail from '../../PushEmail';
 interface MinimalThemeProps {
   user: User;
 }
 const MinimalTheme = ({ user }: MinimalThemeProps) => {
-  const [enteredEmail, setEnteredEmail] = useState<string>('')
-  const pushEmail = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const response = await fetch('/api/email-marketing/add-email',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: enteredEmail, id: user._id })
-      }
-    )
-    if (!response.ok) {
-      toast.error(response.statusText)
-    }
-    const data = await response.json();
-    if (data.status == 201) {
-      toast.success(data.message);
-    }
-    if (data.status == 200) {
-      toast.success(data.message);
-    }
-  }
-
   return (
     <>
       {/* Background Image */}

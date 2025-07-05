@@ -8,7 +8,7 @@ import UserLinks from '../../user-links';
 import backgroundImage from "@/public/theme-backgrounds/free/cyberpunk-theme.jpg";
 import SpotifyPlayer from '../../SpotifyPlayer';
 import { FaCrown } from 'react-icons/fa';
-import PushEmail from '../../pushEmail';
+import PushEmail from '../../PushEmail';
 interface CyberPunkThemeProps {
   user: User
 }

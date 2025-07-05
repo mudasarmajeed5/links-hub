@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import UserLinks from '../../user-links';
 import SpotifyPlayer from '../../SpotifyPlayer';
 import { FaCrown } from 'react-icons/fa';
-import PushEmail from '../../pushEmail';
+import PushEmail from '../../PushEmail';
 interface VibrantThemeProps {
   user: User
 }
