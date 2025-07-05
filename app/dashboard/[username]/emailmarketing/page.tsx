@@ -53,7 +53,6 @@ const EmailMarketing = () => {
         const filteredArray = emailList.filter(
             (emailItem) => sortByValue === "all" || emailItem.status === sortByValue
         );
-
         setEmailsList(filteredArray);
     };
     if (loading) {
@@ -63,8 +62,6 @@ const EmailMarketing = () => {
     if (error) {
         return <div>{error}</div>;
     }
-
-
 
     return (
         <div className='p-4 min-h-[90vh] overflow-auto bg-white dark:bg-[#151515] shadow-md'>

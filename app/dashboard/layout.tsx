@@ -30,7 +30,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   }, [])
   if (!mounted) return null;
 
-//    ${poppins.className} 
+  //    ${poppins.className} 
   return (
     <div className={`
     font-poppins text-black dark:text-white bg-gradient-to-br from-background to-muted`}>
@@ -42,11 +42,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       >
         <div className="bg-gradient-to-r z-10 sticky top-0 border-b from-background to-muted supports-[backdrop]:bg-background/10 flex justify-between items-center p-4">
           <div className="font-medium">Welcome <span className="font-bold">{name}</span></div>
-          <div className="flex gap-2">
-          <Link className="border rounded-full text-md px-2 py-1 border-black dark:border-white hover:bg-black hover:text-white flex items-center gap-2" target="_blank" href={"https://github.com/mudasarmajeed5"}>
-          <FaGithub/>
-          </Link>
-          <ModeToggle/>
+          <div className="flex items-center gap-2">
+            <Link className="text-2xl" target="_blank" href={"https://github.com/mudasarmajeed5"}>
+              <FaGithub />
+            </Link>
+            <ModeToggle />
           </div>
         </div>
         <div className="min-h-[calc(100vh-80px)]">
