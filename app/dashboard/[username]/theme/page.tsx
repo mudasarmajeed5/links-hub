@@ -34,9 +34,10 @@ const UserTemplate = () => {
     return (
         <div className="m-5">
             <h2 className="text-center text-2xl underline underline-offset-4">Select a Template</h2>
-            <div className="text-center my-2">
-                <Link target="_blank" className="p-1 text-xs bg-red-800 border-b-red-300 border" href={`https://linkshub.space/${session?.user.username}`}>
-                    Website Live at: {`https://linkshub.space/${session?.user.username}`}
+            <div className="text-center flex justify-center text-xs gap-2 my-2">
+                <span>Website Live at: </span>
+                <Link target="_blank" className="text-blue-700 dark:text-blue-600" href={`https://linkshub.space/${session?.user.username}`}>
+                     {`https://linkshub.space/${session?.user.username}`}
                 </Link>
             </div>
             <div className="flex lg:justify-around flex-col lg:flex-row items-center">

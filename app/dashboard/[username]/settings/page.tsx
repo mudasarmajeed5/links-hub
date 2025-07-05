@@ -145,80 +145,99 @@ export default function UpdateUserSettings() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {activetab === "Basic" && (
               <>
-                <div className="flex flex-wrap gap-4">
-                  <div className="flex-1 min-w-[200px]">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      className="text-muted-foreground w-full"
-                      id="name"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      placeholder="Enter new Name"
-                    />
+                <div className="flex  h-[220px]"> 
+                  <div className="w-3/4 h-full">
+                    <div className="flex flex-col justify-between h-full p-4 gap-4">
+                      <div className="flex flex-col flex-1 min-h-0">
+                        <Label htmlFor="name">Name</Label>
+                        <Input
+                          className="text-muted-foreground w-full flex-1"
+                          id="name"
+                          value={form.name}
+                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          placeholder="Enter new Name"
+                        />
+                      </div>
+
+                      <div className="flex flex-col flex-1 min-h-0">
+                        <Label htmlFor="username">Username</Label>
+                        <Input
+                          id="username"
+                          className="text-muted-foreground w-full flex-1"
+                          value={form.username}
+                          onChange={(e) => setForm({ ...form, username: e.target.value })}
+                          placeholder="Enter new username"
+                        />
+                      </div>
+
+                      <div className="flex flex-col flex-1 min-h-0">
+                        <Label htmlFor="profilePic">Profile Picture URL</Label>
+                        <Input
+                          id="profilePic"
+                          className="text-muted-foreground w-full flex-1"
+                          value={form.profilePic}
+                          onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
+                          placeholder="Enter profile picture URL"
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="flex-1 min-w-[200px]">
-                    <Label htmlFor="username">Username</Label>
-                    <Input
-                      id="username"
-                      className="text-muted-foreground w-full"
-                      value={form.username}
-                      onChange={(e) => setForm({ ...form, username: e.target.value })}
-                      placeholder="Enter new username"
-                    />
-                  </div>
+                  <div className="w-1/4 h-full p-4">
+                    {form.profilePic && (
+                      <div className="h-full flex flex-col items-center justify-between gap-4">
+                        <Avatar className="w-44 h-44">
+                          <AvatarImage
+                            className="object-cover object-center"
+                            src={form.profilePic}
+                            alt="Profile preview"
+                          />
+                          <AvatarFallback>Preview</AvatarFallback>
+                        </Avatar>
 
-                  {error && <span className="text-red-600 text-sm w-full">{error}</span>}
-                </div>
+                        <CldUploadWidget
+                          uploadPreset="links-hub-pfp"
+                          onSuccess={handleSuccess}
+                          onCloseAction={() => setUploadWidgetState(false)}
+                        >
+                          {({ open }) => (
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="w-full"
+                              disabled={uploadWidgetState}
+                              onClick={() => {
+                                open();
+                                setUploadWidgetState(true);
+                              }}
+                            >
+                              Upload an Image {uploadWidgetState && <Loader2 className="animate-spin ml-2" />}
+                            </Button>
+                          )}
+                        </CldUploadWidget>
 
-                <div className="space-y-2">
-                  <Label htmlFor="profilePic">Profile Picture URL</Label>
-                  <Input
-                    id="profilePic"
-                    className="text-muted-foreground"
-                    value={form.profilePic}
-                    onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
-                    placeholder="Enter profile picture URL"
-                  />
-                  <CldUploadWidget uploadPreset="links-hub-pfp" onSuccess={handleSuccess} onCloseAction={()=>setUploadWidgetState(false)}>
-                    {({ open }) => (
-                      <Button
-                        type="button"
-                        variant={"outline"}
-                        className="w-full"
-                        disabled={uploadWidgetState}
-                        onClick={() => {
-                          open();
-                          setUploadWidgetState(true);
-                        }}
-                      >
-                        Upload an Image {uploadWidgetState && <Loader2 className="animate-spin" />}
-                      </Button>
+                        {error && (
+                          <span className="text-red-600 text-sm w-full text-center">
+                            {error}
+                          </span>
+                        )}
+                      </div>
                     )}
-                  </CldUploadWidget>
+                  </div>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 w-3/4">
                   <Label htmlFor="bio">Add Bio</Label>
                   <Textarea
                     id="bio"
+                    cols={20}
+                    rows={10}
                     className="text-muted-foreground"
                     value={form.bio}
                     onChange={(e) => setForm({ ...form, bio: e.target.value })}
                     placeholder="Enter your Bio"
                   />
                 </div>
-                {form.profilePic && (
-                  <div className="mt-4 flex justify-center">
-                    <Avatar className="w-32 h-32">
-                      <AvatarImage
-                        className="object-cover object-center"
-                        src={form.profilePic}
-                        alt="Profile preview"
-                      />
-                      <AvatarFallback>Preview</AvatarFallback>
-                    </Avatar>
-                  </div>
-                )}
+
               </>
             )}
             {activetab === "SEO and Marketing" && (
