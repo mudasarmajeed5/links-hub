@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
         subscriber.subscriptionDate = new Date(); 
         await user.save();
         
-        await user.save();
         return NextResponse.json({status:200,message:"You've been unsubscribed"});
 
     } catch (error) {
