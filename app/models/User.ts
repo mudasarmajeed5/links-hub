@@ -1,22 +1,25 @@
 import mongoose from "mongoose";
 const { Schema, model, models } = mongoose;
-import { EmailCampaignSchema } from "./EmailCampaign";
 
 const UserLinksSchema = new Schema({
   icon: { type: String, required: true },
   label: { type: String, required: true },
-  link: { type: String, default:'' },
+  link: { type: String, default: '' },
 });
 const emailSchema = new Schema({
-  email: { type: String, required: true,  },
+  email: { type: String, required: true, },
   status: { type: String, required: true, default: 'subscribed' },
-  subscriptionDate: { type: Date,required:true, default: Date.now }
-})
+  subscriptionDate: { type: Date, required: true, default: Date.now }
+}, { _id: false })
 const EmailMarketingSchema = new Schema({
   emailList: { type: [emailSchema], default: [] },
   enableSignupForm: { type: Boolean, default: false },
   welcomeEmail: { type: String, default: "" },
-  campaignsSchema: EmailCampaignSchema
+  emailCampaignsRef: {
+    type: Schema.Types.ObjectId,
+    required: false,
+    ref: "EmailCampaign"
+  }
 });
 
 const SeoRankingSchema = new Schema({
