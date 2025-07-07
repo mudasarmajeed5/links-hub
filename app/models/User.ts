@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const { Schema, model, models } = mongoose;
+import { EmailCampaignSchema } from "./EmailCampaign";
 
 const UserLinksSchema = new Schema({
   icon: { type: String, required: true },
@@ -15,6 +16,7 @@ const EmailMarketingSchema = new Schema({
   emailList: { type: [emailSchema], default: [] },
   enableSignupForm: { type: Boolean, default: false },
   welcomeEmail: { type: String, default: "" },
+  campaignsSchema: EmailCampaignSchema
 });
 
 const SeoRankingSchema = new Schema({

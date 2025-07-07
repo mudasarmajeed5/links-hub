@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -24,9 +24,8 @@ const Campaigns = () => {
     ]);
 
     const [subscriberGroups] = useState([
-        { id: "basic", label: "Basic Subscribers" },
-        { id: "premium", label: "Premium Subscribers" },
-        { id: "inactive", label: "Inactive Users" },
+        { id: "subscribers", label: "Subscribers" },
+        { id: "all-users", label: "All Users" },
     ]);
 
     return (
@@ -34,14 +33,35 @@ const Campaigns = () => {
             <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Campaigns</h1>
             <p className="text-gray-600 dark:text-gray-400 mb-6">Manage and send your email marketing campaigns.</p>
 
-            <Tabs defaultValue="build" className="w-full">
+            <Tabs defaultValue="smtp" className="w-full">
                 <TabsList className="mb-4 bg-gray-100 dark:bg-gray-800">
+                    <TabsTrigger value="smtp">STMP Config</TabsTrigger>
                     <TabsTrigger value="build">Build Campaign</TabsTrigger>
                     <TabsTrigger value="active">Active Campaigns</TabsTrigger>
                     <TabsTrigger value="send">Send Campaign</TabsTrigger>
                 </TabsList>
 
                 {/* 1. Build Campaign */}
+                <TabsContent value="smtp">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>SMTP Configuration</CardTitle>
+                            <CardDescription>Configure your SMTP Settings.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="flex gap-2">
+                                <Input placeholder="example@mail.com" name="smtp-email" />
+                                <Input placeholder="App Password" name="smtp-app-password" />
+                            </div>
+                            <div className="flex gap-2">
+                                <Input placeholder="i.e. smtp.zoho.com" name="smtp-host" />
+                                <Input placeholder="PORT i.e. 587" name="smtp-port" />
+                            </div>
+                            <Button className="mt-2">Save Configuration</Button>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+
                 <TabsContent value="build">
                     <Card>
                         <CardHeader>
@@ -49,8 +69,25 @@ const Campaigns = () => {
                             <CardDescription>Create a new campaign using a title, body, and template.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <Input placeholder="Campaign Title" />
-                            <Textarea placeholder="Email Body..." rows={5} />
+                            <div className="flex gap-2">
+                                <Input placeholder="Campaign Title" className="w-[70%]" name="campaign-title" />
+                                <div className="w-1/4">
+                                    <Select>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Status" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="active">
+                                                Active
+                                            </SelectItem>
+                                            <SelectItem value="inactive">
+                                                Inactive
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
+                            <Textarea placeholder="Email Body..." name="campaign-body" rows={5} />
                             <Select>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select Campaign to Edit" />
@@ -134,7 +171,7 @@ const Campaigns = () => {
                                 ))}
                             </div>
 
-                            <Button variant="destructive" className="mt-4">Send Campaign</Button>
+                            <Button variant="default" className="mt-4">Send Campaign</Button>
                         </CardContent>
                     </Card>
                 </TabsContent>
