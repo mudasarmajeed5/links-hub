@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
         if (!userId) {
             return NextResponse.json({ message: "User ID not found" }, { status: 404 });
         }
-        let campaign = await EmailCampaign.findOne({ userId });
+        const campaign = await EmailCampaign.findOne({ userId });
         if (!campaign) {
 
             return NextResponse.json({ message: "Campaign not found" }, { status: 404 });

@@ -2,7 +2,7 @@ import { CampaignType } from "./types/campaign-types";
 
 export async function saveCampaigns(data:CampaignType,userId:string){
     try {
-        let response = await fetch('/api/user/save-campaign',
+        const response = await fetch('/api/user/save-campaign',
             {
                 method:"POST",
                 headers:{

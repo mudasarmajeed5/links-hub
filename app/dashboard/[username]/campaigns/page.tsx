@@ -24,7 +24,7 @@ const Campaigns = () => {
     const [email, setEmail] = useState('');
     const router = useRouter();
     const [isPremium, setIsPremium] = useState(true);
-    const { error, data, loading } = useFetchUser(email ? { email } : { email: '' })
+    const { data } = useFetchUser(email ? { email } : { email: '' })
     const userId = data?._id?.toString();
     const [smtpSettings, setSmtpSettings] = useState<SMTPTYPE>({
         smtp_email: '',
@@ -40,8 +40,8 @@ const Campaigns = () => {
     const [campArray,setCampArray] = useState <CampaignType[]>([]);
     const getData = async(userId:string) =>{
         const result = await getUserCampaignsData(userId);
-        let campaignSettings = result.data?.campaigns?.email_campaigns;
-        let smtpSettings = result.data?.smtp_config;
+        const campaignSettings = result.data?.campaigns?.email_campaigns;
+        const smtpSettings = result.data?.smtp_config;
         if(smtpSettings){
             setSmtpSettings(smtpSettings);
         }

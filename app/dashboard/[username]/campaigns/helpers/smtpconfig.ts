@@ -2,7 +2,7 @@ import { SMTPTYPE } from "./types/campaign-types";
 
 export async function saveSmtpConfig(data: SMTPTYPE,userId: string) {
     try {
-        let response = await fetch('/api/user/smtp-config', {
+        const response = await fetch('/api/user/smtp-config', {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

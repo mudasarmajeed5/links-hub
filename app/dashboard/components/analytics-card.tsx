@@ -9,7 +9,7 @@ interface AnalyticsCardProps {
   viewHistory: { date: string; views: number }[];
 }
 
-const AnalyticsCard = ({ isPremiumUser, viewCount, viewHistory }: AnalyticsCardProps) => {
+const AnalyticsCard = ({ isPremiumUser, viewHistory }: AnalyticsCardProps) => {
   const [range, setRange] = useState(7);
   const [sortedData, setSortedData] = useState(viewHistory)
   const [views, setViews] = useState(0);
