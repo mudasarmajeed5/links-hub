@@ -1,13 +1,19 @@
-export const getUserCampaignsData = async (userId: string) => {
-    const response = await fetch('/api/user/save-campaign',
-        {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "user-id": userId
-            },
+"use server"
+import { User } from "@/app/models";
+import connectDB from "@/lib/mongodb";
+export const getCampaigns = async (userId: string) => {
+    try {
+        await connectDB();
+        if (!userId) {
+            return { status: 400, message: "UserID Missing" };
         }
-    );
-    const data = await response.json();
-    return data;
+        const userWithCampaign = await User.findById(userId).populate("emailMarketing.emailCampaignsRef");
+        if (!userWithCampaign || !userWithCampaign.emailMarketing?.emailCampaignsRef) {
+            return { status: 404, message: "No Campaign Found for this user" };
+        }
+        const plainDoc = JSON.parse(JSON.stringify(userWithCampaign));
+        return { status: 200, data: plainDoc };
+    } catch (error) {
+        return { error: (error as Error).message, status: 500 }
+    }
 }

@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const EmailCampaigns = new Schema({
+const EmailCampaignSubSchema = new Schema({
     campaign_title: { type: String },
     campaign_body: { type: String },
     campaign_status: { type: Boolean },
@@ -16,7 +16,7 @@ const EmailCampaignSchema = new Schema({
         smtp_port: { type: Number },
     },
     campaigns: {
-        email_campaigns: { type: [EmailCampaigns], required: true, default: [] }
+        email_campaigns: { type: [EmailCampaignSubSchema], required: true, default: [] }
     }
 })
 export default mongoose.models.EmailCampaign || mongoose.model("EmailCampaign",EmailCampaignSchema)
