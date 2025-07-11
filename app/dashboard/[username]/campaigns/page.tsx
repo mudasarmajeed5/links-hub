@@ -17,15 +17,16 @@ import { saveSmtpConfig } from "./helpers/smtpconfig";
 import { CampaignType, SMTPTYPE } from "./helpers/types/campaign-types";
 import { toast } from "sonner";
 import { saveCampaigns } from "./helpers/saveCampaign";
-import { getUserCampaignsData } from "./helpers/getCampaignsData";
+import { getCampaigns } from "./helpers/getCampaignsData";
 
 const Campaigns = () => {
     const { data: session } = useSession();
     const [email, setEmail] = useState('');
     const router = useRouter();
+    const [userId, setUserId] = useState<string | null>(null)
     const [isPremium, setIsPremium] = useState(true);
     const { data } = useFetchUser(email ? { email } : { email: '' })
-    const userId = data?._id?.toString();
+
     const [smtpSettings, setSmtpSettings] = useState<SMTPTYPE>({
         smtp_email: '',
         smtp_app_password: '',
@@ -37,30 +38,36 @@ const Campaigns = () => {
         campaign_body: '',
         campaign_status: false,
     })
-    const [campArray,setCampArray] = useState <CampaignType[]>([]);
-    const getData = async(userId:string) =>{
-        const result = await getUserCampaignsData(userId);
-        const campaignSettings = result.data?.campaigns?.email_campaigns;
-        const smtpSettings = result.data?.smtp_config;
-        if(smtpSettings){
-            setSmtpSettings(smtpSettings);
-        }
-        if(campaignSettings){
-            setCampArray(campaignSettings);
+    const [campArray, setCampArray] = useState<CampaignType[]>([]);
+    const getData = async (userId: string) => {
+        try {
+            const response = await getCampaigns(userId);
+            const res = response.data;
+            setSmtpSettings(res?.emailMarketing?.emailCampaignsRef?.smtp_config || {});
+            setCampArray(res?.emailMarketing?.emailCampaignsRef?.campaigns?.email_campaigns || []);
+        } catch (error) {
+            toast.error("Failed to load Data.. Login Again");
+            console.error(error);
         }
     }
     useEffect(() => {
-        if (!session) {
-            return
-        }
-        if (session.user && session.user.email) {
+        if (session?.user?.email) {
             setEmail(session.user.email);
         }
-        if (data?.isPremiumUser) {
-            setIsPremium(data?.isPremiumUser)
-        }
-        getData(userId? userId: '');
     }, [session]);
+    useEffect(() => {
+        if (data) {
+            setIsPremium(data.isPremiumUser)
+            if (data._id) {
+                setUserId(data._id.toString());
+            }
+        }
+    }, [data])
+    useEffect(() => {
+        if (userId) {
+            getData(userId);
+        }
+    }, [userId, session]);
 
 
     const [subscriberGroups] = useState([
@@ -86,10 +93,22 @@ const Campaigns = () => {
         toast.success(result.message);
     };
     const handleSaveCampaign = async () => {
+        setCampArray(prev => [...prev, { ...campaign, createdAt: new Date }]);
         const result = await saveCampaigns(campaign, userId ? userId : '');
         toast.info(result.message);
+        setCampaign({
+            campaign_body: '',
+            campaign_title: '',
+            campaign_status: false
+        })
     }
-
+    const handleEditCampaign = (index: string) => {
+        const value = parseInt(index);
+        const selectedCamp = campArray[value];
+        if (selectedCamp) {
+            setCampaign(selectedCamp);
+        }
+    }
     return (
         <div className="relative">
             {!isPremium && (
@@ -98,7 +117,7 @@ const Campaigns = () => {
                     <p className="text-center max-w-md mb-4">
                         Access email campaign tools and grow your audience. Subscribe to premium to unlock these features.
                     </p>
-                    <Button onClick={()=>{router.push("/dashboard/loading")}} className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold">
+                    <Button onClick={() => { router.push("/dashboard/loading") }} className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold">
                         Upgrade Now
                     </Button>
                 </div>
@@ -168,12 +187,12 @@ const Campaigns = () => {
                                     </div>
                                 </div>
                                 <Textarea onChange={handleChangeCampaign} value={campaign.campaign_body} placeholder="Email Body..." name="campaign_body" rows={5} />
-                                <Select>
+                                <Select onValueChange={(e) => handleEditCampaign(e)}>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select Campaign to Edit" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {campArray.map((c,id) => (
+                                        {campArray.map((c, id) => (
                                             <SelectItem key={id} value={`${id}`}>
                                                 {c.campaign_title}
                                             </SelectItem>
@@ -202,10 +221,10 @@ const Campaigns = () => {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {campArray.map((c,id) => (
-                                            <TableRow key={id}>
+                                        {campArray.map((c, id) => (
+                                            c.campaign_status && <TableRow key={id}>
                                                 <TableCell>{c.campaign_title}</TableCell>
-                                                <TableCell>{c.campaign_status ? "Active":"Invactive"}</TableCell>
+                                                <TableCell>{c.campaign_status ? "Active" : "Invactive"}</TableCell>
                                                 <TableCell>{c.createdAt && new Date(c.createdAt).toISOString().split("T")[0]}</TableCell>
                                             </TableRow>
                                         ))}
@@ -226,8 +245,8 @@ const Campaigns = () => {
                                 <div>
                                     <h4 className="text-sm font-medium mb-2">Select Campaign</h4>
                                     <RadioGroup defaultValue={campArray[0]?.campaign_title}>
-                                        {campArray.map((c,idx) => (
-                                            <div key={idx} className="flex items-center space-x-2">
+                                        {campArray.map((c, idx) => (
+                                            c.campaign_status && <div key={idx} className="flex items-center space-x-2">
                                                 <RadioGroupItem value={c.campaign_title} id={`campaign-${idx}`} />
                                                 <label htmlFor={`campaign-${idx}`} className="text-sm text-gray-700 dark:text-gray-300">
                                                     {c.campaign_title}
