@@ -41,12 +41,14 @@ const Campaigns = () => {
         try {
             const response = await getCampaigns(userId);
             const res = response.data;
-            setSmtpSettings(res?.emailMarketing?.emailCampaignsRef?.smtp_config || {
-                smtp_email: '',
-                smtp_app_password: '',
-                smtp_host: '',
-                smtp_port: 0,
+
+            setSmtpSettings({
+                smtp_email: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_email || '',
+                smtp_app_password: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_app_password || '',
+                smtp_host: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_host || '',
+                smtp_port: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_port?.toString() || '',
             });
+
             setCampArray(res?.emailMarketing?.emailCampaignsRef?.campaigns?.email_campaigns || []);
         } catch (error) {
             toast.error("Failed to load Data.. Login Again");
@@ -65,6 +67,7 @@ const Campaigns = () => {
             ...prev,
             [name]: value
         }))
+
     }
     const handleChangeCampaign = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -73,13 +76,19 @@ const Campaigns = () => {
             [name]: value
         }))
     }
+
     const saveSmtp = async () => {
-        setHandleSave(true)
-        const result = await saveSmtpConfig(smtpSettings, userId ? userId : '');
+        setHandleSave(true);
+        const updatedSettings = {
+            ...smtpSettings,
+            smtp_port: Number(smtpSettings.smtp_port),
+        };
+        const result = await saveSmtpConfig(updatedSettings, userId || '');
         toast.success(result.message);
-        await getData(userId)
-        setHandleSave(false)
+        await getData(userId);
+        setHandleSave(false);
     };
+
     const handleSaveCampaign = async () => {
         setHandleSave(true);
         const result = await saveCampaigns(campaign, userId ? userId : '');
@@ -152,7 +161,7 @@ const Campaigns = () => {
                                 </div>
                                 <div className="flex gap-2">
                                     <Input onChange={handleSmtpChange} value={smtpSettings.smtp_host} placeholder="i.e. smtp.zoho.com" name="smtp_host" />
-                                    <Input onChange={handleSmtpChange} value={smtpSettings.smtp_port} placeholder="PORT i.e. 587" name="smtp_port" />
+                                    <Input onChange={handleSmtpChange} value={smtpSettings.smtp_port?.toString() || ''} placeholder="PORT i.e. 587" name="smtp_port" />
                                 </div>
                                 <Button onClick={saveSmtp} disabled={handleSave} className="mt-2 disabled:bg-white/50">
                                     {handleSave ? "Saving Config." : "Save Config."
