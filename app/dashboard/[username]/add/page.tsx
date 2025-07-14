@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
-import useFetchUser from "@/app/hooks/get-user-info";
 import { useRouter } from "next/navigation";
 import { useTitle } from "@/app/hooks/get-user-title";
 import { socialPlatforms } from "@/app/constants/userLinks";
@@ -16,7 +15,8 @@ import { formatFormData } from "./helpers/formatFormData";
 import { PlatformInput } from "./components/PlatformInput";
 
 // types
-import { PlatformConfig, UserLinks, CustomLink, UserLinkPayload } from "./helpers/types/add-link-types";
+import { PlatformConfig, CustomLink, UserLinkPayload } from "./helpers/types/add-link-types";
+import { useUserStore } from "@/store/useUserStore";
 
 interface Inputs {
   [key: string]: string;
@@ -24,16 +24,12 @@ interface Inputs {
 
 const AddLink = () => {
   const router = useRouter();
-  // Static social platforms configuration
-
-  const { data: session } = useSession();
+  const { user, loading, fetchUser } = useUserStore();
+  const userData = user?.userLinks;
+  const { data: session, status } = useSession();
   const [loader, setLoader] = useState(false);
   const [allPlatforms, setAllPlatforms] = useState<PlatformConfig[]>(socialPlatforms);
-  const [userData, setUserData] = useState<UserLinks[] | undefined>();
-  const [email, setEmail] = useState<string>("");
   useTitle(`${session?.user.username} - Add Links`);
-
-  const { error, data, loading } = useFetchUser(email ? { email } : { email: '' });
   const {
     register,
     handleSubmit,
@@ -45,23 +41,20 @@ const AddLink = () => {
   });
 
   useEffect(() => {
-    if (session?.user?.email) {
-      setEmail(session.user.email);
+    if (status == "authenticated") {
+      fetchUser()
     }
-    if (data) {
-      setUserData(data.userLinks);
-    }
-  }, [session, data]);
+  }, [status]);
 
   // Populate form with existing user data
   useEffect(() => {
     if (userData && userData.length > 0) {
-      prefillFormFromUserData(userData, allPlatforms, setValue);
+      prefillFormFromUserData(userData, allPlatforms, setValue, setAllPlatforms);
     }
-  }, [userData, setValue, allPlatforms]);
+  }, [userData]);
 
   const createCustomLink = (linkData: { link_url: string, link_title: string }) => {
-    const isPremiumUser = data?.isPremiumUser || false;
+    const isPremiumUser = user?.isPremiumUser || false;
     const currentCustomLinks = allPlatforms.filter(platform => 'isCustom' in platform);
 
     // Check premium restrictions
@@ -124,9 +117,6 @@ const AddLink = () => {
     updateToDatabase(session.user.email, formattedData);
   };
 
-  if (error) {
-    return <div className="min-h-[80vh] flex justify-center items-center">{error}</div>;
-  }
 
   if (loading) {
     return <div className="min-h-[80vh] flex justify-center items-center"><Loader2 className="w-8 h-8 animate-spin" /></div>;
@@ -165,7 +155,7 @@ const AddLink = () => {
           </Button>
 
           <Button
-            onClick={() => router.push(`/dashboard/${data?.username}/theme`)}
+            onClick={() => router.push(`/dashboard/${session?.user.username}/theme`)}
             className="mt-6 border flex justify-center items-center border-green-900 w-full"
           >
             <span>Next</span>

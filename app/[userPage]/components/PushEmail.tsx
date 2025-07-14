@@ -55,7 +55,7 @@ const PushEmail = ({ id, isPremiumUser }: PushEmailProps) => {
             {isPremiumUser &&
                 <form className='flex items-center rounded-full border w-388 border-white' onSubmit={(e) => pushEmail(e)}>
                     <Input
-                        className="focus:outline-none placeholder:text-white border-transparent outline-none"
+                        className="focus:outline-none border-transparent outline-none"
                         placeholder="Enter your email"
                         type="email"
                         value={email}

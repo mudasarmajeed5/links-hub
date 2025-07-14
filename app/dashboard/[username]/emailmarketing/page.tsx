@@ -8,12 +8,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import useFetchUser from '@/app/hooks/get-user-info';
-import { useSession } from 'next-auth/react';
-import TableSkeleton from "../../components/TableSkeleton";
 import { useEffect, useState } from "react";
 import { formatDate } from "@/lib/date-time/formatDate";
 import Pagination from "./components/Pagination";
+import { useUserStore } from "@/store/useUserStore";
 type EmailItem = {
     email: string;
     subscriptionDate: string;
@@ -21,47 +19,37 @@ type EmailItem = {
 };
 
 const EmailMarketing = () => {
-    const { data: session } = useSession();
-    const [emailsList, setEmailsList] = useState<EmailItem[]>([]);
-    const [currentEmailsList, setCurrentEmailsList] = useState<EmailItem[]>([]);
-    const email = session?.user?.email || '';
+    const { user } = useUserStore();
+    const [emailsList, setEmailsList] = useState<EmailItem[] | undefined>([]);
+    const [currentEmailsList, setCurrentEmailsList] = useState<EmailItem[] | undefined>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [emailsPerPage, setEmailsPerPage] = useState<number>(8);
-    const { data, error, loading } = useFetchUser(email ? { email } : { email: '' });
-    // pagination Data
-
+  
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
 
     useEffect(() => {
-        if (!data?.emailMarketing?.emailList) return;
-        setEmailsList(data.emailMarketing.emailList);
-    }, [data]);
+        setEmailsList(user?.emailMarketing?.emailList)
+    }, []);
 
     useEffect(() => {
         const indexOfLastItem = currentPage * emailsPerPage;
         const indexOfFirstItem = indexOfLastItem - emailsPerPage;
-        const slicedData = emailsList.slice(indexOfFirstItem, indexOfLastItem);
+        const slicedData = emailsList?.slice(indexOfFirstItem, indexOfLastItem);
         setCurrentEmailsList(slicedData);
         setEmailsPerPage(10);
     }, [emailsList, currentPage]);
 
     const handleSortEmails = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const sortByValue = event.target.value;
-        const emailList: EmailItem[] = data?.emailMarketing?.emailList || [];
+        const emailList: EmailItem[] = user?.emailMarketing?.emailList || [];
 
         const filteredArray = emailList.filter(
             (emailItem) => sortByValue === "all" || emailItem.status === sortByValue
         );
         setEmailsList(filteredArray);
     };
-    if (loading) {
-        return <TableSkeleton />;
-    }
 
-    if (error) {
-        return <div>{error}</div>;
-    }
 
     return (
         <div className='p-4 min-h-[90vh] overflow-auto bg-white dark:bg-[#151515] shadow-md'>
@@ -88,13 +76,13 @@ const EmailMarketing = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody className="bg-white divide-y divide-gray-200  dark:bg-[#14140f94] dark:divide-gray-700">
-                    {currentEmailsList.length == 0 && <TableRow>
+                    {currentEmailsList?.length == 0 && <TableRow>
                         <TableCell className="whitespace-nowrap">NULL</TableCell>
                         <TableCell className="whitespace-nowrap">NULL</TableCell>
                         <TableCell className="whitespace-nowrap">Data not available</TableCell>
                         <TableCell className="whitespace-nowrap text-right">NULL</TableCell>
-                    </TableRow>} 
-                    {currentEmailsList.map((emailItem, idx) => (
+                    </TableRow>}
+                    {currentEmailsList?.map((emailItem, idx) => (
                         <TableRow key={idx} className="hover:bg-gray-100 dark:hover:bg-gray-700">
                             <TableCell className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                 {(currentPage - 1) * emailsPerPage + idx + 1}
@@ -113,7 +101,7 @@ const EmailMarketing = () => {
                 </TableBody>
             </Table>
             <Pagination
-                totalItems={emailsList.length}
+                totalItems={emailsList?.length || 0}
                 itemsPerPage={emailsPerPage}
                 paginate={paginate}
             />

@@ -11,22 +11,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import useFetchUser from "@/app/hooks/get-user-info";
 import { useSession } from "next-auth/react";
 import { saveSmtpConfig } from "./helpers/smtpconfig";
 import { CampaignType, SMTPTYPE } from "./helpers/types/campaign-types";
 import { toast } from "sonner";
 import { saveCampaigns } from "./helpers/saveCampaign";
 import { getCampaigns } from "./helpers/getCampaignsData";
+import DeleteDialog from "./DeleteDialog";
 
 const Campaigns = () => {
-    const { data: session } = useSession();
-    const [email, setEmail] = useState('');
+    const [handleSave, setHandleSave] = useState(false)
+    const { data: session, status } = useSession();
     const router = useRouter();
+    const isPremium = session?.user.isPremiumUser || false;
     const [userId, setUserId] = useState<string | null>(null)
-    const [isPremium, setIsPremium] = useState(true);
-    const { data } = useFetchUser(email ? { email } : { email: '' })
-
     const [smtpSettings, setSmtpSettings] = useState<SMTPTYPE>({
         smtp_email: '',
         smtp_app_password: '',
@@ -39,35 +37,22 @@ const Campaigns = () => {
         campaign_status: false,
     })
     const [campArray, setCampArray] = useState<CampaignType[]>([]);
-    const getData = async (userId: string) => {
+    const getData = async (userId: string | null) => {
         try {
             const response = await getCampaigns(userId);
             const res = response.data;
-            setSmtpSettings(res?.emailMarketing?.emailCampaignsRef?.smtp_config || {});
+            setSmtpSettings(res?.emailMarketing?.emailCampaignsRef?.smtp_config || {
+                smtp_email: '',
+                smtp_app_password: '',
+                smtp_host: '',
+                smtp_port: 0,
+            });
             setCampArray(res?.emailMarketing?.emailCampaignsRef?.campaigns?.email_campaigns || []);
         } catch (error) {
             toast.error("Failed to load Data.. Login Again");
             console.error(error);
         }
     }
-    useEffect(() => {
-        if (session?.user?.email) {
-            setEmail(session.user.email);
-        }
-    }, [session]);
-    useEffect(() => {
-        if (data) {
-            setIsPremium(data.isPremiumUser)
-            if (data._id) {
-                setUserId(data._id.toString());
-            }
-        }
-    }, [data])
-    useEffect(() => {
-        if (userId) {
-            getData(userId);
-        }
-    }, [userId, session]);
 
 
     const [subscriberGroups] = useState([
@@ -89,11 +74,14 @@ const Campaigns = () => {
         }))
     }
     const saveSmtp = async () => {
+        setHandleSave(true)
         const result = await saveSmtpConfig(smtpSettings, userId ? userId : '');
         toast.success(result.message);
+        await getData(userId)
+        setHandleSave(false)
     };
     const handleSaveCampaign = async () => {
-        setCampArray(prev => [...prev, { ...campaign, createdAt: new Date }]);
+        setHandleSave(true);
         const result = await saveCampaigns(campaign, userId ? userId : '');
         toast.info(result.message);
         setCampaign({
@@ -101,6 +89,8 @@ const Campaigns = () => {
             campaign_title: '',
             campaign_status: false
         })
+        await getData(userId);
+        setHandleSave(false)
     }
     const handleEditCampaign = (index: string) => {
         const value = parseInt(index);
@@ -109,6 +99,19 @@ const Campaigns = () => {
             setCampaign(selectedCamp);
         }
     }
+
+    useEffect(() => {
+        if (!session || status !== "authenticated") return;
+        const id = session.user.id;
+        setUserId(id);
+    }, [session, status]);
+
+    useEffect(() => {
+        if (userId) {
+            getData(userId);
+        }
+    }, [userId]);
+
     return (
         <div className="relative">
             {!isPremium && (
@@ -151,7 +154,10 @@ const Campaigns = () => {
                                     <Input onChange={handleSmtpChange} value={smtpSettings.smtp_host} placeholder="i.e. smtp.zoho.com" name="smtp_host" />
                                     <Input onChange={handleSmtpChange} value={smtpSettings.smtp_port} placeholder="PORT i.e. 587" name="smtp_port" />
                                 </div>
-                                <Button onClick={saveSmtp} className="mt-2">Save Configuration</Button>
+                                <Button onClick={saveSmtp} disabled={handleSave} className="mt-2 disabled:bg-white/50">
+                                    {handleSave ? "Saving Config." : "Save Config."
+                                    }
+                                </Button>
                             </CardContent>
                         </Card>
                     </TabsContent>
@@ -199,7 +205,10 @@ const Campaigns = () => {
                                         ))}
                                     </SelectContent>
                                 </Select>
-                                <Button onClick={handleSaveCampaign} className="mt-2">Save Campaign</Button>
+                                <div className="text-sm items-center flex gap-2">
+                                    <Button onClick={handleSaveCampaign} disabled={handleSave} className="mt-2 disabled:bg-white/50"> {handleSave ? "Saving" : "Save Campaign"}</Button>
+                                    <DeleteDialog getData={() => getData(userId)} sessionId={session?.user.id.toString()} data={campArray} />
+                                </div>
                             </CardContent>
                         </Card>
                     </TabsContent>

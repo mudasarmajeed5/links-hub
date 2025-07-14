@@ -1,21 +1,45 @@
 import { UseFormSetValue } from "react-hook-form";
-import { UserLinks, PlatformConfig, Inputs } from "./types/add-link-types";
+import { UserLinks, PlatformConfig, Inputs, CustomLink } from "./types/add-link-types";
 import { extractUsername } from "./extractUsername";
 
 export const prefillFormFromUserData = (
   userData: UserLinks[],
   platforms: PlatformConfig[],
-  setValue: UseFormSetValue<Inputs>
+  setValue: UseFormSetValue<Inputs>,
+  setPlatforms: (platforms: PlatformConfig[]) => void
 ) => {
+  const newCustomLinks: PlatformConfig[] = [];
+
   userData.forEach((link) => {
-    const platform = platforms.find(
+    const matchedPlatform = platforms.find(
       (p) => p.label.toLowerCase() === link.label.toLowerCase()
     );
-    if (!platform) return;
-    const value =
-      "baseUrl" in platform
-        ? extractUsername(link.link, platform.baseUrl)
-        : link.link;
-    setValue(platform.name, value);
+
+    if (!matchedPlatform) {
+      // Treat as custom link
+      const customLinkName = `custom_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+
+      const customLink: CustomLink = {
+        name: customLinkName,
+        label: link.label,
+        icon: "FaLink",
+        isCustom: true,
+      };
+
+      newCustomLinks.push(customLink);
+      setValue(customLinkName, link.link);
+    } else {
+      // Built-in platform
+      const value =
+        "baseUrl" in matchedPlatform
+          ? extractUsername(link.link, matchedPlatform.baseUrl)
+          : link.link;
+
+      setValue(matchedPlatform.name, value);
+    }
   });
+
+  if (newCustomLinks.length > 0) {
+    setPlatforms([...platforms, ...newCustomLinks]);
+  }
 };

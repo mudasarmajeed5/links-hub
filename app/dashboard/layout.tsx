@@ -12,15 +12,8 @@ import { useSession } from "next-auth/react";
 interface DashboardLayoutProps {
   children: React.ReactNode
 }
-// import { Poppins } from "next/font/google";
 import { ModeToggle } from "@/components/toggle-theme";
 import { FaGithub } from "react-icons/fa";
-// const poppins = Poppins({
-//   subsets: ['latin'],
-//   weight: ['400', '500', '700'],
-//   style: ['normal', 'italic'],
-//   display: 'swap',
-// });
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [mounted, setMounted] = useState(false);
   const { data: session } = useSession();
@@ -30,7 +23,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   }, [])
   if (!mounted) return null;
 
-  //    ${poppins.className} 
   return (
     <div className={`
     font-poppins text-black dark:text-white bg-gradient-to-br from-background to-muted`}>
