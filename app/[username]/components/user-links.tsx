@@ -1,5 +1,5 @@
 
-import { User } from '@/app/types/user-account';
+import { User } from '@/types/user-account';
 import * as Icon from "react-icons/fa";
 import Link from 'next/link';
 

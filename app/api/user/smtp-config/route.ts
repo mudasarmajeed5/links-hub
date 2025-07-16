@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/app/models/User";
-import EmailCampaign from "@/app/models/EmailCampaign";
+import User from "@/models/User";
+import EmailCampaign from "@/models/EmailCampaign";
 export async function POST(req: NextRequest) {
     try {
         const { smtp_email, smtp_app_password, smtp_host, smtp_port, userId } = await req.json();

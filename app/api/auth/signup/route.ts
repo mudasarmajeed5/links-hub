@@ -1,7 +1,7 @@
 // app/api/auth/signup/route.ts
 
 import connectDB from "@/lib/mongodb";
-import User from "@/app/models/User"; 
+import User from "@/models/User"; 
 import bcrypt from "bcryptjs";
 
 // Named export for the POST method

@@ -1,5 +1,5 @@
 import connectDB from "@/lib/mongodb";
-import User from "@/app/models/User";
+import User from "@/models/User";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 export const revalidate = 60;

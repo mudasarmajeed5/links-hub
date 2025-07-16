@@ -1,10 +1,10 @@
 import mongoose, { Schema } from "mongoose";
-
+import { IEmailCampaignSchema } from "@/types/Mongoose/EmailCampaignModelType";
 const EmailCampaignSubSchema = new Schema({
     campaign_title: { type: String },
     campaign_body: { type: String },
     campaign_status: { type: Boolean },
-},{
+}, {
     timestamps: true,
 })
 const EmailCampaignSchema = new Schema({
@@ -19,5 +19,5 @@ const EmailCampaignSchema = new Schema({
         email_campaigns: { type: [EmailCampaignSubSchema], required: true, default: [] }
     }
 })
-export default mongoose.models.EmailCampaign || mongoose.model("EmailCampaign",EmailCampaignSchema)
+export default mongoose.models.EmailCampaign || mongoose.model<IEmailCampaignSchema>("EmailCampaign", EmailCampaignSchema)
 

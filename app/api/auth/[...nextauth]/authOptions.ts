@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google"
 import connectDB from "@/lib/mongodb";
 import type { AuthOptions } from "next-auth";
 import bcrypt from 'bcryptjs';
-import User from "@/app/models/User";
+import User from "@/models/User";
 import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions: AuthOptions = {
     session: {

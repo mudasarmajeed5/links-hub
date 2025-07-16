@@ -1,5 +1,5 @@
 "use server"
-import { User } from "@/app/models";
+import { User } from "@/models";
 import connectDB from "@/lib/mongodb";
 
 export const getUser = async (username: string) => {

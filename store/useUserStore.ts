@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { getSessionUser } from "@/app/dashboard/helpers/getSessionUser";
-import type { User } from "@/app/types/user-account";
+import type { User } from "@/types/user-account";
 
 type UserStore = {
     user: User | undefined,

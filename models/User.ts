@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const { Schema, model, models } = mongoose;
-
+import { IUser } from "@/types/Mongoose/UserModelType";
 const UserLinksSchema = new Schema({
   icon: { type: String, required: true },
   label: { type: String, required: true },
@@ -57,5 +57,4 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-// Export the model
-export default models.User || model("User", UserSchema);
+export default models.User || model<IUser>("User", UserSchema);

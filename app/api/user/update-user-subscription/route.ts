@@ -1,4 +1,4 @@
-import User from "@/app/models/User";
+import User from "@/models/User";
 import connectDB from "@/lib/mongodb";
 import { NextRequest,NextResponse } from "next/server";
 export async function PUT(request:NextRequest){

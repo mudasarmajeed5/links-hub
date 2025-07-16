@@ -1,7 +1,7 @@
-import User from "@/app/models/User";
+import User from "@/models/User";
 import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
-import { EmailSubscriber } from "@/app/types/emailSubscriber";
+import { EmailSubscriber } from "@/types/emailSubscriber";
 export async function POST(request: NextRequest) {
     try {
         await connectDB();

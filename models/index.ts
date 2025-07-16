@@ -1,3 +1,3 @@
 import User from "./User";
-import "@/app/models/EmailCampaign";
+import "@/models/EmailCampaign";
 export { User }

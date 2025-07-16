@@ -1,6 +1,6 @@
 "use server";
 import { getSession } from "@/lib/getSessionUser";
-import { User } from "@/app/models";
+import { User } from "@/models";
 import connectDB from "@/lib/mongodb";
 export async function getSessionUser() {
     const session = await getSession();

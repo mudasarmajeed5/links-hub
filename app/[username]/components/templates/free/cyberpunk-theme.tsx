@@ -1,4 +1,4 @@
-import { User } from '@/app/types/user-account'
+import { User } from '@/types/user-account'
 import React from 'react'
 import ContributeHeader from '../../contribute-header';
 import { Card, CardDescription } from '@/components/ui/card';

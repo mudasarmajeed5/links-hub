@@ -1,5 +1,5 @@
 import { CampaignType } from "@/app/dashboard/[username]/campaigns/helpers/types/campaign-types";
-import EmailCampaign from "@/app/models/EmailCampaign";
+import EmailCampaign from "@/models/EmailCampaign";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

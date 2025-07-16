@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import type { User } from "@/app/types/user-account"
+import type { User } from "@/types/user-account"
 import AnalyticsCard from "./analytics-card"
 import { convertToPaisa } from "@/lib/convert-currency/convert-to-paisa";
 import { Elements } from "@stripe/react-stripe-js";
