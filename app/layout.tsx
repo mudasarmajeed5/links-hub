@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Poppins } from "next/font/google";
 import "./globals.css";
-import SessionWrapper from "@/components/SessionWrapper"; // If session management is required
 import { Toaster } from "sonner"
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -10,7 +9,7 @@ const geistSans = Geist({
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-poppins",
-  weight: ["400", "500", "600", "700", "800"], 
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -28,10 +27,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${poppins.variable} antialiased`}
       >
         <>
-          <SessionWrapper>
-            {children}
-            <Toaster richColors/>
-          </SessionWrapper>
+          {children}
+          <Toaster richColors />
         </>
       </body>
     </html>

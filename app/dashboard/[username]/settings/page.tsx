@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox"
 import { User } from "@/app/types/user-account"
-import { useTitle } from "@/app/hooks/get-user-title"
+import { useTitle } from "@/app/hooks/useTitle"
 import { useUserStore } from "@/store/useUserStore"
 type Form = Omit<User, "_id" | "createdAt" | "updatedAt" | "__v" | "isPremiumUser" | "userLinks" | "userTheme" | "viewCount" | "viewHistory">;
 export default function UpdateUserSettings() {

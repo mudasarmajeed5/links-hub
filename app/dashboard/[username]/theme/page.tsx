@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useTitle } from "@/app/hooks/get-user-title";
+import { useTitle } from "@/app/hooks/useTitle";
 import Image from "next/image";
 const UserTemplate = () => {
     const { data: session } = useSession();

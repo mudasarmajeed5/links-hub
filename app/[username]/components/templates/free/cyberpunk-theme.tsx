@@ -54,7 +54,7 @@ const CyberPunkTheme = ({ user }: CyberPunkThemeProps) => {
             iconClass="text-blue-50 text-xl"
             textClass="text-blue-100 font-medium"
           />
-        <PushEmail id={user._id} isPremiumUser={user.emailMarketing.enableSignupForm}/>
+        <PushEmail id={user._id.$oid || user._id.toString()} isPremiumUser={user.emailMarketing.enableSignupForm}/>
         </div>
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />

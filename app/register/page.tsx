@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const Register = () => {
-  const { status } = useSession();
   const router = useRouter();
   const [timer,setTimer] = useState(0);
   const [signUpAllowed, setSignupAllowed] = useState(false);
@@ -106,17 +105,7 @@ const Register = () => {
     }
     setError(null);
   }
-  if (status == "authenticated") {
-    return (
-      <div className="flex flex-col min-h-[80vh] justify-center items-center">
-        <span>You are signed in already!</span>
-        <Link className="bg-black text-white rounded-md px-2 py-1" href="/dashboard/loading">
-          Home
-        </Link>
-      </div>
-    );
-  }
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
