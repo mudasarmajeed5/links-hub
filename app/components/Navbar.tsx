@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Rss } from "lucide-react";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 type NavLinkProps = {
   title: string;
@@ -11,7 +10,6 @@ type NavLinkProps = {
 const Navbar = () => {
   const [hasScrolled, setHasScrolled] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { data: session } = useSession();
   useEffect(() => {
     const handleScroll = () => {
       setHasScrolled(window.scrollY > 32);
@@ -64,10 +62,12 @@ const Navbar = () => {
         >
           <div className="max-lg:relative max-lg:flex max-lg:flex-col max-lg:min-h-screen max-lg:p-6 max-lg:overflow-hidden sidebar-before max-md:px-4">
             <nav className="max-lg:relative max-lg:z-2 max-lg:my-auto">
-              
+
               <ul className="flex text-2xl max-lg:block max-lg:px-12">
                 <li className="nav-li">
-                  <Link onClick={() => setIsOpen(false)} href={session? '/dashboard/loading': '/login'} className="base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5" >Dashboard</Link>
+                  <Link className="base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5"
+                    href={"/dashboard/admin"}>Dashboard</Link>
+
                   <div className="dot" />
                   <NavLink title="pricing" />
                 </li>
@@ -87,13 +87,9 @@ const Navbar = () => {
                 <li className="nav-li text-[16px]">
                   <NavLink title="faq" />
                   <div className="dot" />
-                  <span className="flex text-white font-bold gap-2 items-center">
-                    {session ? (
-                      <button onClick={() => signOut()} className="btn uppercase">Logout</button>
-                    ) : (
-                      <button onClick={() => signIn()} className="btn uppercase">Log in</button>
-                    )}
-                  </span>
+                  <Link href={"/login"} className="flex text-white font-bold gap-2 items-center">
+                    Login
+                  </Link>
                 </li>
               </ul>
             </nav>

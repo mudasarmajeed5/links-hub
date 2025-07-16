@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { DashboardContent } from "../components/dashboard-content";
 import { DashboardSkeleton } from "../components/DashboardSkeleton";
-import { useTitle } from "@/app/hooks/get-user-title";
+import { useTitle } from "@/app/hooks/useTitle";
 import { useUserStore } from "@/store/useUserStore";
 const Dashboard = () => {
   const { user, loading, fetchUser } = useUserStore();

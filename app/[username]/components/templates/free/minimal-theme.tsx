@@ -50,7 +50,7 @@ const MinimalTheme = ({ user }: MinimalThemeProps) => {
           iconClass="text-black text-xl"
           textClass="text-gray-800 font-medium"
         />
-        <PushEmail id={user._id} isPremiumUser={user.emailMarketing.enableSignupForm}/>
+        <PushEmail id={user._id.$oid || user._id.toString()} isPremiumUser={user.emailMarketing.enableSignupForm}/>
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
     </>

@@ -41,7 +41,7 @@ const VibrantTheme = ({ user }: VibrantThemeProps) => {
           iconClass="text-white text-xl"
           textClass="text-white font-medium"
         />
-        <PushEmail id={user._id} isPremiumUser={user.emailMarketing.enableSignupForm}/>        
+        <PushEmail id={user._id.$oid || user._id.toString()} isPremiumUser={user.emailMarketing.enableSignupForm}/>        
       </Card>
       <SpotifyPlayer spotifyUrl={user.spotifyUrl} />
     </div>

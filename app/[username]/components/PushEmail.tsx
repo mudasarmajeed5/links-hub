@@ -4,9 +4,7 @@ import { FormEvent, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 interface PushEmailProps {
-    id: {
-        $oid: string
-    },
+    id: string,
     isPremiumUser: boolean,
 }
 const PushEmail = ({ id, isPremiumUser }: PushEmailProps) => {

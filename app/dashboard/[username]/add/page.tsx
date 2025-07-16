@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTitle } from "@/app/hooks/get-user-title";
+import { useTitle } from "@/app/hooks/useTitle";
 import { socialPlatforms } from "@/app/constants/userLinks";
 // helper functions
 import { AddCustomLink } from "./components/AddCustomLink";

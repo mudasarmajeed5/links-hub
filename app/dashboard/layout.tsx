@@ -1,3 +1,4 @@
+// /dashboard/layout.tsx
 "use client"
 import { ThemeProvider } from "@/components/theme-provider"
 import { useState, useEffect } from "react"
@@ -9,23 +10,27 @@ import {
 } from "@/components/ui/resizable";
 import DashboardNavigation from "./components/dashboard-sidebar";
 import { useSession } from "next-auth/react";
+import { ModeToggle } from "@/components/toggle-theme";
+import { FaGithub } from "react-icons/fa";
+import SessionWrapper from "@/components/SessionWrapper";
+
 interface DashboardLayoutProps {
   children: React.ReactNode
 }
-import { ModeToggle } from "@/components/toggle-theme";
-import { FaGithub } from "react-icons/fa";
-const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+
+// 🧠 Move all useSession-related logic into an inner component
+const InnerDashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [mounted, setMounted] = useState(false);
-  const { data: session } = useSession();
+  const { data: session,status } = useSession();
   const name = session?.user?.name;
+
   useEffect(() => {
     setMounted(true);
-  }, [])
-  if (!mounted) return null;
+  }, []);
 
+  if (!mounted || status === "loading") return null;
   return (
-    <div className={`
-    font-poppins text-black dark:text-white bg-gradient-to-br from-background to-muted`}>
+    <div className="font-poppins text-black dark:text-white bg-gradient-to-br from-background to-muted">
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -52,7 +57,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         </div>
       </ThemeProvider>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+// ✅ Outer wrapper applies SessionProvider *before* anything calls useSession
+const DashboardLayout = ({ children }: DashboardLayoutProps) => {
+  return (
+    <SessionWrapper>
+      <InnerDashboardLayout>{children}</InnerDashboardLayout>
+    </SessionWrapper>
+  );
+};
+
+export default DashboardLayout;
