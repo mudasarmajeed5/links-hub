@@ -1,4 +1,5 @@
-export const PremiumParticles = ({ count = 2 }: { count?: number }) => {
+export const PremiumParticles = ({ count = 0 }: { count?: number }) => {
+    console.log(count)
     const particles = Array.from({ length: count }).map((_, i) => {
         const size = Math.random() * 8 + 4
         const duration = Math.random() * 10 + 10

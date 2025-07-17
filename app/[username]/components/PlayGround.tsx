@@ -7,10 +7,11 @@ import { cn } from "@/lib/utils"
 import "@/themes/styles.css"
 import StarsBackground from "../../../themes/components/StarAnimation"
 import SpotifyPlayer from "@/app/[username]/components/SpotifyPlayer"
-import type { User } from "@/types/user-account"
-import { ThemeToggle } from "../../../themes/components/ThemeToggle"
+import type { User } from "@/types/user-account";
+import ThemeToggleButton from "@/themes/components/ThemeToggle"
 import { PremiumParticles } from "@/themes/components/PremiumParticles"
 import UserLinks from "./user-links"
+import PushEmail from "./PushEmail"
 
 const PlayGround = ({ user }: { user: User | null }) => {
     const [mounted, setMounted] = useState(false)
@@ -41,10 +42,10 @@ const PlayGround = ({ user }: { user: User | null }) => {
         >
             {isPremium && <StarsBackground count={userTheme.star.count} isPremium={isPremium} />}
             {/* Premium Particles Background */}
-            {isPremium && <PremiumParticles count={50} />}
+            {isPremium && <PremiumParticles count={userTheme.particles.count} />}
 
             <div className="sm:w-full md:w-4/5 xl:w-3/5 2xl:w-2/5 mx-auto space-y-8 relative z-10">
-                <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+                <ThemeToggleButton themeToggleStyles={userTheme.components.themeToggle.button} theme={theme} toggleTheme={toggleTheme} />
 
                 {/* Avatar with Premium Crown */}
                 <div className={cn("flex justify-center relative", isPremium && userTheme.animations.profileEntrance)}>
@@ -59,7 +60,7 @@ const PlayGround = ({ user }: { user: User | null }) => {
                             "relative z-10"
                         )}
                     />
-                    <p>{}</p>
+                    <p>{ }</p>
                     {isPremium && (
                         <>
                             <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-20">
@@ -94,11 +95,11 @@ const PlayGround = ({ user }: { user: User | null }) => {
                         <UserLinks
                             userLinks={user.userLinks}
                             isPremium={user.isPremiumUser}
-                            cardClass={cardClass}                 
-                            primaryTextClass={primaryTextClass}      
-                            socialIconClass={userTheme.components.socialIcons.icon}      
-                            socialContainerClass={userTheme.components.socialIcons.container} 
-                            linkContainerClass={userTheme.components.links.container}     
+                            cardClass={cardClass}
+                            primaryTextClass={primaryTextClass}
+                            socialIconClass={userTheme.components.socialIcons.icon}
+                            socialContainerClass={userTheme.components.socialIcons.container}
+                            linkContainerClass={userTheme.components.links.container}
                         />
                     )
                 }
@@ -107,22 +108,9 @@ const PlayGround = ({ user }: { user: User | null }) => {
                         {user.emailMarketing?.enableSignupForm && (
                             <div className={cn(
                                 userTheme.components.newsletter.container,
-                                userTheme.components.premium.banner,
                                 "relative overflow-hidden"
                             )}>
-                                <div className="absolute inset-0"></div>
-                                <form className="space-y-4 relative z-10">
-                                    <h3 className="text-xl font-semibold text-center">Subscribe to my Newsletter</h3>
-                                    <input
-                                        type="email"
-                                        required
-                                        placeholder="Enter your email"
-                                        className={userTheme.components.newsletter.input}
-                                    />
-                                    <button type="submit" className={cn("w-full", userTheme.components.newsletter.button)}>
-                                        Subscribe
-                                    </button>
-                                </form>
+                                <PushEmail isPremiumUser={true} userTheme={userTheme} />
                             </div>
                         )}
 
@@ -138,7 +126,7 @@ const PlayGround = ({ user }: { user: User | null }) => {
                                 className={cn(
                                     "flex items-center gap-2",
                                     userTheme.components.whatsapp.button,
-                                    "hover:animate-[pulse_1s_ease-in-out]"
+                                    "hover:animate-[pulse_1s_ease-in-out] ",
                                 )}
                             >
                                 <FaWhatsapp className="w-6 h-6" />

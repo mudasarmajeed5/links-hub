@@ -112,7 +112,6 @@ const UserLinks = ({
 // Helper component for social links
 const SocialLink = ({
   link,
-  isPremium,
   socialIconClass
 }: {
   link: UserLink & { platform: SocialPlatform },
@@ -142,7 +141,6 @@ const SocialLink = ({
       className={cn(
         socialIconClass,
         "transition-all duration-300 hover:scale-110",
-        isPremium && "hover:shadow-[0_0_15px_rgba(255,215,0,0.5)]"
       )}
 
       aria-label={link.label}
@@ -169,7 +167,6 @@ const CustomLink = ({
     rel="noopener noreferrer"
     className={cn(
       "block text-center p-4",
-      "transition-all duration-300 hover:scale-[1.02]",
       cardClass,
       primaryTextClass,
     )}

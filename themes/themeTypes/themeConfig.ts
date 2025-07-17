@@ -23,10 +23,6 @@ export interface StyleConfig {
     animations: {
         profileEntrance: string,
         slideUp: string[],
-        socialHover: string,
-        cardHover: string,
-        buttonHover: string,
-        glowEffect: string,
     }
     components: {
         avatar: {
@@ -61,7 +57,6 @@ export interface StyleConfig {
         premium: {
             badge: string
             crown: string
-            banner: string
         }
     }
     star: {

@@ -1,71 +1,78 @@
-"use client"
+"use client";
+
 import { toast } from "sonner";
-import { FormEvent, useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { FormEvent, useState } from "react";
+import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
+import { StyleConfig } from "@/themes/themeTypes/themeConfig";
 interface PushEmailProps {
-    id: string,
-    isPremiumUser: boolean,
+    isPremiumUser: boolean;
+    userTheme: StyleConfig;
 }
-const PushEmail = ({ id, isPremiumUser }: PushEmailProps) => {
-    const [email, setEmail] = useState('');
+
+const PushEmail = ({ isPremiumUser, userTheme }: PushEmailProps) => {
+    const [email, setEmail] = useState("");
     const [isDisabled, setIsDisabled] = useState(false);
+    const params = useParams();
+    const username = params?.username as string;
     const pushEmail = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsDisabled(true);
         try {
-            const response = await fetch('/api/email-marketing/add-email',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, id })
-                }
-            )
-            if (!response.ok) {
-                toast.error(response.statusText)
-            }
+            const response = await fetch("/api/email-marketing/add-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, username }),
+            });
+
             const data = await response.json();
-            if (data.status == 201) {
+
+            if (!response.ok) {
+                toast.error(response.statusText);
+            } else if (data.status === 201) {
                 toast.info(data.message);
-            }
-            else if (data.status == 200) {
-                toast.error(data.message);
-            }
-            else if(data.status== 202){
+            } else if (data.status === 202) {
                 toast.success(data.message);
-            }
-            else{
+            } else if (data.status === 200) {
+                toast.error(data.message);
+            } else {
                 toast.info(data.message);
             }
-            setIsDisabled(false);
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            toast.error("Something went wrong.");
+        } finally {
             setIsDisabled(false);
         }
-        finally{
-            setIsDisabled(false);
-        }
-    }
+    };
+
+    if (!isPremiumUser) return null;
+
     return (
-        <>
-            {isPremiumUser &&
-                <form className='flex items-center rounded-full border w-388 border-white' onSubmit={(e) => pushEmail(e)}>
-                    <Input
-                        className="focus:outline-none border-transparent outline-none"
-                        placeholder="Enter your email"
-                        type="email"
-                        value={email}
-                        required
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <Button disabled={isDisabled} type='submit' className="bg-red-500 rounded-br-full rounded-tr-full text-white px-4 py-2">Subscribe</Button>
-                </form>
-            }
+        <form
+            onSubmit={pushEmail}
+            className={cn("space-y-4 relative z-10",userTheme.components.newsletter.container)}
+        >
+            <h3 className="text-xl font-semibold text-center">Subscribe to my Newsletter</h3>
+            <input
+                type="email"
+                required
+                placeholder="Enter your email"
+                className={userTheme.components.newsletter.input}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <button
+                type="submit"
+                disabled={isDisabled}
+                className={cn("w-full disabled:bg-gray-300", userTheme.components.newsletter.button)}
+            >
+                Subscribe
+            </button>
+        </form>
+    );
+};
 
-        </>
-    )
-}
-
-export default PushEmail
+export default PushEmail;
