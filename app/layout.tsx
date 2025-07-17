@@ -27,8 +27,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${poppins.variable} antialiased`}
       >
         <>
-          {children}
-          <Toaster richColors />
+            {children}
+            <Toaster richColors />
         </>
       </body>
     </html>
