@@ -1,5 +1,5 @@
 "use client";
-import { faq } from "../constants/index";
+import { faq } from "../../constants/index";
 import FaqItem from "../components/FaqItem";
 
 // Define types for the FAQ item

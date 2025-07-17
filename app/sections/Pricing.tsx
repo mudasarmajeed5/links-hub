@@ -2,7 +2,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import CountUp from "react-countup";
-import { plans } from "../constants/index"; // Assuming `plans` is an array of plan objects
+import { plans } from "../../constants/index"; // Assuming `plans` is an array of plan objects
 import Button from "../components/Button"; // Assuming `Button` component exists
 import Image from "next/image";
 

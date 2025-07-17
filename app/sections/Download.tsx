@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { FC } from "react";
-import { logos } from "../constants/index";
+import { logos } from "../../constants/index";
 import Image from "next/image";
 
 interface Logo {

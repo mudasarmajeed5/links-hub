@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react'
-import { User } from '../../types/user-account';
+import { User } from '../types/user-account';
 interface FetchGetUserPageProps {
     username: string;
 }

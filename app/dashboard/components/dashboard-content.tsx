@@ -9,7 +9,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutPage from "./checkout-page";
 import { useState } from "react";
-import { plans } from "@/app/constants"
+import { plans } from "@/constants"
 const stripe_public_Key = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 type DashboardContentProps = {
   user: User | undefined

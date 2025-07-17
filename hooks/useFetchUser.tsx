@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { User } from "../../types/user-account";
+import type { User } from "../types/user-account";
 interface FetchUserProps {
   email: string;
 }

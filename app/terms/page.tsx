@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { FaChevronDown, FaChevronUp, FaRegCalendarAlt, FaRegClock } from "react-icons/fa"
 import { Card, CardContent } from "@/components/ui/card"
-import { effectiveDate, lastUpdated, sections, summaryItems } from "@/app/constants/terms"
+import { effectiveDate, lastUpdated, sections, summaryItems } from "@/constants/terms"
 
 export default function TermsPage() {
   const [expandedSection, setExpandedSection] = useState<number | null>(null)

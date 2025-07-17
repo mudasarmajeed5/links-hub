@@ -1,4 +1,4 @@
-import { testimonials } from "../constants/index";
+import { testimonials } from "../../constants/index";
 import TestimonialItem from "../components/TestimonialItem";
 
 // Define types for the Testimonial object

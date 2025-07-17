@@ -1,4 +1,4 @@
-import { details, features } from "../constants/index";
+import { details, features } from "../../constants/index";
 import Button from "../components/Button";
 import Image from "next/image";
 const Features = () => {

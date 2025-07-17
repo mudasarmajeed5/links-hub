@@ -6,7 +6,11 @@ export const getUser = async (username: string) => {
     try {
         await connectDB();
         const user = await User.findOne({ username });
-        return user ?? null;
+        if (!user) {
+            return null
+        }
+        const serializedUserData = JSON.parse(JSON.stringify(user))
+        return serializedUserData;
     } catch (error) {
         console.error("Error fetching user:", error);
         return null;

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 import { Suspense } from 'react';
-import useFetchUser from '../hooks/useFetchUser';
+import useFetchUser from '../../hooks/useFetchUser';
 import { Input } from '@/components/ui/input';
 const UnsubscribeUser = () => {
   const [email, setEmail] = useState<null | string>(null);

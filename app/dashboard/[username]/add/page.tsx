@@ -6,8 +6,8 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTitle } from "@/app/hooks/useTitle";
-import { socialPlatforms } from "@/app/constants/userLinks";
+import { useTitle } from "@/hooks/useTitle";
+import { socialPlatforms } from "@/constants/userLinks";
 // helper functions
 import { AddCustomLink } from "./components/AddCustomLink";
 import { prefillFormFromUserData } from "./helpers/preFillFormFromUserData";
