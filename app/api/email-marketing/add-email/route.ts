@@ -1,29 +1,29 @@
 import User from "@/models/User";
 import connectDB from "@/lib/mongodb";
-import { NextRequest,NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { EmailSubscriber } from "@/types/emailSubscriber";
-export async function POST(request:NextRequest){
+export async function POST(request: NextRequest) {
     try {
         await connectDB();
-        const { email, id } = await request.json();
-        const user = await User.findById(id);
-        
+        const { email, username } = await request.json();
+        const user = await User.findOne({ username });
+
         if (user) {
-            const existingEmailEntry = user.emailMarketing.emailList.find((entry:EmailSubscriber) => entry.email === email);
+            const existingEmailEntry = user.emailMarketing.emailList.find((entry: EmailSubscriber) => entry.email === email);
             if (existingEmailEntry) {
-                if(existingEmailEntry.status == "subscribed"){
+                if (existingEmailEntry.status == "subscribed") {
                     existingEmailEntry.status = "unsubscribed";
                     await user.save();
-                    return NextResponse.json({status:200,message:"Unsubscribed from Mailing list."})
+                    return NextResponse.json({ status: 200, message: "Unsubscribed from Mailing list." })
                 }
-                else{
+                else {
                     existingEmailEntry.status = "subscribed";
                     existingEmailEntry.subscriptionDate = Date.now();
                     await user.save();
-                    return NextResponse.json({status:201,message:"You've been Subscribed"});
-                }  
+                    return NextResponse.json({ status: 201, message: "You've been Subscribed" });
+                }
             } else {
-                user.emailMarketing.emailList.push({ email, status:"subscribed" });
+                user.emailMarketing.emailList.push({ email, status: "subscribed" });
                 await user.save();
                 return NextResponse.json({ status: 202, message: "You've been subscribed" });
             }
@@ -32,5 +32,5 @@ export async function POST(request:NextRequest){
         const err = error as Error;
         console.log('Error adding email ', err.message);
     }
-    return NextResponse.json({status:200,message:"Request Completed."});
+    return NextResponse.json({ status: 200, message: "Request Completed." });
 }

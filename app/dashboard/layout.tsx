@@ -37,7 +37,7 @@ const InnerDashboardLayout = ({ children }: DashboardLayoutProps) => {
         enableSystem
         disableTransitionOnChange
       >
-        <div className="bg-gradient-to-r z-10 sticky top-0 border-b from-background to-muted supports-[backdrop]:bg-background/10 flex justify-between items-center p-4">
+        <div className="bg-gradient-to-r z-50 sticky top-0 border-b from-background to-muted supports-[backdrop]:bg-background/10 flex justify-between items-center p-4">
           <div className="font-medium">Welcome <span className="font-bold">{name}</span></div>
           <div className="flex items-center gap-2">
             <Link className="text-2xl" target="_blank" href={"https://github.com/mudasarmajeed5"}>

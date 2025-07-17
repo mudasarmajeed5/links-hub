@@ -1,6 +1,6 @@
 import type { StyleConfig } from "./themeTypes/themeConfig"
 
-const themes: StyleConfig[] = [
+export const themes: StyleConfig[] = [
   {
     userTheme: 1,
     styles: {
@@ -9,8 +9,8 @@ const themes: StyleConfig[] = [
         dark: "bg-gradient-to-br from-purple-900 via-indigo-900 to-black",
       },
       cards: {
-        light: "bg-white/80 backdrop-blur-sm border border-purple-200/50 shadow-lg",
-        dark: "bg-purple-800/80 backdrop-blur-sm border border-purple-500/30 shadow-xl shadow hover:shadow-2xl", 
+        light: "bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-transform hover:-translate-y-1",
+        dark: "bg-purple-900/50 border border-purple-600/30 rounded-xl shadow-md hover:shadow-lg hover:bg-purple-900 transition-transform hover:-translate-y-1"
       },
       text: {
         primary: {
@@ -31,10 +31,6 @@ const themes: StyleConfig[] = [
         "slide-up-staggered stagger-2",
         "slide-up-staggered stagger-3",
       ],
-      socialHover: "social-hover",
-      cardHover: "card-hover",
-      buttonHover: "button-hover",
-      glowEffect: "glow-effect",
     },
     components: {
       avatar: {
@@ -45,7 +41,7 @@ const themes: StyleConfig[] = [
       },
       socialIcons: {
         container: "flex gap-2 justify-center items-center", // social icons container
-        icon: "w-8 h-8 text-white hover:text-white/60 cursor-pointer border social-hover flex justify-center items-center rounded-full", // social icons individual 
+        icon: "w-8 h-8 text-white bg-black/70 cursor-pointer border flex justify-center items-center rounded-full", // social icons individual 
       },
       links: {
         container: "space-y-4",
@@ -63,7 +59,7 @@ const themes: StyleConfig[] = [
       },
       themeToggle: {
         button:
-          "button-hover p-3 rounded-full bg-purple-100 text-purple-600 shadow-lg",
+          "border rounded-full p-2 border-gray-300 bg-white",
       },
       spotify: {
         container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-green-500 to-green-600 text-white",
@@ -73,18 +69,16 @@ const themes: StyleConfig[] = [
         badge:
           "glow-effect bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg",
         crown: "text-yellow-400 bounce",
-        banner:
-          "bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white p-4 rounded-xl shadow-xl",
       },
     },
     star: {
       enabled: true,
-      count: 100,
+      count: 50,
       animations: ["particle-float", "particle-drift", "particle-glow"],
     },
     particles: {
       enabled: true,
-      count: 70,
+      count: 30,
       animations: ["particle-zoom", "particle-float-soft", "blue-glow"],
     },
   },
@@ -118,10 +112,7 @@ const themes: StyleConfig[] = [
         "fade-up-staggered stagger-2",
         "fade-up-staggered stagger-3",
       ],
-      socialHover: "pulse-on-hover",
-      cardHover: "scale-bounce",
-      buttonHover: "hover-flicker",
-      glowEffect: "glow-effect",
+
     },
     components: {
       avatar: {
@@ -136,10 +127,10 @@ const themes: StyleConfig[] = [
       },
       links: {
         container: "space-y-4",
-        card: "scale-bounce rounded-xl p-6 cursor-pointer transform transition-all duration-300",
+        card: " rounded-xl p-6 cursor-pointer transform transition-all duration-300",
       },
       newsletter: {
-        container: "scale-bounce rounded-2xl p-6 bg-gradient-to-r from-cyan-600 to-blue-600 text-white",
+        container: " rounded-2xl p-6 bg-gradient-to-r from-cyan-600 to-blue-600 text-white",
         input: "w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 placeholder-white/70 text-white focus:ring-2 focus:ring-white/40",
         button: "hover-flicker px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold shadow-md",
       },
@@ -150,13 +141,12 @@ const themes: StyleConfig[] = [
         button: "hover-flicker p-3 rounded-full bg-blue-100 text-blue-600 shadow-md",
       },
       spotify: {
-        container: "scale-bounce rounded-2xl p-6 bg-gradient-to-r from-green-700 to-lime-600 text-white",
+        container: " rounded-2xl p-6 bg-gradient-to-r from-green-700 to-lime-600 text-white",
         icon: "w-6 h-6 pulse",
       },
       premium: {
         badge: "blue-glow bg-gradient-to-r from-blue-400 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md",
         crown: "text-cyan-300 pulse",
-        banner: "bg-gradient-to-r from-sky-600 via-cyan-600 to-blue-600 text-white p-4 rounded-xl shadow-xl",
       },
     },
     star: {
@@ -200,10 +190,7 @@ const themes: StyleConfig[] = [
         "fade-up-staggered stagger-2",
         "fade-up-staggered stagger-3",
       ],
-      socialHover: "pulse-on-hover",
-      cardHover: "scale-bounce",
-      buttonHover: "hover-flicker",
-      glowEffect: "glow-effect",
+
     },
     components: {
       avatar: {
@@ -218,10 +205,10 @@ const themes: StyleConfig[] = [
       },
       links: {
         container: "space-y-4",
-        card: "scale-bounce rounded-xl p-6 cursor-pointer transform transition-all duration-300",
+        card: " rounded-xl p-6 cursor-pointer transform transition-all duration-300",
       },
       newsletter: {
-        container: "scale-bounce rounded-2xl p-6 bg-gradient-to-r from-pink-600 to-rose-600 text-white",
+        container: " rounded-2xl p-6 bg-gradient-to-r from-pink-600 to-rose-600 text-white",
         input: "w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 placeholder-white/70 text-white focus:ring-2 focus:ring-white/40",
         button: "hover-flicker px-6 py-3 bg-white text-rose-600 rounded-xl font-semibold shadow-md",
       },
@@ -232,13 +219,12 @@ const themes: StyleConfig[] = [
         button: "hover-flicker p-3 rounded-full bg-rose-100 text-rose-600 shadow-md",
       },
       spotify: {
-        container: "scale-bounce rounded-2xl p-6 bg-gradient-to-r from-rose-700 to-pink-600 text-white",
+        container: " rounded-2xl p-6 bg-gradient-to-r from-rose-700 to-pink-600 text-white",
         icon: "w-6 h-6 pulse",
       },
       premium: {
         badge: "rose-glow bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md",
         crown: "text-pink-300 pulse",
-        banner: "bg-gradient-to-r from-rose-600 via-pink-600 to-red-600 text-white p-4 rounded-xl shadow-xl",
       },
     },
     star: {
@@ -251,7 +237,85 @@ const themes: StyleConfig[] = [
       count: 20,
       animations: ["particle-zoom", "particle-float-soft", "blue-glow"],
     },
+  },
+  {
+    userTheme: 4,
+    styles: {
+      background: {
+        light: "bg-gray-50",
+        dark: "bg-gray-900",
+      },
+      cards: {
+        light: "bg-white border border-gray-200 rounded-full shadow hover:shadow-md transition-transform hover:-translate-y-[2px]",
+        dark: "border rounded-full shadow-md hover:shadow-lg transition-transform hover:-translate-y-[2px] bg-blue-600 hover:bg-blue-700",
+      },
+      text: {
+        primary: {
+          light: "text-gray-900",
+          dark: "text-white",
+        },
+        secondary: {
+          light: "text-blue-600",
+          dark: "text-blue-400",
+        },
+      },
+    },
+    animations: {
+      profileEntrance: "fade-in-up",
+      slideUp: [
+        "slide-up",
+        "slide-up-staggered stagger-1",
+        "slide-up-staggered stagger-2",
+        "slide-up-staggered stagger-3",
+      ],
+    },
+    components: {
+      avatar: {
+        size: "w-28 h-28 rounded-full object-cover",
+        border: "border-4 border-blue-200",
+        shadow: "shadow-md",
+        hover: "hover:shadow-lg transition-all duration-300",
+      },
+      socialIcons: {
+        container: "flex gap-2 justify-center items-center",
+        icon: "w-8 h-8 text-white bg-blue-600 cursor-pointer border border-blue-700 flex justify-center items-center rounded-full hover:bg-blue-700 transition-all",
+      },
+      links: {
+        container: "space-y-4",
+        card: "rounded-xl p-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300",
+      },
+      newsletter: {
+        container: "rounded-xl p-6 bg-blue-800 text-white shadow-md",
+        input: "w-full px-4 py-2 rounded-md bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50",
+        button: "px-5 py-2 text-white bg-blue-600 font-bold rounded-md shadow hover:shadow-md transition-all",
+      },
+      whatsapp: {
+        button: "fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg z-50 hover:bg-green-600 transition",
+      },
+      themeToggle: {
+        button: "border rounded-full p-2 border-gray-300 bg-white dark:bg-gray-800 text-black dark:text-white transition-all",
+      },
+      spotify: {
+        container: "rounded-xl p-6 bg-green-600 text-white shadow-md",
+        icon: "w-6 h-6 animate-bounce",
+      },
+      premium: {
+        badge: "bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow",
+        crown: "text-amber-300 animate-bounce",
+      },
+    },
+    star: {
+      enabled: true,
+      count: 0,
+      animations: ["fade-in-soft", "drift-light", "soft-glow"],
+    },
+    particles: {
+      enabled: true,
+      count: 0,
+      animations: ["particle-drift", "particle-fade", "blue-glow-soft"],
+    },
   }
+
 
 ]
 
