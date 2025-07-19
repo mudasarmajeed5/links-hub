@@ -129,13 +129,13 @@ const Campaigns = () => {
                     <p className="text-center max-w-md mb-4">
                         Access email campaign tools and grow your audience. Subscribe to premium to unlock these features.
                     </p>
-                    <Button onClick={() => { router.push(`/dashboard/${session?.user.username}`) }} className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold">
+                    <Button onClick={() => { router.push(`/dashboard`) }} className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold">
                         Upgrade Now
                     </Button>
                 </div>
             )}
 
-            <div className="min-h-[80vh] relative z-0 p-6 bg-white dark:bg-[#151515] rounded-md shadow-md">
+            <div className="min-h-[90vh] relative z-0 p-6 bg-white dark:bg-[#151515] rounded-md shadow-md">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Campaigns</h1>
                 <p className="text-gray-600 dark:text-gray-400 mb-6">Manage and send your email marketing campaigns.</p>
 

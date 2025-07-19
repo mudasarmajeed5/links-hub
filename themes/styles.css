@@ -6,6 +6,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -15,8 +16,9 @@
 @keyframes slideUpStaggered {
   0% {
     opacity: 0;
-    transform: translateY(200px); 
+    transform: translateY(200px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -28,6 +30,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -38,88 +41,71 @@
     opacity: 0;
     transform: scale(0.95) translateY(10px);
   }
+
   70% {
     opacity: 1;
     transform: scale(1.02);
   }
+
   100% {
     transform: scale(1);
   }
 }
 
-@keyframes socialHover {
-  0% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-4px) scale(1.08);
-  }
-  100% {
-    transform: translateY(-2px) scale(1.05);
-  }
-}
 
 @keyframes cardHover {
   0% {
     transform: translateY(0) scale(1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   }
+
   100% {
     transform: translateY(-5px) scale(1.01);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
   }
 }
 
-@keyframes buttonHover {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-  100% {
-    transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  }
-}
-
-@keyframes glowEffect {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(255,255,255,0.4);
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(255,255,255,0.6);
-  }
-}
 
 
 @keyframes floating {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-8px);
   }
+
   60% {
     transform: translateY(-4px);
   }
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.03);
     opacity: 0.9;
@@ -130,6 +116,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -140,6 +127,7 @@
     opacity: 0;
     transform: translateX(-20px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -151,6 +139,7 @@
     opacity: 0;
     transform: translateX(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -162,6 +151,7 @@
     opacity: 0;
     transform: scale(0.9);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -174,12 +164,15 @@
     opacity: 0;
     transform: translateY(100vh) scale(0.5);
   }
+
   10% {
     opacity: 0.8;
   }
+
   90% {
     opacity: 0.8;
   }
+
   100% {
     opacity: 0;
     transform: translateY(-20vh) scale(1);
@@ -187,19 +180,25 @@
 }
 
 @keyframes particleDrift {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(0) translateY(0);
   }
+
   50% {
     transform: translateX(15px) translateY(5px);
   }
 }
 
 @keyframes particleGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(0.95);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.1);
@@ -223,13 +222,7 @@
   animation: profileEntrance 5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
-.social-hover {
-  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
 
-.social-hover:hover {
-  animation: socialHover 0.35s ease-out forwards;
-}
 
 .card-hover {
   transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -239,17 +232,7 @@
   animation: cardHover 0.25s ease-out forwards;
 }
 
-.button-hover {
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
 
-.button-hover:hover {
-  animation: buttonHover 0.2s ease-out forwards;
-}
-
-.glow-effect {
-  animation: glowEffect 3s ease-in-out infinite;
-}
 
 
 .floating {
@@ -281,12 +264,29 @@
 }
 
 /* Staggered Animation Delays */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
-.stagger-6 { animation-delay: 0.6s; }
+.stagger-1 {
+  animation-delay: 0.1s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.3s;
+}
+
+.stagger-4 {
+  animation-delay: 0.4s;
+}
+
+.stagger-5 {
+  animation-delay: 0.5s;
+}
+
+.stagger-6 {
+  animation-delay: 0.6s;
+}
 
 /* Enhanced Particle System */
 .particle {
@@ -329,7 +329,8 @@
 }
 
 /* Performance optimizations */
-.no-animation, .no-animation * {
+.no-animation,
+.no-animation * {
   animation: none !important;
 }
 
@@ -347,13 +348,29 @@
 
 /* star animation deepseek */
 @keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.1); }
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
 }
 
 @keyframes float-star {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(5deg); }
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+  }
 }
 
 .star {
@@ -362,17 +379,24 @@
   color: rgba(255, 255, 255, 0.8);
   animation: twinkle 3s ease-in-out infinite;
 }
+
 @keyframes rotate-star {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .star-lg {
-  animation: 
+  animation:
     twinkle 4s ease-in-out infinite,
     float-star 8s ease-in-out infinite,
     rotate-star 5s ease infinite
 }
+
 .star-gold {
   color: #FFD700;
   filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.7));
