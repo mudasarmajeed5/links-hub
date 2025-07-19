@@ -31,7 +31,7 @@ const Login = () => {
       setError(res?.error)
     }
     else {
-      router.push('/dashboard/admin')
+      router.push('/dashboard')
     }
     setLoading(false);
   }
@@ -45,7 +45,7 @@ const Login = () => {
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.username) {
-      router.replace(`/dashboard/${session.user.username}`);
+      router.replace(`/dashboard`);
     }
   }, [status, session, router]);
   return (
@@ -69,8 +69,8 @@ const Login = () => {
             </Button>
             <div className='text-center font-bold text-xl'>OR</div>
             <div className="flex gap-4">
-              <Button onClick={() => { signIn("google", { callbackUrl: `/dashboard/admin` }) }}><FaGoogle /> Login with Google</Button>
-              <Button onClick={() => { signIn("github", { callbackUrl: `/dashboard/admin` }) }}><FaGithub /> Login with Github</Button>
+              <Button onClick={() => { signIn("google", { callbackUrl: `/dashboard` }) }}><FaGoogle /> Login with Google</Button>
+              <Button onClick={() => { signIn("github", { callbackUrl: `/dashboard` }) }}><FaGithub /> Login with Github</Button>
             </div>
           </form>
         </CardContent>

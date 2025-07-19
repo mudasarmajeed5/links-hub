@@ -1,5 +1,5 @@
 import { StyleConfig } from "@/themes/themeTypes/themeConfig"
-import { FaFacebook, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa"
+import { FaFacebook, FaInstagram, FaLinkedin, FaMoon, FaWhatsapp } from "react-icons/fa"
 
 // components/ThemeThumbnail.tsx
 const ThemeThumbnail = ({ theme, mini = false }: { theme: StyleConfig, mini?: boolean }) => {
@@ -8,13 +8,17 @@ const ThemeThumbnail = ({ theme, mini = false }: { theme: StyleConfig, mini?: bo
   const card = theme.styles?.cards?.dark || "bg-white/30 border border-rose-200/60"
   const primary = theme.styles?.text?.primary?.dark || "text-gray-900"
   const secondary = theme.styles?.text?.secondary?.dark || "text-rose-600"
+  const socialIcons = theme.components.socialIcons.icon;
+  const { button, container, input } = theme.components.newsletter;
   return (
     <div className={`${mini ? "min-h-0 p-2 w-full h-[370px]" : "min-h-screen p-8 w-full"} mx-auto ${bg} relative overflow-hidden`}>
 
       <div className={`${mini ? "w-full space-y-0.5" : "sm:w-full md:w-4/5 xl:w-3/5 2xl:w-2/5 space-y-8"} mx-auto relative z-10`}>
 
         <div className="flex justify-start">
-          <button className={`${mini ? "hidden" : ""} p-3 rounded-full bg-rose-100 text-rose-600 shadow-md`}>🌓</button>
+          <button className={`${mini ? "hidden" : ""} p-3 rounded-full bg-rose-100 text-rose-600 shadow-md`}>
+            <FaMoon />
+          </button>
         </div>
 
         <div className="flex justify-center relative">
@@ -33,13 +37,13 @@ const ThemeThumbnail = ({ theme, mini = false }: { theme: StyleConfig, mini?: bo
         </div>
 
         <div className="flex gap-3 justify-center">
-          <div className="w-8 h-8 bg-rose-500 text-white rounded-full flex items-center justify-center">
+          <div className={socialIcons}>
             <FaInstagram />
           </div>
-          <div className="w-8 h-8 bg-rose-500 text-white rounded-full flex items-center justify-center">
+          <div className={socialIcons}>
             <FaFacebook />
           </div>
-          <div className="w-8 h-8 bg-rose-500 text-white rounded-full flex items-center justify-center">
+          <div className={socialIcons}>
             <FaLinkedin />
           </div>
         </div>
@@ -64,22 +68,19 @@ const ThemeThumbnail = ({ theme, mini = false }: { theme: StyleConfig, mini?: bo
         </div>
 
         {!mini && (
-          <div className="rounded-2xl p-6 bg-gradient-to-r from-pink-600 to-rose-600 text-white space-y-3">
-            <p className="font-bold text-lg">Join my newsletter</p>
+          <div className={`${container} text-xl space-y-4 relative z-10`}>
+            <p className="text-xl font-semibold text-center">Join my newsletter</p>
             <input
               type="email"
               placeholder="Your email"
-              className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 placeholder-white/70 text-white"
+              className={input}
             />
-            <button className="w-full px-6 py-3 bg-white text-rose-600 rounded-xl font-semibold shadow-md">Subscribe</button>
+            <button className={button}>Subscribe</button>
           </div>
 
         )}
         {!mini && (
           <>
-            <div className="rounded-2xl p-6 fixed bottom-3 left-3 w-fit bg-gradient-to-r from-rose-700 to-pink-600 text-white">
-              🎵 Spotify Player Embed
-            </div>
             <a
               href="#"
               className="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-2xl hover:animate-pulse"

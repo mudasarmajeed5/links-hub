@@ -4,7 +4,6 @@ interface ConnectionError extends Error {
 }
 const connectDB = async (): Promise<void> => {
     if (mongoose.connections[0].readyState) {
-        console.log("Already connected to MongoDB");
         return
     }
     try {

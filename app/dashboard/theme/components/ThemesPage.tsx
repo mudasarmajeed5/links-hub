@@ -33,13 +33,13 @@ const ThemesPage = () => {
             console.log(error)
         }
     }
-    const saveCurrentTheme = async (userTheme: number) => {
+    const saveCurrentTheme = async (theme: StyleConfig) => {
         if (!selectedTheme) {
             toast.info("Please select a theme first.")
             return;
         }
         if (email) {
-            updatedThemeToDatabase(email, userTheme)
+            updatedThemeToDatabase(email, theme.userTheme)
         }
     }
 
@@ -58,17 +58,17 @@ const ThemesPage = () => {
                             <Dialog>
                                 <div className="flex gap-2 text-sm items-center">
                                     <DialogTrigger asChild>
-                                        <Button onClick={() => setSelectedTheme(theme)}>
+                                        <Button variant={"secondary"} className="text-xs" onClick={() => setSelectedTheme(theme)}>
                                             Preview
                                         </Button>
                                     </DialogTrigger>
 
-                                    <Button onClick={() => saveCurrentTheme(indexTheme + 1)}>
+                                    <Button className="text-xs" onClick={() => saveCurrentTheme(theme)}>
                                         Save
                                     </Button>
                                 </div>
 
-                                <DialogContent className="p-0 w-screen h-screen max-w-none max-h-none rounded-none">
+                                <DialogContent className="p-0 w-10/12 h-17/20 max-w-none max-h-none rounded-none">
                                     <DialogTitle className="sr-only">Theme Preview</DialogTitle>
 
                                     <div className="flex-1 overflow-y-auto">

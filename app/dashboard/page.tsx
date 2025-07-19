@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { DashboardContent } from "../components/dashboard-content";
-import { DashboardSkeleton } from "../components/DashboardSkeleton";
+import { DashboardContent } from "./components/dashboard-content";
+import { DashboardSkeleton } from "./components/DashboardSkeleton";
 import { useTitle } from "@/hooks/useTitle";
 import { useUserStore } from "@/store/useUserStore";
 const Dashboard = () => {

@@ -65,7 +65,7 @@ export default function PaymentSuccess() {
                 <Suspense fallback={<p className="text-[#C4CBF5]">Loading payment details...</p>}>
                     <PaymentDetails />
                 </Suspense>
-                <Link href={`/dashboard/${session?.user.username}`} className="bg-[#1959AD] text-white font-semibold px-6 py-3 rounded-lg shadow-md text-sm hover:bg-[#263466] transition">
+                <Link href={`/dashboard`} className="bg-[#1959AD] text-white font-semibold px-6 py-3 rounded-lg shadow-md text-sm hover:bg-[#263466] transition">
                     Back to Dashboard
                 </Link>
             </div>
