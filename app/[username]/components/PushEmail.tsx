@@ -67,7 +67,7 @@ const PushEmail = ({ isPremiumUser, userTheme }: PushEmailProps) => {
             <button
                 type="submit"
                 disabled={isDisabled}
-                className={cn("w-full disabled:bg-gray-300", userTheme.components.newsletter.button)}
+                className={cn(userTheme.components.newsletter.button, "text-md")}
             >
                 Subscribe
             </button>

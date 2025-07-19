@@ -66,7 +66,7 @@ const Navbar = () => {
               <ul className="flex text-2xl max-lg:block max-lg:px-12">
                 <li className="nav-li">
                   <Link className="base-bold text-p4 uppercase transition-colors duration-500 cursor-pointer hover:text-p1 max-lg:my-4 max-lg:h5"
-                    href={"/dashboard/admin"}>Dashboard</Link>
+                    href={"/dashboard"}>Dashboard</Link>
 
                   <div className="dot" />
                   <NavLink title="pricing" />

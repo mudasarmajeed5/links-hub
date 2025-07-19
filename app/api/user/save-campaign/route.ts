@@ -1,4 +1,4 @@
-import { CampaignType } from "@/app/dashboard/[username]/campaigns/helpers/types/campaign-types";
+import { CampaignType } from "@/app/dashboard/campaigns/helpers/types/campaign-types";
 import EmailCampaign from "@/models/EmailCampaign";
 import { NextRequest, NextResponse } from "next/server";
 

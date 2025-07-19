@@ -1,4 +1,4 @@
-import { SocialPlatform } from "@/app/dashboard/[username]/add/helpers/types/add-link-types";
+import { SocialPlatform } from "@/app/dashboard/add/helpers/types/add-link-types";
 export const socialPlatforms: SocialPlatform[] = [
     { name: "instagram", label: "Instagram", icon: "FaInstagram", baseUrl: "https://instagram.com/" },
     { name: "facebook", label: "Facebook", icon: "FaFacebook", baseUrl: "https://facebook.com/" },

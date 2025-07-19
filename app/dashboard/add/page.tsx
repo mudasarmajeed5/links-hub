@@ -155,7 +155,7 @@ const AddLink = () => {
           </Button>
 
           <Button
-            onClick={() => router.push(`/dashboard/${session?.user.username}/theme`)}
+            onClick={() => router.push(`/dashboard/theme`)}
             className="mt-6 border flex justify-center items-center border-green-900 w-full"
           >
             <span>Next</span>
