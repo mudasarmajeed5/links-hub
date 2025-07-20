@@ -67,7 +67,7 @@ export const themes: StyleConfig[] = [
       },
       premium: {
         badge:
-          "glow-effect bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg",
+          "bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg",
         crown: "text-yellow-400 bounce",
       },
     },
@@ -377,7 +377,7 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 bounce",
       },
       premium: {
-        badge: "glow-effect bg-gradient-to-r from-orange-400 to-amber-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:from-orange-300 hover:to-amber-400 hover:shadow-xl transition-all duration-300",
+        badge: "bg-gradient-to-r from-orange-400 to-amber-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:from-orange-300 hover:to-amber-400 hover:shadow-xl transition-all duration-300",
         crown: "text-orange-400 bounce hover:text-orange-300 transition-colors duration-300",
       },
     },
@@ -454,7 +454,7 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 bounce",
       },
       premium: {
-        badge: "glow-effect bg-gradient-to-r from-teal-400 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:from-teal-300 hover:to-cyan-400 hover:shadow-xl transition-all duration-300",
+        badge: "bg-gradient-to-r from-teal-400 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:from-teal-300 hover:to-cyan-400 hover:shadow-xl transition-all duration-300",
         crown: "text-teal-400 bounce hover:text-teal-300 transition-colors duration-300",
       },
     },
@@ -503,10 +503,10 @@ export const themes: StyleConfig[] = [
     },
     components: {
       avatar: {
-        size: "w-32 h-32 rounded-full object-cover",
-        border: "border-4 border-gray-300",
+        size: "w-44 h-44 rounded-full object-cover",
+        border: "border-4 border-purple-300",
         shadow: "shadow-2xl shadow-gray-500/30",
-        hover: "hover:shadow-3xl hover:shadow-gray-500/50 hover:border-gray-400 hover:brightness-110 transition-all duration-300",
+        hover: "hover:shadow-5xl hover:shadow-yellow-500/50  hover:border-yellow-500 hover:brightness-110 transition-all duration-300",
       },
       socialIcons: {
         container: "flex gap-3 justify-center items-center",
@@ -532,18 +532,18 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 bounce",
       },
       premium: {
-        badge: "glow-effect bg-gradient-to-r from-gray-500 to-slate-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:from-gray-400 hover:to-slate-500 hover:shadow-xl transition-all duration-300",
+        badge: "bg-gradient-to-r from-yellow-500 to-purple-600 text-white px-2 py-1 text-xs rounded-full cursor-pointer text-center",
         crown: "text-gray-500 bounce hover:text-gray-400 transition-colors duration-300",
       },
     },
     star: {
       enabled: true,
-      count: 35,
+      count: 55,
       animations: ["particle-float", "particle-drift", "particle-glow"],
     },
     particles: {
       enabled: true,
-      count: 25,
+      count: 100,
       animations: ["particle-zoom", "particle-float-soft", "blue-glow"],
     },
   }

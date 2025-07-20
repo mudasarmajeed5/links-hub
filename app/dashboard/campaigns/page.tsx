@@ -41,14 +41,14 @@ const Campaigns = () => {
         try {
             const response = await getCampaigns(userId);
             const res = response.data;
-
-            setSmtpSettings({
-                smtp_email: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_email || '',
-                smtp_app_password: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_app_password || '',
-                smtp_host: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_host || '',
-                smtp_port: res?.emailMarketing?.emailCampaignsRef?.smtp_config?.smtp_port?.toString() || '',
-            });
-
+            const smtpConfig = res?.emailMarketing?.emailCampaignsRef?.smtp_config;
+            const newSettings = {
+                smtp_email: smtpConfig?.smtp_email || '',
+                smtp_app_password: smtpConfig?.smtp_app_password || '',
+                smtp_host: smtpConfig?.smtp_host || '',
+                smtp_port: smtpConfig?.smtp_port || 0
+            };
+            setSmtpSettings(newSettings);
             setCampArray(res?.emailMarketing?.emailCampaignsRef?.campaigns?.email_campaigns || []);
         } catch (error) {
             toast.error("Failed to load Data.. Login Again");
@@ -140,158 +140,161 @@ const Campaigns = () => {
                 <p className="text-gray-600 dark:text-gray-400 mb-6">Manage and send your email marketing campaigns.</p>
 
                 <Tabs defaultValue="smtp" className="w-full">
-                    <TabsList className="mb-4 bg-gray-100 dark:bg-gray-800">
-                        <TabsTrigger value="smtp">STMP Config</TabsTrigger>
-                        <TabsTrigger value="build">Build Campaign</TabsTrigger>
-                        <TabsTrigger value="active">Active Campaigns</TabsTrigger>
-                        <TabsTrigger value="send">Send Campaign</TabsTrigger>
+                    <TabsList className="mb-4 w-full h-auto p-1 bg-muted">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 w-full">
+                            <TabsTrigger className="w-full h-auto py-2" value="smtp">SMTP Config</TabsTrigger>
+                            <TabsTrigger className="w-full h-auto py-2" value="build">Build Campaign</TabsTrigger>
+                            <TabsTrigger className="w-full h-auto py-2" value="active">Active Campaigns</TabsTrigger>
+                            <TabsTrigger className="w-full h-auto py-2" value="send">Send Campaign</TabsTrigger>
+                        </div>
                     </TabsList>
+                    <div className="pt-5 md:pt-0">
 
-                    {/* 1. Build Campaign */}
-                    <TabsContent value="smtp">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>SMTP Configuration</CardTitle>
-                                <CardDescription>Configure your SMTP Settings.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="flex gap-2">
-                                    <Input onChange={handleSmtpChange} value={smtpSettings.smtp_email} placeholder="example@mail.com" name="smtp_email" />
-                                    <Input onChange={handleSmtpChange} value={smtpSettings.smtp_app_password} placeholder="App Password" name="smtp_app_password" />
-                                </div>
-                                <div className="flex gap-2">
-                                    <Input onChange={handleSmtpChange} value={smtpSettings.smtp_host} placeholder="i.e. smtp.zoho.com" name="smtp_host" />
-                                    <Input onChange={handleSmtpChange} value={smtpSettings.smtp_port?.toString() || ''} placeholder="PORT i.e. 587" name="smtp_port" />
-                                </div>
-                                <Button onClick={saveSmtp} disabled={handleSave} className="mt-2 disabled:bg-white/50">
-                                    {handleSave ? "Saving Config." : "Save Config."
-                                    }
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-
-                    <TabsContent value="build">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Build Campaign</CardTitle>
-                                <CardDescription>Create a new campaign using a title, body, and template.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="flex gap-2">
-                                    <Input onChange={handleChangeCampaign} value={campaign.campaign_title} placeholder="Campaign Title" className="w-[70%]" name="campaign_title" />
-                                    <div className="w-1/4">
-                                        <Select
-                                            value={campaign.campaign_status.toString()}
-                                            onValueChange={(value) =>
-                                                setCampaign((prev) => ({
-                                                    ...prev,
-                                                    campaign_status: value === "true"
-                                                }))
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Status" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="true">Active</SelectItem>
-                                                <SelectItem value="false">Inactive</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-
+                        <TabsContent value="smtp">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>SMTP Configuration</CardTitle>
+                                    <CardDescription>Configure your SMTP Settings.</CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div className="flex gap-2">
+                                        <Input onChange={handleSmtpChange} value={smtpSettings.smtp_email} placeholder="example@mail.com" name="smtp_email" />
+                                        <Input onChange={handleSmtpChange} value={smtpSettings.smtp_app_password} placeholder="App Password" name="smtp_app_password" />
                                     </div>
-                                </div>
-                                <Textarea onChange={handleChangeCampaign} value={campaign.campaign_body} placeholder="Email Body..." name="campaign_body" rows={5} />
-                                <Select onValueChange={(e) => handleEditCampaign(e)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select Campaign to Edit" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {campArray.map((c, id) => (
-                                            <SelectItem key={id} value={`${id}`}>
-                                                {c.campaign_title}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <div className="text-sm items-center flex gap-2">
-                                    <Button onClick={handleSaveCampaign} disabled={handleSave} className="mt-2 disabled:bg-white/50"> {handleSave ? "Saving" : "Save Campaign"}</Button>
-                                    <DeleteDialog getData={() => getData(userId)} sessionId={session?.user.id.toString()} data={campArray} />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+                                    <div className="flex gap-2">
+                                        <Input onChange={handleSmtpChange} value={smtpSettings.smtp_host} placeholder="i.e. smtp.zoho.com" name="smtp_host" />
+                                        <Input onChange={handleSmtpChange} value={smtpSettings.smtp_port?.toString() || ''} placeholder="PORT i.e. 587" name="smtp_port" />
+                                    </div>
+                                    <Button onClick={saveSmtp} disabled={handleSave} className="mt-2 disabled:bg-white/50">
+                                        {handleSave ? "Saving Config." : "Save Config."
+                                        }
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
 
-                    {/* 2. Active Campaigns */}
-                    <TabsContent value="active">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Active Campaigns</CardTitle>
-                                <CardDescription>Review your saved campaigns.</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Title</TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead>Date Created</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {campArray.map((c, id) => (
-                                            c.campaign_status && <TableRow key={id}>
-                                                <TableCell>{c.campaign_title}</TableCell>
-                                                <TableCell>{c.campaign_status ? "Active" : "Invactive"}</TableCell>
-                                                <TableCell>{c.createdAt && new Date(c.createdAt).toISOString().split("T")[0]}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+                        <TabsContent value="build">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Build Campaign</CardTitle>
+                                    <CardDescription>Create a new campaign using a title, body, and template.</CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div className="flex gap-2">
+                                        <Input onChange={handleChangeCampaign} value={campaign.campaign_title} placeholder="Campaign Title" className="w-[70%]" name="campaign_title" />
+                                        <div className="w-1/4">
+                                            <Select
+                                                value={campaign.campaign_status.toString()}
+                                                onValueChange={(value) =>
+                                                    setCampaign((prev) => ({
+                                                        ...prev,
+                                                        campaign_status: value === "true"
+                                                    }))
+                                                }
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Status" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="true">Active</SelectItem>
+                                                    <SelectItem value="false">Inactive</SelectItem>
+                                                </SelectContent>
+                                            </Select>
 
-                    {/* 3. Send Campaign */}
-                    <TabsContent value="send">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Send Campaign</CardTitle>
-                                <CardDescription>Select a campaign and subscriber group to send to.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="space-y-6">
-                                <div>
-                                    <h4 className="text-sm font-medium mb-2">Select Campaign</h4>
-                                    <RadioGroup defaultValue={campArray[0]?.campaign_title}>
-                                        {campArray.map((c, idx) => (
-                                            c.campaign_status && <div key={idx} className="flex items-center space-x-2">
-                                                <RadioGroupItem value={c.campaign_title} id={`campaign-${idx}`} />
-                                                <label htmlFor={`campaign-${idx}`} className="text-sm text-gray-700 dark:text-gray-300">
+                                        </div>
+                                    </div>
+                                    <Textarea onChange={handleChangeCampaign} value={campaign.campaign_body} placeholder="Email Body..." name="campaign_body" rows={5} />
+                                    <Select onValueChange={(e) => handleEditCampaign(e)}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select Campaign to Edit" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {campArray.map((c, id) => (
+                                                <SelectItem key={id} value={`${id}`}>
                                                     {c.campaign_title}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <div className="text-sm items-center flex gap-2">
+                                        <Button onClick={handleSaveCampaign} disabled={handleSave} className="mt-2 disabled:bg-white/50"> {handleSave ? "Saving" : "Save Campaign"}</Button>
+                                        <DeleteDialog getData={() => getData(userId)} sessionId={session?.user.id.toString()} data={campArray} />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+
+                        {/* 2. Active Campaigns */}
+                        <TabsContent value="active">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Active Campaigns</CardTitle>
+                                    <CardDescription>Review your saved campaigns.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <Table>
+                                        <TableHeader>
+                                            <TableRow>
+                                                <TableHead>Title</TableHead>
+                                                <TableHead>Status</TableHead>
+                                                <TableHead>Date Created</TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {campArray.map((c, id) => (
+                                                c.campaign_status && <TableRow key={id}>
+                                                    <TableCell>{c.campaign_title}</TableCell>
+                                                    <TableCell>{c.campaign_status ? "Active" : "Invactive"}</TableCell>
+                                                    <TableCell>{c.createdAt && new Date(c.createdAt).toISOString().split("T")[0]}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+
+                        {/* 3. Send Campaign */}
+                        <TabsContent value="send">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Send Campaign</CardTitle>
+                                    <CardDescription>Select a campaign and subscriber group to send to.</CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-6">
+                                    <div>
+                                        <h4 className="text-sm font-medium mb-2">Select Campaign</h4>
+                                        <RadioGroup defaultValue={campArray[0]?.campaign_title}>
+                                            {campArray.map((c, idx) => (
+                                                c.campaign_status && <div key={idx} className="flex items-center space-x-2">
+                                                    <RadioGroupItem value={c.campaign_title} id={`campaign-${idx}`} />
+                                                    <label htmlFor={`campaign-${idx}`} className="text-sm text-gray-700 dark:text-gray-300">
+                                                        {c.campaign_title}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </div>
+
+                                    <Separator />
+
+                                    <div>
+                                        <h4 className="text-sm font-medium mb-2">Target Subscriber Groups</h4>
+                                        {subscriberGroups.map((group) => (
+                                            <div key={group.id} className="flex items-center space-x-2">
+                                                <Checkbox id={group.id} />
+                                                <label htmlFor={group.id} className="text-sm text-gray-700 dark:text-gray-300">
+                                                    {group.label}
                                                 </label>
                                             </div>
                                         ))}
-                                    </RadioGroup>
-                                </div>
+                                    </div>
 
-                                <Separator />
-
-                                <div>
-                                    <h4 className="text-sm font-medium mb-2">Target Subscriber Groups</h4>
-                                    {subscriberGroups.map((group) => (
-                                        <div key={group.id} className="flex items-center space-x-2">
-                                            <Checkbox id={group.id} />
-                                            <label htmlFor={group.id} className="text-sm text-gray-700 dark:text-gray-300">
-                                                {group.label}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <Button variant="default" className="mt-4">Send Campaign</Button>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+                                    <Button variant="default" className="mt-4">Send Campaign</Button>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                    </div>
                 </Tabs>
             </div>
         </div>

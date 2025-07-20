@@ -40,7 +40,7 @@ const PlayGround = ({ user }: { user: User | null }) => {
             className={cn("min-h-screen p-8 w-full mx-auto relative overflow-hidden", backgroundClass)}
             ref={containerRef}
         >
-            {isPremium && <StarsBackground count={userTheme.star.count} isPremium={isPremium} />}
+            {isPremium && <StarsBackground count={userTheme.star.count} isPremium={isPremium} theme={theme} />}
             {/* Premium Particles Background */}
             {isPremium && <PremiumParticles count={userTheme.particles.count} />}
 
@@ -49,18 +49,22 @@ const PlayGround = ({ user }: { user: User | null }) => {
 
                 {/* Avatar with Premium Crown */}
                 <div className={cn("flex justify-center relative", isPremium && userTheme.animations.profileEntrance)}>
-                    <img
-                        src={user.profilePic ?? "/default-profile.png"}
-                        alt={`${user.name}'s profile picture`}
-                        className={cn(
-                            userTheme.components.avatar.size,
-                            userTheme.components.avatar.border,
-                            userTheme.components.avatar.shadow,
-                            userTheme.components.avatar.hover,
-                            "relative z-10"
-                        )}
-                    />
-                    <p>{ }</p>
+                    <div className="flex flex-col gap-2">
+                        <img
+                            src={user.profilePic ?? "/default-profile.png"}
+                            alt={`${user.name}'s profile picture`}
+                            className={cn(
+                                userTheme.components.avatar.size,
+                                userTheme.components.avatar.border,
+                                userTheme.components.avatar.shadow,
+                                userTheme.components.avatar.hover,
+                                "relative z-10"
+                            )}
+                        />
+                        <p className={cn(userTheme.components.premium.badge)}>
+                            Premium User
+                        </p>
+                    </div>
                     {isPremium && (
                         <>
                             <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-20">

@@ -1,5 +1,6 @@
 import Button from "@/app/components/Button";
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -14,7 +15,7 @@ const Hero = () => {
             Linkshub is designed to give you an easy and powerful way to manage all your links in one place.
           </p>
           <div>
-            <Button icon="/images/zap.svg">Get Started</Button>
+            <Button href="/login" icon="/images/zap.svg">Get Started</Button>
           </div>
         </div>
 
