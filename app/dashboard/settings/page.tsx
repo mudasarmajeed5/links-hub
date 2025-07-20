@@ -15,9 +15,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { User } from "@/types/user-account"
 import { useTitle } from "@/hooks/useTitle"
 import { useUserStore } from "@/store/useUserStore"
+import { Switch } from "@/components/ui/switch"
 type Form = Omit<User, "_id" | "createdAt" | "updatedAt" | "__v" | "isPremiumUser" | "userLinks" | "userTheme" | "viewCount" | "viewHistory">;
 export default function UpdateUserSettings() {
-  const { user, loading } = useUserStore();
+  const { user, loading, fetchUser } = useUserStore();
   const { data: session } = useSession();
   const [updateLoad, setUpdateLoad] = useState(false);
   const [uploadWidgetState, setUploadWidgetState] = useState(false);
@@ -100,6 +101,9 @@ export default function UpdateUserSettings() {
 
 
   useEffect(() => {
+    if (!user && !loading) {
+      fetchUser();
+    }
     if (user) {
       setForm(user);
       setTabs(user.isPremiumUser
@@ -134,47 +138,11 @@ export default function UpdateUserSettings() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {activetab === "Basic" && (
               <>
-                <div className="flex  h-[220px]">
-                  <div className="w-3/4 h-full">
-                    <div className="flex flex-col justify-between h-full p-4 gap-4">
-                      <div className="flex flex-col flex-1 min-h-0">
-                        <Label htmlFor="name">Name</Label>
-                        <Input
-                          className="text-muted-foreground w-full flex-1"
-                          id="name"
-                          value={form.name}
-                          onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          placeholder="Enter new Name"
-                        />
-                      </div>
-
-                      <div className="flex flex-col flex-1 min-h-0">
-                        <Label htmlFor="username">Username</Label>
-                        <Input
-                          id="username"
-                          className="text-muted-foreground w-full flex-1"
-                          value={form.username}
-                          onChange={(e) => setForm({ ...form, username: e.target.value })}
-                          placeholder="Enter new username"
-                        />
-                      </div>
-
-                      <div className="flex flex-col flex-1 min-h-0">
-                        <Label htmlFor="profilePic">Profile Picture URL</Label>
-                        <Input
-                          id="profilePic"
-                          className="text-muted-foreground w-full flex-1"
-                          value={form.profilePic}
-                          onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
-                          placeholder="Enter profile picture URL"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="w-1/4 h-full p-4">
+                <div className="flex flex-col md:flex-row w-full min-h-0">
+                  {/* Profile Picture (Mobile: Top, Desktop: Right) */}
+                  <div className="w-full md:w-1/4 p-4 order-1 md:order-2">
                     {form.profilePic && (
-                      <div className="h-full flex flex-col items-center justify-between gap-4">
+                      <div className="flex flex-col items-center justify-between gap-4 h-full">
                         <Avatar className="w-44 h-44">
                           <AvatarImage
                             className="object-cover object-center"
@@ -213,8 +181,48 @@ export default function UpdateUserSettings() {
                       </div>
                     )}
                   </div>
+
+                  {/* Form Fields */}
+                  <div className="w-full md:w-3/4 h-full order-2 md:order-1">
+                    <div className="flex flex-col justify-between h-full p-4 gap-4">
+                      <div className="flex flex-col flex-1 min-h-0">
+                        <Label htmlFor="name">Name</Label>
+                        <Input
+                          className="text-muted-foreground w-full flex-1"
+                          id="name"
+                          value={form.name}
+                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          placeholder="Enter new Name"
+                        />
+                      </div>
+
+                      <div className="flex flex-col flex-1 min-h-0">
+                        <Label htmlFor="username">Username</Label>
+                        <Input
+                          id="username"
+                          className="text-muted-foreground w-full flex-1"
+                          value={form.username}
+                          onChange={(e) => setForm({ ...form, username: e.target.value })}
+                          placeholder="Enter new username"
+                        />
+                      </div>
+
+                      <div className="flex flex-col flex-1 min-h-0">
+                        <Label htmlFor="profilePic">Profile Picture URL</Label>
+                        <Input
+                          id="profilePic"
+                          className="text-muted-foreground w-full flex-1"
+                          value={form.profilePic}
+                          onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
+                          placeholder="Enter profile picture URL"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-2 px-4 w-3/4">
+
+
+                <div className="space-y-2 px-4 md:w-3/4 w-full">
                   <Label htmlFor="bio">Add Bio</Label>
                   <Textarea
                     id="bio"
@@ -327,7 +335,8 @@ export default function UpdateUserSettings() {
               </>
             )}
             {activetab === "Appearance" && (
-              <>
+              <div className="space-y-4">
+                {/* Theme Selection */}
                 <div className="space-y-2">
                   <Label htmlFor="theme">Add Theme</Label>
                   <select
@@ -341,19 +350,54 @@ export default function UpdateUserSettings() {
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
                   </select>
-                  <Label htmlFor="accentColor">Add Accent color for your Profile</Label>
+
+                  {/* Accent Color Picker */}
+                  <Label htmlFor="accentColor">Add Accent Color for your Profile</Label>
                   <Input
                     id="accentColor"
                     disabled={!user.isPremiumUser}
                     className="text-muted-foreground"
                     value={form.accentColor}
                     type="color"
-                    onChange={(e) => setForm({ ...form, accentColor: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, accentColor: e.target.value })
+                    }
                     placeholder="Enter Accent Color"
                   />
                 </div>
-              </>
+
+                {/* Animation Options */}
+                <div className="space-y-2 text-xs text-muted-foreground">
+                  <p className="text-sm font-medium text-foreground">Experimental Features</p>
+
+                  {/* Particle Animation */}
+                  <div className="flex items-center justify-between">
+                    <Label>Particle Animation</Label>
+                    <Switch disabled checked={false} />
+                  </div>
+                  <Input disabled placeholder="Particle Count (e.g. 30)" />
+
+                  {/* Star Animation */}
+                  <div className="flex items-center justify-between">
+                    <Label>Star Animation</Label>
+                    <Switch disabled checked={false} />
+                  </div>
+                  <Input disabled placeholder="Star Count (e.g. 10)" />
+
+                  {/* Stagger Animation */}
+                  <div className="flex items-center justify-between">
+                    <Label>Stagger on Social Icons</Label>
+                    <Switch disabled checked={false} />
+                  </div>
+                  <Input disabled placeholder="Speed (ms, e.g. 300)" />
+
+                  <p className="text-[10px] italic text-center text-muted-foreground">
+                    These features are under development and will be available soon.
+                  </p>
+                </div>
+              </div>
             )}
+
             {activetab === "Spotify & CTA" && (
               <div className="space-y-2">
                 <Label htmlFor="spotifyUrl">Add Spotify URL</Label>
@@ -375,7 +419,7 @@ export default function UpdateUserSettings() {
                 />
               </div>
             )}
-            <Button type="submit" disabled={updateLoad} className="max-w-fit">
+            <Button type="submit" disabled={updateLoad} className="max-w-fit mx-4">
               Update Settings {updateLoad && <Loader2 className="animate-spin" />}
             </Button>
           </form>

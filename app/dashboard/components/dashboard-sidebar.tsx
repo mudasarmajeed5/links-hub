@@ -5,8 +5,11 @@ import { useSession } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, Plus, Settings, Zap, MailMinus } from 'lucide-react';
 import { MdCampaign } from "react-icons/md";
+type DashboardNavigationProps = {
+  onLinkClick?: () => void;
+};
 
-const DashboardNavigation = () => {
+const DashboardNavigation = ({ onLinkClick }: DashboardNavigationProps) => {
   const router = useRouter();
   const { status } = useSession();
   const path = usePathname();
@@ -39,7 +42,7 @@ const DashboardNavigation = () => {
       icon: <Settings />
     },
     {
-      name: "Manage Users",
+      name: "Subscribers",
       link: `/dashboard/emailmarketing`,
       icon: <MailMinus />
     },
@@ -60,12 +63,12 @@ const DashboardNavigation = () => {
             <Link
               href={link.link}
               key={idx}
-
+              onClick={onLinkClick}
               className={`${isActive ? "bg-blue-200 text-blue-600" : ""} ${dashboard_buttons_style}`}
             >
               <span className="text-2xl">{link.icon}</span>
               <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
-            </Link>
+            </Link> 
           )
         })}
       </div>
