@@ -48,8 +48,19 @@ const UserSchema = new Schema(
     ],
     theme: { type: String, enum: ["light", "dark"], default: "light" },
     userTheme: { type: Number, default: 1 },
-    accentColor: { type: String, default: "#000000" }, // Default to black
-    cta: { type: String, default: "" },
+    accentColor: { type: String, default: "#000000" },
+    cta: {
+      type: {
+        text: String,
+        icon: String,
+        url: String,
+      }, default: {
+        text: "",
+        icon: "",
+        url: "",
+      },
+      _id: false,
+    },
     emailMarketing: { type: EmailMarketingSchema, default: () => ({}) },
     seoRanking: { type: SeoRankingSchema, default: () => ({}) },
     isPremiumUser: { type: Boolean, default: false },

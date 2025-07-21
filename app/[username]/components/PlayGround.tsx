@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState, useRef } from "react"
-import { FaWhatsapp } from "react-icons/fa"
 import { Crown } from "lucide-react"
 import { getUserThemeConfig } from "@/themes/themes"
 import { cn } from "@/lib/utils"
@@ -12,7 +11,7 @@ import ThemeToggleButton from "@/themes/components/ThemeToggle"
 import { PremiumParticles } from "@/themes/components/PremiumParticles"
 import UserLinks from "./user-links"
 import PushEmail from "./PushEmail"
-
+import { SelectedIcon } from "./SelectedIcon"
 const PlayGround = ({ user }: { user: User | null }) => {
     const [mounted, setMounted] = useState(false)
     const [theme, setTheme] = useState<"light" | "dark">("dark")
@@ -124,16 +123,19 @@ const PlayGround = ({ user }: { user: User | null }) => {
 
                         {user.cta && (
                             <a
-                                href={`https://wa.me/${user.cta}`}
+                                href={user.cta.url}
                                 target="_blank"
-                                rel="noopener noreferrer"
+
                                 className={cn(
                                     "flex items-center gap-2",
                                     userTheme.components.whatsapp.button,
                                     "hover:animate-[pulse_1s_ease-in-out] ",
                                 )}
                             >
-                                <FaWhatsapp className="w-6 h-6" />
+                                {
+                                    user.cta.text
+                                }
+                                <SelectedIcon iconName={user.cta.icon} />
                             </a>
                         )}
                     </>

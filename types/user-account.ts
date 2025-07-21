@@ -32,7 +32,11 @@ export type User = {
   userTheme: number;
   __v: number;
   accentColor?: string;
-  cta?: string;
+  cta?: {
+    text?:string,
+    icon?:string,
+    url?:string,
+  };
   emailMarketing: {
     emailList: EmailItem[];
     enableSignupForm: boolean;

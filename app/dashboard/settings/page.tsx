@@ -16,6 +16,7 @@ import { User } from "@/types/user-account"
 import { useTitle } from "@/hooks/useTitle"
 import { useUserStore } from "@/store/useUserStore"
 import { Switch } from "@/components/ui/switch"
+import CTAForm from "../components/CTAForm"
 type Form = Omit<User, "_id" | "createdAt" | "updatedAt" | "__v" | "isPremiumUser" | "userLinks" | "userTheme" | "viewCount" | "viewHistory">;
 export default function UpdateUserSettings() {
   const { user, loading, fetchUser } = useUserStore();
@@ -35,7 +36,11 @@ export default function UpdateUserSettings() {
     profilePic: '',
     theme: 'light',
     accentColor: '',
-    cta: '',
+    cta: {
+      text: "",
+      icon: "",
+      url: "",
+    },
     emailMarketing: {
       emailList: [],
       enableSignupForm: true,
@@ -239,7 +244,7 @@ export default function UpdateUserSettings() {
             )}
             {activetab === "SEO and Marketing" && (
               <>
-                <div className="space-y-2">
+                <div className="space-y-2 px-4">
                   <Label htmlFor="seoName">Add SEO Name</Label>
                   <Input
                     id="seoName"
@@ -298,7 +303,7 @@ export default function UpdateUserSettings() {
                     }
                     placeholder="Enter SEO Meta Tags" />
                 </div>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 px-4">
                   <Checkbox
                     id="enableSignupForm"
                     checked={form.emailMarketing.enableSignupForm}
@@ -314,7 +319,7 @@ export default function UpdateUserSettings() {
                   />
                   <Label htmlFor="enableSignupForm">Enable Email Marketing</Label>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 px-4">
                   <Label htmlFor="welcomeEmail">Welcome Email</Label>
                   <Textarea
                     id="welcomeEmail"
@@ -329,13 +334,13 @@ export default function UpdateUserSettings() {
                         },
                       })
                     }
-                    placeholder="Enter welcome email content"
+                    placeholder="Add what you wan't users to see on newsletter"
                   />
                 </div>
               </>
             )}
             {activetab === "Appearance" && (
-              <div className="space-y-4">
+              <div className="space-y-4 px-4">
                 {/* Theme Selection */}
                 <div className="space-y-2">
                   <Label htmlFor="theme">Add Theme</Label>
@@ -399,25 +404,7 @@ export default function UpdateUserSettings() {
             )}
 
             {activetab === "Spotify & CTA" && (
-              <div className="space-y-2">
-                <Label htmlFor="spotifyUrl">Add Spotify URL</Label>
-                <Input
-                  id="spotifyUrl"
-                  className="text-muted-foreground"
-                  value={form.spotifyUrl}
-                  onChange={(e) => setForm({ ...form, spotifyUrl: e.target.value })}
-                  placeholder="Enter Spotify Url"
-                />
-                <Label htmlFor="ctaLink">Add Call to Action Link</Label>
-                <Input
-                  id="ctaLink"
-                  disabled={!user?.isPremiumUser}
-                  className="text-muted-foreground"
-                  value={form.cta}
-                  onChange={(e) => setForm({ ...form, cta: e.target.value })}
-                  placeholder="Enter Call to Action Link"
-                />
-              </div>
+              <CTAForm form={form} setForm={setForm} user={user} />
             )}
             <Button type="submit" disabled={updateLoad} className="max-w-fit mx-4">
               Update Settings {updateLoad && <Loader2 className="animate-spin" />}

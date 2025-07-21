@@ -46,7 +46,11 @@ export interface IUser extends Document {
   theme?: "light" | "dark";
   userTheme?: number;
   accentColor?: string;
-  cta?: string;
+  cta?: {
+    text?: string,
+    icon?: string,
+    url?: string,
+  };
   emailMarketing?: EmailMarketingType;
   seoRanking?: SeoRankingType;
   isPremiumUser?: boolean;
