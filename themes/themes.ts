@@ -25,12 +25,7 @@ export const themes: StyleConfig[] = [
     },
     animations: {
       profileEntrance: "profile-entrance",
-      slideUp: [
-        "slide-up",
-        "slide-up-staggered stagger-1",
-        "slide-up-staggered stagger-2",
-        "slide-up-staggered stagger-3",
-      ],
+      slideUp: []
     },
     components: {
       avatar: {
@@ -106,13 +101,7 @@ export const themes: StyleConfig[] = [
     },
     animations: {
       profileEntrance: "fade-in-up",
-      slideUp: [
-        "fade-up",
-        "fade-up-staggered stagger-1",
-        "fade-up-staggered stagger-2",
-        "fade-up-staggered stagger-3",
-      ],
-
+      slideUp: []
     },
     components: {
       avatar: {
@@ -184,12 +173,7 @@ export const themes: StyleConfig[] = [
     },
     animations: {
       profileEntrance: "fade-in-up",
-      slideUp: [
-        "fade-up",
-        "fade-up-staggered stagger-1",
-        "fade-up-staggered stagger-2",
-        "fade-up-staggered stagger-3",
-      ],
+      slideUp: []
 
     },
     components: {
@@ -262,12 +246,7 @@ export const themes: StyleConfig[] = [
     },
     animations: {
       profileEntrance: "fade-in-up",
-      slideUp: [
-        "slide-up",
-        "slide-up-staggered stagger-1",
-        "slide-up-staggered stagger-2",
-        "slide-up-staggered stagger-3",
-      ],
+      slideUp: []
     },
     components: {
       avatar: {
@@ -339,12 +318,7 @@ export const themes: StyleConfig[] = [
     },
     animations: {
       profileEntrance: "profile-entrance",
-      slideUp: [
-        "slide-up",
-        "slide-up-staggered stagger-1",
-        "slide-up-staggered stagger-2",
-        "slide-up-staggered stagger-3",
-      ],
+      slideUp: []
     },
     components: {
       avatar: {
@@ -416,12 +390,7 @@ export const themes: StyleConfig[] = [
     },
     animations: {
       profileEntrance: "profile-entrance",
-      slideUp: [
-        "slide-up",
-        "slide-up-staggered stagger-1",
-        "slide-up-staggered stagger-2",
-        "slide-up-staggered stagger-3",
-      ],
+      slideUp: []
     },
     components: {
       avatar: {
@@ -494,12 +463,7 @@ export const themes: StyleConfig[] = [
     },
     animations: {
       profileEntrance: "profile-entrance",
-      slideUp: [
-        "slide-up",
-        "slide-up-staggered stagger-1",
-        "slide-up-staggered stagger-2",
-        "slide-up-staggered stagger-3",
-      ],
+      slideUp: []
     },
     components: {
       avatar: {
@@ -546,9 +510,223 @@ export const themes: StyleConfig[] = [
       count: 100,
       animations: ["particle-zoom", "particle-float-soft", "blue-glow"],
     },
+  },
+  {
+    userTheme: 8,
+    styles: {
+      background: {
+        light: "bg-gradient-to-br from-gray-50 via-pink-100 to-gray-200",
+        dark: "bg-gradient-to-br from-black via-gray-900 to-gray-950",
+      },
+      cards: {
+        light: "bg-white border border-pink-200 rounded-xl shadow-md hover:shadow-pink-300/40 transition-transform hover:-translate-y-1",
+        dark: "bg-gray-900/70 border border-pink-500/30 rounded-xl hover:bg-gray-900/90 shadow-lg hover:shadow-cyan-400/20 transition-transform hover:-translate-y-1"
+      },
+      text: {
+        primary: {
+          light: "text-gray-900",
+          dark: "text-pink-100",
+        },
+        secondary: {
+          light: "text-pink-600",
+          dark: "text-cyan-300",
+        },
+      },
+    },
+    animations: {
+      profileEntrance: "profile-entrance",
+      slideUp: [],
+    },
+    components: {
+      avatar: {
+        size: "w-44 h-44 rounded-full object-cover",
+        border: "border-4 border-cyan-400",
+        shadow: "shadow-2xl shadow-cyan-300/30",
+        hover: "hover:shadow-5xl hover:shadow-pink-500/40 hover:border-pink-400 hover:brightness-110 transition-all duration-300",
+      },
+      socialIcons: {
+        container: "flex gap-3 justify-center items-center",
+        icon: "w-8 h-8 text-white bg-gradient-to-r from-pink-600 to-cyan-500 border border-pink-400 flex justify-center items-center rounded-full hover:scale-125 hover:shadow-lg hover:shadow-cyan-400/50 hover:brightness-125 transition-all duration-300",
+      },
+      links: {
+        container: "space-y-4",
+        card: "card-hover rounded-2xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-pink-50 hover:to-gray-100 dark:hover:from-gray-800/70 dark:hover:to-gray-900/70",
+      },
+      newsletter: {
+        container: "rounded-2xl p-6 bg-gradient-to-r from-pink-600 to-cyan-500 text-white",
+        input: "w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50 focus:border-white/50",
+        button: "w-full button-hover px-6 py-3 bg-white text-pink-600 rounded-xl font-semibold hover:bg-pink-50 hover:text-pink-700 transition-all duration-300",
+      },
+      whatsapp: {
+        button: "button-hover fixed bottom-6 right-6 bg-pink-500 text-white p-4 rounded-full shadow-2xl z-50 floating hover:bg-pink-400 hover:scale-110 transition-all duration-300",
+      },
+      themeToggle: {
+        button: "border rounded-full p-2 border-pink-300 bg-white hover:border-pink-500 hover:bg-pink-50 dark:border-pink-600 dark:bg-gray-800/50 dark:hover:bg-gray-900/70 transition-all duration-300",
+      },
+      spotify: {
+        container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-cyan-500 to-pink-500 text-white hover:from-cyan-400 hover:to-pink-400 transition-all duration-300",
+        icon: "w-6 h-6 bounce",
+      },
+      premium: {
+        badge: "bg-gradient-to-r from-cyan-500 to-pink-500 text-white px-2 py-1 text-xs rounded-full font-semibold cursor-pointer text-center",
+        crown: "text-cyan-400 bounce hover:text-pink-300 transition-colors duration-300",
+      },
+    },
+    star: {
+      enabled: true,
+      count: 70,
+      animations: ["particle-glow", "particle-float", "neon-pulse"],
+    },
+    particles: {
+      enabled: true,
+      count: 80,
+      animations: ["cyber-zoom", "neon-flicker", "electric-burst"],
+    },
+  },
+  {
+    userTheme: 9,
+    styles: {
+      background: {
+        light: "bg-gradient-to-br from-green-50 via-emerald-100 to-gray-100",
+        dark: "bg-gradient-to-br from-green-900 via-emerald-950 to-black",
+      },
+      cards: {
+        light: "bg-white border border-green-200 rounded-xl shadow-sm hover:shadow-green-300/30 transition-transform hover:-translate-y-1",
+        dark: "bg-emerald-900/60 border border-green-600/30 rounded-xl hover:bg-emerald-900/80 hover:shadow-lg hover:shadow-emerald-500/20 transition-transform hover:-translate-y-1"
+      },
+      text: {
+        primary: {
+          light: "text-green-900",
+          dark: "text-green-100",
+        },
+        secondary: {
+          light: "text-green-600",
+          dark: "text-green-300",
+        },
+      },
+    },
+    animations: {
+      profileEntrance: "profile-entrance",
+      slideUp: [],
+    },
+    components: {
+      avatar: {
+        size: "w-44 h-44 rounded-full object-cover",
+        border: "border-4 border-emerald-400",
+        shadow: "shadow-2xl shadow-green-400/30",
+        hover: "hover:shadow-5xl hover:shadow-green-600/50 hover:border-green-500 hover:brightness-110 transition-all duration-300",
+      },
+      socialIcons: {
+        container: "flex gap-3 justify-center items-center",
+        icon: "w-8 h-8 text-white bg-gradient-to-r from-green-600 to-emerald-600 cursor-pointer border border-green-500/50 flex justify-center items-center rounded-full hover:scale-125 hover:shadow-xl hover:shadow-green-500/50 hover:brightness-125 transition-all duration-300",
+      },
+      links: {
+        container: "space-y-4",
+        card: "card-hover rounded-2xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 dark:hover:from-emerald-800/60 dark:hover:to-green-900/60",
+      },
+      newsletter: {
+        container: "rounded-2xl p-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white",
+        input: "w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50 focus:border-white/50",
+        button: "w-full button-hover px-6 py-3 bg-white text-green-700 rounded-xl font-semibold hover:bg-green-50 hover:text-green-900 transition-all duration-300",
+      },
+      whatsapp: {
+        button: "button-hover fixed bottom-6 right-6 bg-emerald-500 text-white p-4 rounded-full shadow-2xl z-50 floating hover:bg-emerald-400 hover:scale-110 transition-all duration-300",
+      },
+      themeToggle: {
+        button: "border rounded-full p-2 border-green-300 bg-white hover:border-green-500 hover:bg-green-50 dark:border-green-600 dark:bg-emerald-800/50 dark:hover:bg-emerald-800/70 transition-all duration-300",
+      },
+      spotify: {
+        container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-400 hover:to-emerald-500 transition-all duration-300",
+        icon: "w-6 h-6 bounce",
+      },
+      premium: {
+        badge: "bg-gradient-to-r from-green-500 to-emerald-600 text-white px-2 py-1 text-xs rounded-full font-semibold cursor-pointer text-center",
+        crown: "text-green-400 bounce hover:text-green-300 transition-colors duration-300",
+      },
+    },
+    star: {
+      enabled: true,
+      count: 60,
+      animations: ["particle-float", "particle-drift", "green-sway"],
+    },
+    particles: {
+      enabled: true,
+      count: 90,
+      animations: ["leaf-fall", "zen-float", "soft-glow"],
+    },
+  },
+  {
+    userTheme: 10,
+    styles: {
+      background: {
+        light: "bg-gradient-to-br from-pink-100 via-purple-100 to-white",
+        dark: "bg-gradient-to-br from-purple-950 via-indigo-900 to-black",
+      },
+      cards: {
+        light: "bg-white border border-purple-200 rounded-xl shadow-sm hover:shadow-purple-300/30 transition-transform hover:-translate-y-1",
+        dark: "bg-purple-900/70 border border-pink-400/30 rounded-xl hover:bg-purple-900/90 hover:shadow-md hover:shadow-pink-500/20 transition-transform hover:-translate-y-1"
+      },
+      text: {
+        primary: {
+          light: "text-purple-900",
+          dark: "text-pink-100",
+        },
+        secondary: {
+          light: "text-pink-600",
+          dark: "text-purple-300",
+        },
+      },
+    },
+    animations: {
+      profileEntrance: "profile-entrance",
+      slideUp: [],
+    },
+    components: {
+      avatar: {
+        size: "w-44 h-44 rounded-full object-cover",
+        border: "border-4 border-pink-400",
+        shadow: "shadow-2xl shadow-purple-300/30",
+        hover: "hover:shadow-5xl hover:shadow-purple-500/50 hover:border-purple-400 hover:brightness-110 transition-all duration-300",
+      },
+      socialIcons: {
+        container: "flex gap-3 justify-center items-center",
+        icon: "w-8 h-8 text-white bg-gradient-to-r from-purple-600 to-pink-600 cursor-pointer border border-purple-500/50 flex justify-center items-center rounded-full hover:scale-125 hover:shadow-xl hover:shadow-purple-500/50 hover:brightness-125 transition-all duration-300",
+      },
+      links: {
+        container: "space-y-4",
+        card: "card-hover rounded-2xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 dark:hover:from-purple-800/60 dark:hover:to-pink-800/60",
+      },
+      newsletter: {
+        container: "rounded-2xl p-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white",
+        input: "w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50 focus:border-white/50",
+        button: "w-full button-hover px-6 py-3 bg-white text-purple-700 rounded-xl font-semibold hover:bg-purple-50 hover:text-purple-900 transition-all duration-300",
+      },
+      whatsapp: {
+        button: "button-hover fixed bottom-6 right-6 bg-pink-500 text-white p-4 rounded-full shadow-2xl z-50 floating hover:bg-pink-400 hover:scale-110 transition-all duration-300",
+      },
+      themeToggle: {
+        button: "border rounded-full p-2 border-purple-300 bg-white hover:border-purple-500 hover:bg-purple-50 dark:border-purple-600 dark:bg-purple-900/50 dark:hover:bg-purple-800/70 transition-all duration-300",
+      },
+      spotify: {
+        container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:from-pink-400 hover:to-purple-500 transition-all duration-300",
+        icon: "w-6 h-6 bounce",
+      },
+      premium: {
+        badge: "bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-1 text-xs rounded-full font-semibold cursor-pointer text-center",
+        crown: "text-pink-400 bounce hover:text-purple-300 transition-colors duration-300",
+      },
+    },
+    star: {
+      enabled: true,
+      count: 60,
+      animations: ["sparkle-glow", "berry-float", "violet-glimmer"],
+    },
+    particles: {
+      enabled: true,
+      count: 100,
+      animations: ["soft-pop", "hover-flare", "purple-hue"],
+    },
   }
-
-
 ]
 
 export const getUserThemeConfig = (userTheme: number): StyleConfig => {
