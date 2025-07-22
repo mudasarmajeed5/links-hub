@@ -32,7 +32,7 @@ const DashboardNavigation = ({ onLinkClick }: DashboardNavigationProps) => {
       icon: <Plus />
     },
     {
-      name: "Templates",
+      name: "Themes",
       link: `/dashboard/theme`,
       icon: <Zap />
     },
@@ -68,7 +68,7 @@ const DashboardNavigation = ({ onLinkClick }: DashboardNavigationProps) => {
             >
               <span className="text-2xl">{link.icon}</span>
               <span className='whitespace-nowrap text-ellipsis overflow-hidden'>{link.name}</span>
-            </Link> 
+            </Link>
           )
         })}
       </div>

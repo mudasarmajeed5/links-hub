@@ -10,7 +10,7 @@ const UserTemplate = () => {
 
     return (
         <>
-            <div className="px-6 pt-3 text-sm text-gray-300 flex items-start gap-2">
+            <div className="px-6 pt-3 text-sm dark:text-gray-300 flex items-start gap-2">
                 <FaInfoCircle className="text-blue-400 mt-1" />
                 <p>
                     Light/dark modes and premium theme animations are visible on&nbsp;

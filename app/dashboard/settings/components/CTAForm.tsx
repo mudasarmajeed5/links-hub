@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSession } from "next-auth/react";
 import {
     ArrowRight,
     Send,
@@ -14,8 +15,8 @@ import {
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { type User } from "@/types/user-account";
+import type { Form } from "../../types/Form";
 
-type Form = Omit<User, "_id" | "createdAt" | "updatedAt" | "__v" | "isPremiumUser" | "userLinks" | "userTheme" | "viewCount" | "viewHistory">;
 interface CTAFormProps {
     form: Form;
     setForm: (form: Form) => void;
@@ -58,7 +59,8 @@ const RenderIcon = ({ form, setForm, user }: CTAFormProps) => {
 
 
 const CTAForm = ({ form, setForm, user }: CTAFormProps) => {
-
+    const { data: session } = useSession();
+    const isPremium = session?.user.isPremiumUser || false;
     return (
         <div className="space-y-4 px-4">
             <div>
@@ -76,7 +78,7 @@ const CTAForm = ({ form, setForm, user }: CTAFormProps) => {
                 <Label htmlFor="ctaText">Add Call to Action Text</Label>
                 <Input
                     id="ctaText"
-                    disabled={!user?.isPremiumUser}
+                    disabled={!isPremium}
                     className="text-muted-foreground"
                     value={form.cta?.text}
                     onChange={(e) =>
@@ -96,7 +98,7 @@ const CTAForm = ({ form, setForm, user }: CTAFormProps) => {
                 <Label htmlFor="ctaUrl">Add Call to Action Link</Label>
                 <Input
                     id="ctaUrl"
-                    disabled={!user?.isPremiumUser}
+                    disabled={!isPremium}
                     className="text-muted-foreground"
                     value={form.cta?.url}
                     onChange={(e) =>

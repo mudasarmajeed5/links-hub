@@ -17,6 +17,7 @@ import { PlatformInput } from "./components/PlatformInput";
 // types
 import { PlatformConfig, CustomLink, UserLinkPayload } from "./helpers/types/add-link-types";
 import { useUserStore } from "@/store/useUserStore";
+import AddLinksSkeleton from "./components/AddLinksSkeleton";
 
 interface Inputs {
   [key: string]: string;
@@ -55,7 +56,7 @@ const AddLink = () => {
   }, [userData]);
 
   const createCustomLink = (linkData: { link_url: string, link_title: string }) => {
-    const isPremiumUser = user?.isPremiumUser || false;
+    const isPremiumUser = session?.user.isPremiumUser || false;
     const currentCustomLinks = allPlatforms.filter(platform => 'isCustom' in platform);
 
     // Check premium restrictions
@@ -120,7 +121,7 @@ const AddLink = () => {
 
 
   if (loading) {
-    return <div className="min-h-[80vh] flex justify-center items-center"><Loader2 className="w-8 h-8 animate-spin" /></div>;
+    return <AddLinksSkeleton />
   }
 
   return (

@@ -401,3 +401,34 @@
   color: #FFD700;
   filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.7));
 }
+
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+@keyframes profile-entrance {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.profile-entrance {
+  animation: profile-entrance 0.6s ease-out forwards;
+}

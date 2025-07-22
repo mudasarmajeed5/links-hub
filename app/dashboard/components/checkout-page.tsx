@@ -18,7 +18,6 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 
 const CheckoutPage = ({ amount }: { amount: number }) => {
     const stripe = useStripe();
-    const [req, setReq] = useState(false);
     const elements = useElements();
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [clientSecret, setClientSecret] = useState<string>('');
@@ -29,7 +28,6 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
             : `http://localhost:3000/payment-success?amount=${amount}`;
 
     useEffect(() => {
-        if (req) return;
         fetch('/api/create-payment-intent', {
             method: 'POST',
             headers: {
@@ -46,7 +44,6 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
                 console.error('Error fetching client secret:', error);
                 setErrorMessage('Unable to initiate payment. Please try again later.');
             });
-        setReq(true);
     }, []);
 
     const handlePaymentSubmission = async (event: React.MouseEvent<HTMLButtonElement>) => {
