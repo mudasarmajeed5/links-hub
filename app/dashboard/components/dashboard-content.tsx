@@ -10,6 +10,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutPage from "./checkout-page";
 import { useState } from "react";
 import { plans } from "@/constants"
+import { useSession } from "next-auth/react"
 const stripe_public_Key = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 type DashboardContentProps = {
   user: User | undefined
@@ -19,10 +20,8 @@ if (!stripe_public_Key) {
 }
 const stripePromise = loadStripe(stripe_public_Key);
 export function DashboardContent({ user }: DashboardContentProps) {
-  const [subscriptionPrice, setSubscriptionPrice] = useState<number>(200);
-  const [isAnnual, setIsAnnual] = useState(false);
-  const selectedPlan = plans.find(plan => plan.priceMonthly === subscriptionPrice) || plans[1];
-
+  const [subscriptionPrice, setSubscriptionPrice] = useState<number>(10000);
+  const { data: session } = useSession();
   const formatDate = (date?: string) => {
     if (!date) {
       return "Date not available";
@@ -41,7 +40,7 @@ export function DashboardContent({ user }: DashboardContentProps) {
 
   return (
     <>
-      {user && <div className="p-4"><AnalyticsCard viewHistory={user.viewHistory} viewCount={user.viewCount} isPremiumUser={user?.isPremiumUser} />
+      {user && <div className="md:p-4"><AnalyticsCard viewHistory={user.viewHistory} viewCount={user.viewCount} isPremiumUser={session?.user.isPremiumUser} />
       </div>}
       <div className="grid grid-cols-1 m-4 md:grid-cols-2 gap-2">
         <Card>
@@ -89,47 +88,31 @@ export function DashboardContent({ user }: DashboardContentProps) {
               <div className="mt-1/5 text-center">
                 User has subscribed
               </div>
-            
+
             </> : <>
               <CardContent className="flex flex-col justify-center items-center gap-4">
                 <div className="flex flex-col">
-                  {/* Plan Selection Buttons */}
                   <div className="flex gap-2">
-                    {[0, 200, 400].map((price, idx) => (
-                      <button
-                        key={idx}
-                        className={`border text-xs ${price === subscriptionPrice ? "border-black dark:border-gray-300" : ""
-                          } px-3 py-2 rounded-md transition-all`}
-                        onClick={() => setSubscriptionPrice(price)}
-                      >
-                        Plan {idx + 1}: Rs. {price}
-                      </button>
-                    ))}
+                    <button
+                      className="border text-xs border-black dark:border-gray-300 px-3 py-2 rounded-md transition-all"
+                      onClick={() => setSubscriptionPrice(10000)}
+                    >
+                      🔒 One-Time Payment, Lifetime Access: Rs. 10,000
+                    </button>
                   </div>
-                  <Button
-                    variant={"outline"}
-                    className="mt-3 px-4 text-xs py-2 rounded-md transition-all"
-                    onClick={() => setIsAnnual(!isAnnual)}
-                  >
-                    Switch to {isAnnual ? "Monthly" : "Annual"} Billing
-                  </Button>
-
-                  <div className="border rounded-md my-5 p-5 text-center w-full max-w-md shadow-md">
-                    <h2 className="text-2xl font-semibold">{selectedPlan.title} Plan</h2>
-                    <p className="text-sm text-gray-600">{selectedPlan.caption}</p>
-                    <p className="text-lg font-bold">
-                      Rs. {isAnnual ? selectedPlan.priceYearly : selectedPlan.priceMonthly} / {isAnnual ? "year" : "month"}
-                    </p>
-                  </div>
-                  <div className="border p-5 rounded-md shadow-md mb-2 w-full max-w-md">
-                    <h3 className="text-lg font-semibold mb-3">Features</h3>
-                    <ul className="list-disc list-inside text-gray-500">
-                      {selectedPlan.features.map((feature, index) => (
-                        <li key={index} className="flex items-center gap-2">
-                          ✅ {feature}
-                        </li>
+                  <div className="mb-5">
+                    {plans
+                      .filter((plan) => plan.priceMonthly === 400 && plan.priceYearly === 4000)
+                      .map((plan) => (
+                        <div key={plan.id} className="space-y-3">
+                          <h2 className="text-sm mt-3 font-semibold">{plan.title}</h2>
+                          <ul className="list-disc pl-5 text-xs text-gray-700 dark:text-gray-300">
+                            {plan.features.map((feature, i) => (
+                              <li key={i}>{feature}</li>
+                            ))}
+                          </ul>
+                        </div>
                       ))}
-                    </ul>
                   </div>
                   {
                     subscriptionPrice > 10 && <Elements
@@ -140,14 +123,22 @@ export function DashboardContent({ user }: DashboardContentProps) {
                       }}
                       stripe={stripePromise}
                     >
-                      <div><CheckoutPage
-                        amount={
-                          isAnnual ? subscriptionPrice * 10 : subscriptionPrice
-                        }
-                      /></div>
+                      <div>
+                        <CheckoutPage
+                          amount={subscriptionPrice}
+                        />
+                      </div>
                     </Elements>
                   }
-
+                  <div className="flex flex-col gap-2">
+                    <div className="mt-3">
+                      Subscription based Payments ? View Plans
+                    </div>
+                    <div className="flex gap-2">
+                      <Button>Yearly</Button>
+                      <Button>Monthly</Button>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </>

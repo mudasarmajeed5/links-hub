@@ -2,6 +2,7 @@ import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 import connectDB from "@/lib/mongodb";
 import type { AuthOptions } from "next-auth";
+import Subscription from "@/models/Subscription";
 import bcrypt from 'bcryptjs';
 import User from "@/models/User";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -104,13 +105,20 @@ export const authOptions: AuthOptions = {
         async session({ session, token }) {
             if (token?.email) {
                 try {
-                    await connectDB();
                     const user = await User.findOne({ email: token.email });
                     if (user && session.user) {
-                        session.user.id = user._id;
+                        session.user.id = user._id.toString();
                         session.user.name = user.name;
                         session.user.username = user.username;
-                        session.user.isPremiumUser = user.isPremiumUser;
+                        let subscriber = await Subscription.findOne({ userId: user._id });
+                        if (!subscriber) {
+                            subscriber = await Subscription.create({ userId: user._id });
+                        }
+                        const isPremium = !!subscriber && (
+                            subscriber.isLifetime === true ||
+                            subscriber.status === "active"
+                        )
+                        session.user.isPremiumUser = isPremium;
                     }
                 } catch (error) {
                     console.error("Error fetching user details:", error);

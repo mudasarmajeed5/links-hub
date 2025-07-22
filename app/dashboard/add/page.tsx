@@ -25,6 +25,7 @@ interface Inputs {
 const AddLink = () => {
   const router = useRouter();
   const { user, loading, fetchUser } = useUserStore();
+  
   const userData = user?.userLinks;
   const { data: session, status } = useSession();
   const [loader, setLoader] = useState(false);

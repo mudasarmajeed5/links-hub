@@ -120,7 +120,6 @@ const Campaigns = () => {
             getData(userId);
         }
     }, [userId]);
-
     return (
         <div className="relative">
             {!isPremium && (

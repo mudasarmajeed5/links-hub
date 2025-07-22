@@ -18,11 +18,18 @@ import { DialogTitle } from '@radix-ui/react-dialog';
 
 const CheckoutPage = ({ amount }: { amount: number }) => {
     const stripe = useStripe();
+    const [req, setReq] = useState(false);
     const elements = useElements();
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [clientSecret, setClientSecret] = useState<string>('');
     const [loading, setLoading] = useState(false);
+    const returnUrl =
+        process.env.NODE_ENV === "production"
+            ? `https://linkshub.space/payment-success?amount=${amount}`
+            : `http://localhost:3000/payment-success?amount=${amount}`;
+
     useEffect(() => {
+        if (req) return;
         fetch('/api/create-payment-intent', {
             method: 'POST',
             headers: {
@@ -39,7 +46,8 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
                 console.error('Error fetching client secret:', error);
                 setErrorMessage('Unable to initiate payment. Please try again later.');
             });
-    }, [amount]);
+        setReq(true);
+    }, []);
 
     const handlePaymentSubmission = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -58,7 +66,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
             elements,
             clientSecret,
             confirmParams: {
-                return_url: `http://localhost:3000/payment-success?amount=${amount}`,
+                return_url: returnUrl,
             },
         });
 
@@ -80,7 +88,7 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
 
     return (
         <>
-            <form>
+            <form className='scroll-auto'>
                 {clientSecret && (
                     <Dialog>
                         <DialogTrigger asChild>
@@ -92,16 +100,23 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
                                 Pay securely
                             </Button>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
+                        <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto flex flex-col">
                             <DialogTitle />
-                            <PaymentElement className="relative z-[102]" />
-                            <DialogFooter>
-                                <button className='bg-black text-white p-2 rounded-md' onClick={handlePaymentSubmission}>
-                                    {!loading ? `Rs. ${amount} / -` : 'Processing...'}
-                                </button>
 
+                            <div className="flex-1 overflow-y-auto">
+                                <PaymentElement className="relative z-[102]" />
+                            </div>
+
+                            <DialogFooter className="mt-4">
+                                <button
+                                    className="bg-black text-white p-2 rounded-md"
+                                    onClick={handlePaymentSubmission}
+                                >
+                                    {!loading ? `Rs. ${amount} / -` : "Processing..."}
+                                </button>
                             </DialogFooter>
                         </DialogContent>
+
                     </Dialog>
                 )}
                 {errorMessage && <div>{errorMessage}</div>}

@@ -63,7 +63,6 @@ const UserSchema = new Schema(
     },
     emailMarketing: { type: EmailMarketingSchema, default: () => ({}) },
     seoRanking: { type: SeoRankingSchema, default: () => ({}) },
-    isPremiumUser: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

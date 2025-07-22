@@ -8,10 +8,10 @@ import { useRouter } from 'next/navigation';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { useSession, signIn } from 'next-auth/react';
+import { toast } from 'sonner';
 const Login = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [error, setError] = useState<string | null>();
   const [loading, setLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState({
     email: '',
@@ -28,7 +28,8 @@ const Login = () => {
       redirect: false,
     })
     if (!res?.ok) {
-      setError(res?.error)
+      toast.error(res?.error);
+
     }
     else {
       router.push('/dashboard')
@@ -60,7 +61,6 @@ const Login = () => {
             <Input required onChange={handleChange} value={userInfo.email} name='email' type="email" placeholder='Enter your email'></Input>
             <div className="text-bold text-sm">Password</div>
             <Input required onChange={handleChange} value={userInfo.password} name='password' type='password' placeholder='Enter your Password'></Input>
-            {error && <span className='text-red-600'>{error}</span>}
             <Button className='w-full mt-6 flex items-center' variant={"outline"}>
               {
                 loading ?

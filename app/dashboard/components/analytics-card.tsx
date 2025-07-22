@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 
 interface AnalyticsCardProps {
-  isPremiumUser: boolean;
+  isPremiumUser: boolean | undefined;
   viewCount: number;
   viewHistory: { date: string; views: number }[];
 }

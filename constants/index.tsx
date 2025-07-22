@@ -138,9 +138,10 @@ export const plans = [
     caption: "For professionals and teams",
     features: [
       "All Pro features",
-      "Multiple team members",
-      "Priority support",
+      "Custom Domain and MailGun Email Marketing",
+      "Advanced animations and CTA Buttons",
       "API Access",
+      "Access to Advanced Analytics on your Traffic",
     ],
     icon: "/images/hexagon.svg",
     logo: "/images/plan-3.png",

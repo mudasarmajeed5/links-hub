@@ -111,7 +111,7 @@ export default function UpdateUserSettings() {
     }
     if (user) {
       setForm(user);
-      setTabs(user.isPremiumUser
+      setTabs(session?.user.isPremiumUser
         ? ["Basic", "Appearance", "Spotify & CTA", "SEO and Marketing"]
         : ["Basic", "Appearance", "Spotify & CTA"]);
     }
@@ -360,7 +360,7 @@ export default function UpdateUserSettings() {
                   <Label htmlFor="accentColor">Add Accent Color for your Profile</Label>
                   <Input
                     id="accentColor"
-                    disabled={!user.isPremiumUser}
+                    disabled={!session?.user.isPremiumUser}
                     className="text-muted-foreground"
                     value={form.accentColor}
                     type="color"

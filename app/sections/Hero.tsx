@@ -12,9 +12,7 @@ const Hero = () => {
           <p className="max-w-440 mb-14 body-1 max-md:mb-10">
             Linkshub is designed to give you an easy and powerful way to manage all your links in one place.
           </p>
-          <div>
-            <Button href="/login" icon="/images/zap.svg">Get Started</Button>
-          </div>
+            <div className="max-w-fit"><Button href="/login" icon="/images/zap.svg">Get Started</Button></div>
         </div>
 
 
