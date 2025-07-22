@@ -1,23 +1,20 @@
 "use client"
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { CldUploadWidget, CloudinaryUploadWidgetInfo, CloudinaryUploadWidgetResults } from "next-cloudinary"
+import { CloudinaryUploadWidgetInfo, CloudinaryUploadWidgetResults } from "next-cloudinary"
 import { useSession } from "next-auth/react"
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox"
 import { User } from "@/types/user-account"
 import { useTitle } from "@/hooks/useTitle"
 import { useUserStore } from "@/store/useUserStore"
-import { Switch } from "@/components/ui/switch"
-import CTAForm from "../components/CTAForm"
-type Form = Omit<User, "_id" | "createdAt" | "updatedAt" | "__v" | "isPremiumUser" | "userLinks" | "userTheme" | "viewCount" | "viewHistory">;
+import CTAForm from "./components/CTAForm"
+import { BasicSettings } from "./components/BasicSettings"
+import { Appearance } from "./components/Appearance"
+import { SEOAndMarketing } from "./components/SEOAndMarketing"
+type Form = Omit<User, "_id" | "createdAt" | "updatedAt" | "__v" | "userLinks" | "userTheme" | "viewCount" | "viewHistory">;
 export default function UpdateUserSettings() {
   const { user, loading, fetchUser } = useUserStore();
   const { data: session } = useSession();
@@ -142,265 +139,22 @@ export default function UpdateUserSettings() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {activetab === "Basic" && (
-              <>
-                <div className="flex flex-col md:flex-row w-full min-h-0">
-                  {/* Profile Picture (Mobile: Top, Desktop: Right) */}
-                  <div className="w-full md:w-1/4 p-4 order-1 md:order-2">
-                    {form.profilePic && (
-                      <div className="flex flex-col items-center justify-between gap-4 h-full">
-                        <Avatar className="w-44 h-44">
-                          <AvatarImage
-                            className="object-cover object-center"
-                            src={form.profilePic}
-                            alt="Profile preview"
-                          />
-                          <AvatarFallback>Preview</AvatarFallback>
-                        </Avatar>
-
-                        <CldUploadWidget
-                          uploadPreset="links-hub-pfp"
-                          onSuccess={handleSuccess}
-                          onCloseAction={() => setUploadWidgetState(false)}
-                        >
-                          {({ open }) => (
-                            <Button
-                              type="button"
-                              variant="outline"
-                              className="w-full"
-                              disabled={uploadWidgetState}
-                              onClick={() => {
-                                open();
-                                setUploadWidgetState(true);
-                              }}
-                            >
-                              Upload an Image {uploadWidgetState && <Loader2 className="animate-spin ml-2" />}
-                            </Button>
-                          )}
-                        </CldUploadWidget>
-
-                        {error && (
-                          <span className="text-red-600 text-sm w-full text-center">
-                            {error}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Form Fields */}
-                  <div className="w-full md:w-3/4 h-full order-2 md:order-1">
-                    <div className="flex flex-col justify-between h-full p-4 gap-4">
-                      <div className="flex flex-col flex-1 min-h-0">
-                        <Label htmlFor="name">Name</Label>
-                        <Input
-                          className="text-muted-foreground w-full flex-1"
-                          id="name"
-                          value={form.name}
-                          onChange={(e) => setForm({ ...form, name: e.target.value })}
-                          placeholder="Enter new Name"
-                        />
-                      </div>
-
-                      <div className="flex flex-col flex-1 min-h-0">
-                        <Label htmlFor="username">Username</Label>
-                        <Input
-                          id="username"
-                          className="text-muted-foreground w-full flex-1"
-                          value={form.username}
-                          onChange={(e) => setForm({ ...form, username: e.target.value })}
-                          placeholder="Enter new username"
-                        />
-                      </div>
-
-                      <div className="flex flex-col flex-1 min-h-0">
-                        <Label htmlFor="profilePic">Profile Picture URL</Label>
-                        <Input
-                          id="profilePic"
-                          className="text-muted-foreground w-full flex-1"
-                          value={form.profilePic}
-                          onChange={(e) => setForm({ ...form, profilePic: e.target.value })}
-                          placeholder="Enter profile picture URL"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div className="space-y-2 px-4 md:w-3/4 w-full">
-                  <Label htmlFor="bio">Add Bio</Label>
-                  <Textarea
-                    id="bio"
-                    cols={20}
-                    rows={10}
-                    className="text-muted-foreground"
-                    value={form.bio}
-                    onChange={(e) => setForm({ ...form, bio: e.target.value })}
-                    placeholder="Enter your Bio"
-                  />
-                </div>
-
-              </>
+              <BasicSettings
+                form={form}
+                setForm={setForm}
+                handleSuccess={handleSuccess}
+                uploadWidgetState={uploadWidgetState}
+                setUploadWidgetState={setUploadWidgetState}
+                error={error}
+              />
             )}
             {activetab === "SEO and Marketing" && (
               <>
-                <div className="space-y-2 px-4">
-                  <Label htmlFor="seoName">Add SEO Name</Label>
-                  <Input
-                    id="seoName"
-                    className="text-muted-foreground"
-                    value={form.seoRanking.name}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        seoRanking: { ...form.seoRanking, name: e.target.value },
-                      })
-                    }
-                    placeholder="Enter SEO Name"
-                  />
-                  <Label htmlFor="seoDescription">Add SEO Description</Label>
-                  <Input
-                    id="seoDescription"
-                    className="text-muted-foreground"
-                    value={form.seoRanking.description}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        seoRanking: { ...form.seoRanking, description: e.target.value },
-                      })
-                    }
-                    placeholder="Enter SEO Description"
-                  />
-                  <Label htmlFor="seoKeywords">Add comma separated seo keywords</Label>
-                  <Input
-                    id="seoKeywords"
-                    className="text-muted-foreground"
-                    value={form.seoRanking.keywords?.join(",") || ""}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        seoRanking: {
-                          ...form.seoRanking,
-                          keywords: e.target.value.split(","),
-                        },
-                      })
-                    }
-                    placeholder="Enter SEO Keywords"
-                  />
-                  <Label htmlFor="seoMetaTags">Add comma separated seo meta-tags</Label>
-                  <Input
-                    id="seoMetaTags"
-                    className="text-muted-foreground"
-                    value={form.seoRanking.metaTags?.join(",") || ''}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        seoRanking: {
-                          ...form.seoRanking,
-                          metaTags: e.target.value.split(","),
-                        },
-                      })
-                    }
-                    placeholder="Enter SEO Meta Tags" />
-                </div>
-                <div className="flex items-center space-x-2 px-4">
-                  <Checkbox
-                    id="enableSignupForm"
-                    checked={form.emailMarketing.enableSignupForm}
-                    onCheckedChange={(checked) =>
-                      setForm({
-                        ...form,
-                        emailMarketing: {
-                          ...form.emailMarketing,
-                          enableSignupForm: !!checked,
-                        },
-                      })
-                    }
-                  />
-                  <Label htmlFor="enableSignupForm">Enable Email Marketing</Label>
-                </div>
-                <div className="space-y-2 px-4">
-                  <Label htmlFor="welcomeEmail">Welcome Email</Label>
-                  <Textarea
-                    id="welcomeEmail"
-                    className="text-muted-foreground"
-                    value={form.emailMarketing.welcomeEmail}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        emailMarketing: {
-                          ...form.emailMarketing,
-                          welcomeEmail: e.target.value,
-                        },
-                      })
-                    }
-                    placeholder="Add what you wan't users to see on newsletter"
-                  />
-                </div>
+                <SEOAndMarketing form={form} setForm={setForm} />
               </>
             )}
             {activetab === "Appearance" && (
-              <div className="space-y-4 px-4">
-                {/* Theme Selection */}
-                <div className="space-y-2">
-                  <Label htmlFor="theme">Add Theme</Label>
-                  <select
-                    id="theme"
-                    value={form.theme}
-                    onChange={(e) =>
-                      setForm({ ...form, theme: e.target.value as "light" | "dark" })
-                    }
-                    className="w-full p-1 rounded-md"
-                  >
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                  </select>
-
-                  {/* Accent Color Picker */}
-                  <Label htmlFor="accentColor">Add Accent Color for your Profile</Label>
-                  <Input
-                    id="accentColor"
-                    disabled={!session?.user.isPremiumUser}
-                    className="text-muted-foreground"
-                    value={form.accentColor}
-                    type="color"
-                    onChange={(e) =>
-                      setForm({ ...form, accentColor: e.target.value })
-                    }
-                    placeholder="Enter Accent Color"
-                  />
-                </div>
-
-                {/* Animation Options */}
-                <div className="space-y-2 text-xs text-muted-foreground">
-                  <p className="text-sm font-medium text-foreground">Experimental Features</p>
-
-                  {/* Particle Animation */}
-                  <div className="flex items-center justify-between">
-                    <Label>Particle Animation</Label>
-                    <Switch disabled checked={false} />
-                  </div>
-                  <Input disabled placeholder="Particle Count (e.g. 30)" />
-
-                  {/* Star Animation */}
-                  <div className="flex items-center justify-between">
-                    <Label>Star Animation</Label>
-                    <Switch disabled checked={false} />
-                  </div>
-                  <Input disabled placeholder="Star Count (e.g. 10)" />
-
-                  {/* Stagger Animation */}
-                  <div className="flex items-center justify-between">
-                    <Label>Stagger on Social Icons</Label>
-                    <Switch disabled checked={false} />
-                  </div>
-                  <Input disabled placeholder="Speed (ms, e.g. 300)" />
-
-                  <p className="text-[10px] italic text-center text-muted-foreground">
-                    These features are under development and will be available soon.
-                  </p>
-                </div>
-              </div>
+              <Appearance form={form} setForm={setForm} />
             )}
 
             {activetab === "Spotify & CTA" && (

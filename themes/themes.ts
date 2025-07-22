@@ -34,7 +34,7 @@ export const themes: StyleConfig[] = [
     },
     components: {
       avatar: {
-        size: "w-32 h-32 rounded-full object-cover",
+        size: "w-44 h-44 rounded-full object-cover",
         border: "border-4 border-purple-300",
         shadow: "shadow-2xl shadow-purple-500/20",
         hover: "hover:shadow-3xl hover:shadow-purple-500/30 transition-all duration-300",
@@ -48,7 +48,7 @@ export const themes: StyleConfig[] = [
         card: "card-hover rounded-2xl p-6 cursor-pointer transform transition-all duration-300",
       },
       newsletter: {
-        container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white",
+        container: "rounded-2xl p-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white",
         input:
           "w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50",
         button: "w-full disabled:bg-gray-300 button-hover px-6 py-3 bg-white text-purple-600 rounded-xl font-semibold shadow-lg",
@@ -67,7 +67,7 @@ export const themes: StyleConfig[] = [
       },
       premium: {
         badge:
-          "bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg",
+          "bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-xs text-center font-semibold shadow-lg",
         crown: "text-yellow-400 bounce",
       },
     },
@@ -116,7 +116,7 @@ export const themes: StyleConfig[] = [
     },
     components: {
       avatar: {
-        size: "w-32 h-32 rounded-full object-cover",
+        size: "w-44 h-44 rounded-full object-cover",
         border: "border-4 border-blue-300",
         shadow: "shadow-xl shadow-blue-400/30",
         hover: "hover:shadow-3xl hover:shadow-blue-500/40 transition-all duration-300",
@@ -130,7 +130,7 @@ export const themes: StyleConfig[] = [
         card: " rounded-xl p-6 cursor-pointer transform transition-all duration-300",
       },
       newsletter: {
-        container: " rounded-2xl p-6 bg-gradient-to-r from-cyan-600 to-blue-600 text-white",
+        container: "rounded-2xl p-6 bg-gradient-to-r from-cyan-600 to-blue-600 text-white",
         input: "w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 placeholder-white/70 text-white focus:ring-2 focus:ring-white/40",
         button: "w-full disabled:bg-gray-300 px-6 py-3 bg-white text-blue-600 rounded-xl font-semibold shadow-md",
       },
@@ -145,7 +145,7 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 pulse",
       },
       premium: {
-        badge: "blue-glow bg-gradient-to-r from-blue-400 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md",
+        badge: "blue-glow bg-gradient-to-r from-blue-400 to-cyan-500 text-white px-4 py-2 rounded-full text-xs text-center font-semibold shadow-md",
         crown: "text-cyan-300 pulse",
       },
     },
@@ -194,7 +194,7 @@ export const themes: StyleConfig[] = [
     },
     components: {
       avatar: {
-        size: "w-32 h-32 rounded-full object-cover",
+        size: "w-44 h-44 rounded-full object-cover",
         border: "border-4 border-rose-300",
         shadow: "shadow-xl shadow-rose-400/30",
         hover: "hover:shadow-3xl hover:shadow-rose-500/40 transition-all duration-300",
@@ -208,7 +208,7 @@ export const themes: StyleConfig[] = [
         card: " rounded-xl p-6 cursor-pointer transform transition-all duration-300",
       },
       newsletter: {
-        container: " rounded-2xl p-6 bg-gradient-to-r from-pink-600 to-rose-600 text-white",
+        container: "rounded-2xl p-6 bg-gradient-to-r from-pink-600 to-rose-600 text-white",
         input: "w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 placeholder-white/70 text-white focus:ring-2 focus:ring-white/40",
         button: "hover-flicker px-6 py-3 bg-white text-rose-600 rounded-xl font-semibold shadow-md",
       },
@@ -223,7 +223,7 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 pulse",
       },
       premium: {
-        badge: "rose-glow bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md",
+        badge: "rose-glow bg-gradient-to-r from-rose-400 to-pink-500 text-white px-4 py-2 rounded-full text-xs text-center font-semibold shadow-md",
         crown: "text-pink-300 pulse",
       },
     },
@@ -271,7 +271,7 @@ export const themes: StyleConfig[] = [
     },
     components: {
       avatar: {
-        size: "w-28 h-28 rounded-full object-cover",
+        size: "w-44 h-44 rounded-full object-cover",
         border: "border-4 border-blue-200",
         shadow: "shadow-md",
         hover: "hover:shadow-lg transition-all duration-300",
@@ -300,18 +300,18 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 animate-bounce",
       },
       premium: {
-        badge: "bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow",
+        badge: "bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1.5 rounded-full text-xs text-center font-semibold shadow",
         crown: "text-amber-300 animate-bounce",
       },
     },
     star: {
       enabled: true,
-      count: 0,
+      count: 10,
       animations: ["fade-in-soft", "drift-light", "soft-glow"],
     },
     particles: {
       enabled: true,
-      count: 0,
+      count: 10,
       animations: ["particle-drift", "particle-fade", "blue-glow-soft"],
     },
   },
@@ -348,7 +348,7 @@ export const themes: StyleConfig[] = [
     },
     components: {
       avatar: {
-        size: "w-32 h-32 rounded-full object-cover",
+        size: "w-44 h-44 rounded-full object-cover",
         border: "border-4 border-orange-300",
         shadow: "shadow-2xl shadow-orange-500/30",
         hover: "hover:shadow-3xl hover:shadow-orange-500/50 hover:border-orange-400 transition-all duration-300",
@@ -362,7 +362,7 @@ export const themes: StyleConfig[] = [
         card: "card-hover rounded-2xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 dark:hover:from-orange-900/50 dark:hover:to-amber-900/50",
       },
       newsletter: {
-        container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-orange-500 to-amber-500 text-white hover:from-orange-400 hover:to-amber-400 transition-all duration-300",
+        container: "rounded-2xl p-6 bg-gradient-to-r from-orange-500 to-amber-500 text-white",
         input: "w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50 focus:border-white/50",
         button: "w-full disabled:bg-gray-300 button-hover px-6 py-3 bg-white text-orange-600 rounded-xl font-semibold shadow-lg hover:bg-orange-50 hover:text-orange-700 hover:shadow-xl transition-all duration-300",
       },
@@ -377,7 +377,7 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 bounce",
       },
       premium: {
-        badge: "bg-gradient-to-r from-orange-400 to-amber-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:from-orange-300 hover:to-amber-400 hover:shadow-xl transition-all duration-300",
+        badge: "bg-gradient-to-r from-orange-400 to-amber-500 text-white px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:from-orange-300 hover:to-amber-400 hover:shadow-xl transition-all duration-300 text-center",
         crown: "text-orange-400 bounce hover:text-orange-300 transition-colors duration-300",
       },
     },
@@ -425,7 +425,7 @@ export const themes: StyleConfig[] = [
     },
     components: {
       avatar: {
-        size: "w-32 h-32 rounded-full object-cover",
+        size: "w-44 h-44 rounded-full object-cover",
         border: "border-4 border-teal-300",
         shadow: "shadow-2xl shadow-teal-500/30",
         hover: "hover:shadow-3xl hover:shadow-teal-500/50 hover:border-teal-400 transition-all duration-300",
@@ -439,7 +439,7 @@ export const themes: StyleConfig[] = [
         card: "card-hover rounded-2xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-teal-50 hover:to-cyan-50 dark:hover:from-teal-900/50 dark:hover:to-cyan-900/50",
       },
       newsletter: {
-        container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-teal-500 to-cyan-500 text-white hover:from-teal-400 hover:to-cyan-400 transition-all duration-300",
+        container: "rounded-2xl p-6 bg-gradient-to-r from-teal-500 to-cyan-500 text-white",
         input: "w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50 focus:border-white/50",
         button: "w-full disabled:bg-gray-300 button-hover px-6 py-3 bg-white text-teal-600 rounded-xl font-semibold shadow-lg hover:bg-teal-50 hover:text-teal-700 hover:shadow-xl transition-all duration-300",
       },
@@ -454,7 +454,7 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 bounce",
       },
       premium: {
-        badge: "bg-gradient-to-r from-teal-400 to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg hover:from-teal-300 hover:to-cyan-400 hover:shadow-xl transition-all duration-300",
+        badge: "bg-gradient-to-r from-teal-400 to-cyan-500 text-white px-4 py-2 rounded-full text-xs font-semibold shadow-lg hover:from-teal-300 hover:to-cyan-400 hover:shadow-xl transition-all duration-300 text-center",
         crown: "text-teal-400 bounce hover:text-teal-300 transition-colors duration-300",
       },
     },
@@ -517,7 +517,7 @@ export const themes: StyleConfig[] = [
         card: "card-hover rounded-2xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-gray-50 hover:to-slate-50 dark:hover:from-gray-800/60 dark:hover:to-slate-800/60",
       },
       newsletter: {
-        container: "card-hover rounded-2xl p-6 bg-gradient-to-r from-gray-600 to-slate-600 text-white hover:from-gray-500 hover:to-slate-500 transition-all duration-300",
+        container: "rounded-2xl p-6 bg-gradient-to-r from-gray-600 to-slate-600 text-white",
         input: "w-full px-4 py-3 rounded-xl bg-white/20 border border-white/30 placeholder-white/70 text-white focus:ring-2 focus:ring-white/50 focus:border-white/50",
         button: "w-full disabled:bg-gray-300 button-hover px-6 py-3 bg-white text-gray-700 rounded-xl font-semibold shadow-lg hover:bg-gray-50 hover:text-gray-800 hover:shadow-xl transition-all duration-300",
       },
@@ -532,7 +532,7 @@ export const themes: StyleConfig[] = [
         icon: "w-6 h-6 bounce",
       },
       premium: {
-        badge: "bg-gradient-to-r from-yellow-500 to-purple-600 text-white px-2 py-1 text-xs rounded-full cursor-pointer text-center",
+        badge: "bg-gradient-to-r from-yellow-500 to-purple-600 text-white px-2 py-1 text-xs rounded-full font-semibold cursor-pointer text-center",
         crown: "text-gray-500 bounce hover:text-gray-400 transition-colors duration-300",
       },
     },

@@ -9,4 +9,4 @@ const SubscriberSchema = new Schema({
     currentPeriodEnd: Date,
     isLifetime: { type: Boolean, default: false }
 })
-export default models.Subscription || model("Subscription", SubscriberSchema)
+export default models.subscriptions || model("subscriptions", SubscriberSchema)

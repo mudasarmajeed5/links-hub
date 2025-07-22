@@ -11,6 +11,7 @@ import CheckoutPage from "./checkout-page";
 import { useState } from "react";
 import { plans } from "@/constants"
 import { useSession } from "next-auth/react"
+import { formatDate } from "@/lib/date-time/formatDate"
 const stripe_public_Key = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 type DashboardContentProps = {
   user: User | undefined
@@ -22,21 +23,6 @@ const stripePromise = loadStripe(stripe_public_Key);
 export function DashboardContent({ user }: DashboardContentProps) {
   const [subscriptionPrice, setSubscriptionPrice] = useState<number>(10000);
   const { data: session } = useSession();
-  const formatDate = (date?: string) => {
-    if (!date) {
-      return "Date not available";
-    }
-    return new Date(date).toLocaleString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    });
-  };
-
 
   return (
     <>
@@ -78,13 +64,13 @@ export function DashboardContent({ user }: DashboardContentProps) {
             <CardTitle className="text-lg flex justify-between"><div>
               Subscription Status
             </div>
-              <Badge variant={user?.isPremiumUser ? "secondary" : "outline"} className="text-sm font-semibold py-1 px-2">
-                {user?.isPremiumUser ? "Premium Member" : "Free User"}
+              <Badge variant={session?.user.isPremiumUser ? "secondary" : "outline"} className="text-sm font-semibold py-1 px-2">
+                {session?.user.isPremiumUser ? "Premium Member" : "Free User"}
               </Badge>
             </CardTitle>
           </CardHeader>
           {
-            user?.isPremiumUser ? <>
+            session?.user.isPremiumUser ? <>
               <div className="mt-1/5 text-center">
                 User has subscribed
               </div>

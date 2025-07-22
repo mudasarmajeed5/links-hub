@@ -94,3 +94,36 @@ This project is open-source and available under the **MIT License**.
 
 Now you're all set to run the project! 🚀
 
+## 🤝 Contributing
+
+We welcome contributions! Please see our [CONTRIBUTIONS.md](CONTRIBUTIONS.MD) guide for details about:
+- How to add new themes
+- Code style guidelines
+- Development workflow
+- Submitting pull requests
+
+### Adding New Themes
+Links Hub supports custom themes! Each theme is a TypeScript object that defines styles for both light and dark modes. Check out the [CONTRIBUTIONS.md](CONTRIBUTIONS.MD) file for detailed instructions on creating new themes.
+
+## ✨ Features
+- 🎨 Multiple customizable themes
+- 🌓 Dark/Light mode support
+- 📱 Responsive design
+- 🔒 Secure authentication
+- 📊 Analytics dashboard
+- 📧 Email marketing tools
+- 💳 Premium features
+- 🎵 Spotify integration
+- 💬 WhatsApp integration
+
+## 🎨 Theme System
+Links Hub features a powerful theme system that allows for:
+- Custom background gradients
+- Animated components
+- Particle effects
+- Customizable cards and buttons
+- Responsive layout adjustments
+- Dark/Light mode variants
+
+Check out `themes/themes.ts` and `themes/themeTypes/themeConfig.ts` for theme configuration options.
+

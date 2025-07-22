@@ -12,7 +12,7 @@ type EmailItem = {
   status: "subscribed" | "bounced" | "unsubscribed";
 };
 
-export type User = {
+export interface User {
   _id: {
     $oid: string;
   };
@@ -24,7 +24,6 @@ export type User = {
   bio?: string;
   name: string;
   theme: "light" | "dark";
-  isPremiumUser: boolean;
   userLinks: UserLink[];
   createdAt: string;
   updatedAt: string;
