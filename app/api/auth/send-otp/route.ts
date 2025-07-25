@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 import OtpModal from "@/models/OtpModal";
-import connectDB from "@/lib/mongodb";
+import connectDB from "@/services/database/mongodb";
 import emailTemplate from "@/lib/email-template/otp-theme";
 await connectDB();
 

@@ -9,7 +9,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
-import { formatDate } from "@/lib/date-time/formatDate";
+import { formatDate } from "@/utils/formatDate";
 import Pagination from "./components/Pagination";
 import { useUserStore } from "@/store/useUserStore";
 type EmailItem = {

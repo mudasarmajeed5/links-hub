@@ -1,6 +1,6 @@
 import TrackViews from "@theme/hook/TrackViews";
 
-import { getUser } from "@/lib/getUserFromDatabase";
+import { getUser } from "@/services/database/getUserFromDatabase";
 import PlayGround from "./components/PlayGround";
 
 export default async function UserPage(props: { params: Promise<{ username: string }> }) {

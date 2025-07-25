@@ -1,6 +1,6 @@
 // app/api/auth/signup/route.ts
 
-import connectDB from "@/lib/mongodb";
+import connectDB from "@/services/database/mongodb";
 import User from "@/models/User"; 
 import bcrypt from "bcryptjs";
 

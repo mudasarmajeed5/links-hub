@@ -1,6 +1,6 @@
 "use server"
 import { User } from "@/models";
-import connectDB from "@/lib/mongodb";
+import connectDB from "@/services/database/mongodb";
 export const getCampaigns = async (userId: string | null) => {
     try {
         await connectDB();

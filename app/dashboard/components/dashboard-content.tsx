@@ -4,14 +4,14 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import type { User } from "@/types/user-account"
 import AnalyticsCard from "./analytics-card"
-import { convertToPaisa } from "@/lib/convert-currency/convert-to-paisa";
+import { convertToPaisa } from "@/utils/convert-to-paisa";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutPage from "./checkout-page";
 import { useState } from "react";
 import { plans } from "@/constants"
 import { useSession } from "next-auth/react"
-import { formatDate } from "@/lib/date-time/formatDate"
+import { formatDate } from "@/utils/formatDate"
 const stripe_public_Key = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY;
 type DashboardContentProps = {
   user: User | undefined

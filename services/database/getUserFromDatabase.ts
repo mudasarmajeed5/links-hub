@@ -1,7 +1,7 @@
 "use server"
 import User from "@/models/User"
 import Subscription from "@/models/Subscription";
-import connectDB from "@/lib/mongodb";
+import connectDB from "@/services/database/mongodb";
 
 export const getUser = async (username: string) => {
     try {

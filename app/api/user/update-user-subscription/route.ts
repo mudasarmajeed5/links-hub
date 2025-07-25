@@ -1,4 +1,4 @@
-import connectDB from "@/lib/mongodb";
+import connectDB from "@/services/database/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import Subscription from "@/models/Subscription";
 export async function PUT(request: NextRequest) {

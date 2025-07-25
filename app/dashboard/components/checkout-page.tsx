@@ -12,7 +12,7 @@ import {
     DialogFooter,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { convertToPaisa } from '@/lib/convert-currency/convert-to-paisa';
+import { convertToPaisa } from '@/utils/convert-to-paisa';
 import { Loader2 } from 'lucide-react';
 import { DialogTitle } from '@radix-ui/react-dialog';
 

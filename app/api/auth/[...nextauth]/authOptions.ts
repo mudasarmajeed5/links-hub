@@ -1,6 +1,6 @@
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
-import connectDB from "@/lib/mongodb";
+import connectDB from "@/services/database/mongodb";
 import type { AuthOptions } from "next-auth";
 import Subscription from "@/models/Subscription";
 import bcrypt from 'bcryptjs';

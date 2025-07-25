@@ -1,6 +1,6 @@
 "use server"
 import EmailCampaign from "@/models/EmailCampaign"
-import connectDB from "@/lib/mongodb"
+import connectDB from "@/services/database/mongodb"
 
 export async function deleteCampaign(campTitle: string, sessionId: string | undefined) {
     if (!sessionId) {
