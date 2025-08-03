@@ -81,7 +81,7 @@ body {
   }
 
   body {
-    @apply font-poppins text-[16px] tracking-[-0.03em] text-p5;
+    @apply font-poppins text-[16px] tracking-[-0.03em];
   }
 
   a {
