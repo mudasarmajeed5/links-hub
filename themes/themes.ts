@@ -862,12 +862,12 @@ export const themes: StyleConfig[] = [
     },
     star: {
       enabled: true,
-      count: 60,
+      count: 30,
       animations: ["particle-zoom", "particle-float-soft", "blue-glow"]
     },
     particles: {
       enabled: true,
-      count: 100,
+      count: 20,
       animations: ["particle-zoom", "particle-float-soft", "blue-glow"]
     }
   }
