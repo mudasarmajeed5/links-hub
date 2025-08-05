@@ -11,6 +11,7 @@ interface FaqItemProps {
 interface FaqItemComponentProps {
   item: FaqItemProps;
   index: number;
+  className?: string;
 }
 
 const FaqItem: React.FC<FaqItemComponentProps> = ({ item, index }) => {
@@ -33,7 +34,7 @@ const FaqItem: React.FC<FaqItemComponentProps> = ({ item, index }) => {
           </div>
           <div
             className={clsx(
-              "h6 text-p4 transition-colors duration-500 max-md:flex max-md:min-h-20 max-md:items-center",
+              "h6 transition-colors duration-500 text-black dark:text-p4 max-md:flex max-md:min-h-20 max-md:items-center",
               active && "max-lg:text-p1"
             )}
           >
@@ -53,7 +54,7 @@ const FaqItem: React.FC<FaqItemComponentProps> = ({ item, index }) => {
 
       {/* Answer section toggles visibility */}
       {active && (
-        <div className="body-3 px-7 py-3.5">{item.answer}</div>
+        <div className="body-3 px-7 text-white py-3.5">{item.answer}</div>
       )}
 
       <div

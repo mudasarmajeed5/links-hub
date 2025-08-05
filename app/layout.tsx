@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Poppins } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { Toaster } from "sonner"
 const geistSans = Geist({
@@ -22,14 +23,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${poppins.variable} antialiased`}
       >
+        <ThemeProvider 
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange>
         <>
             {children}
             <Toaster richColors />
         </>
+        </ThemeProvider>
       </body>
     </html>
   );

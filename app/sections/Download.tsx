@@ -17,7 +17,7 @@ const Download: FC = () => {
     <section>
       <div
         id="download"
-        className="g7 relative pb-32 pt-24 max-lg:pb-24 max-md:py-16"
+        className="relative pb-32 pt-24 max-lg:pb-24 max-md:py-16 bg-white dark:bg-[#030822]"
       >
         <div className="container">
           <div className="flex items-center">
@@ -31,17 +31,22 @@ const Download: FC = () => {
                 />
               </div>
 
-              <p className="body-1 mb-10 max-w-md">
+              <p className="body-1 mb-10 max-w-md text-black dark:text-white">
                 Try it now for free Web
               </p>
+
               <div className="p-3 border rounded-xl bg-gray-950 border-blue-600">
-                <img src="/images/socials/links_dashboard.png" className="rounded-xl border-purple-600" alt="" />
+                <img
+                  src="/images/socials/links_dashboard.png"
+                  className="rounded-xl border-purple-600"
+                  alt="dashboard"
+                />
               </div>
             </div>
 
             <div className="mb-10 max-md:hidden">
-              <div className="download_preview-before download_preview-after rounded-40 relative w-[955px] border-2 border-s5 p-4">
-                <div className="relative rounded-3xl bg-s1 px-6 pb-6 pt-10">
+              <div className="download_preview-before download_preview-after rounded-40 relative w-[955px] border-2 border-s5 dark:border-gray-700 p-4">
+                <div className="relative rounded-3xl bg-s1 dark:bg-[#0b0f1a] px-6 pb-6 pt-10">
                   <span className="download_preview-dot left-6 bg-p2" />
                   <span className="download_preview-dot left-11 bg-s3" />
                   <span className="download_preview-dot left-16 bg-p1/15" />
